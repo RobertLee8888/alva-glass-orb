@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alva AI — glass mark</title>
+<style>
+  :root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  body{margin:0;background:#191a1d;color:#e9e9ec;display:flex;flex-direction:column;align-items:center;gap:20px;padding:28px 16px 44px}
+  h1{font-size:15px;font-weight:500;color:#c9c9cf;margin:0}
+  .seg{display:inline-flex;gap:3px;background:#232429;border:1px solid #303138;border-radius:10px;padding:4px}
+  .seg button{border:none;background:transparent;color:#9a9aa2;font-size:13px;padding:7px 16px;border-radius:7px;cursor:pointer;font-family:inherit}
+  .seg button.on{background:#3a3b42;color:#fff}
+  .cols{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .stage{border-radius:16px;overflow:hidden}
+  .big{width:150px;height:150px}
+  .r24{display:flex;align-items:center;gap:8px}
+  .sm{width:72px;height:72px;border-radius:14px}
+  .r24 span{font-size:11px;color:#8a8a92}
+  canvas{display:block;width:100%;height:100%}
+  .cap{font-size:12px;color:#a6a6ac}
+  .hint{font-size:12px;color:#75757d;max-width:560px;text-align:center;line-height:1.6}
+</style>
+</head>
+<body>
+  <h1>Alva AI · 玻璃标识 — 待机 / 思考</h1>
+  <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出</button><button data-s="awaiting">等待回应</button></div>
+  <div class="cols" id="cols"></div>
+  <div class="hint">待机:有生气的 mark,光彩缓慢环流。思考:球震一下,mark 化作六个圆点绕心转圈、逐个自翻转,光彩被卷着加速聚拢。输出:笔尖在球内手写「Alva」签名,墨迹留痕,写完抬笔渐隐、顿一拍再重写,光彩随语句脉冲。等待回应:右上角一枚呼吸的蓝点,球身朝用户微倾。右侧小球为 24px 真实尺寸。</div>
+<script>
+const TEX_LIGHT="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IiM0OUEzQTYiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS41MzEyIDMwLjM5NzFDNDEuODYyNiAyOS44Njc3IDM4LjEzNzIgMjkuODY3NyAzNC40Njg3IDMwLjM5NzFDMzQuMTc0OSAzMC40Mzk1IDMzLjg3OTQgMzAuNDg2NCAzMy4yOSAzMC41ODA3QzMzLjA5MzYgMzAuNjEyMSAzMi45OTUyIDMwLjYyNzUgMzIuOTA3MSAzMC42NDcxQzMxLjc3OTUgMzAuODk4NCAzMC44OTg4IDMxLjc3OTMgMzAuNjQ3NCAzMi45MDY5QzMwLjYyNzggMzIuOTk0OSAzMC42MTI0IDMzLjA5NDEgMzAuNTgxIDMzLjI5MDZDMzAuNDg2NyAzMy44Nzk5IDMwLjQzODggMzQuMTc0NyAzMC4zOTY0IDM0LjQ2ODRDMjkuODY3IDM4LjEzNjggMjkuODY3IDQxLjg2MjQgMzAuMzk2NCA0NS41MzA5QzMwLjQzODggNDUuODI0NiAzMC40ODY3IDQ2LjEyMDEgMzAuNTgxIDQ2LjcwOTZDMzAuNjEyNCA0Ni45MDU5IDMwLjYyNzggNDcuMDA0NCAzMC42NDc0IDQ3LjA5MjRDMzAuODk4NyA0OC4yMjAxIDMxLjc3OTUgNDkuMTAwOSAzMi45MDcxIDQ5LjM1MjJDMzIuOTk1MiA0OS4zNzE4IDMzLjA5MzYgNDkuMzg3MiAzMy4yOSA0OS40MTg2QzMzLjg3OTQgNDkuNTEyOSAzNC4xNzQ5IDQ5LjU2MDcgMzQuNDY4NyA0OS42MDMxQzM4LjEzNzEgNTAuMTMyNSA0MS44NjI3IDUwLjEzMjYgNDUuNTMxMiA0OS42MDMxQzQ1LjgyNDkgNDkuNTYwOCA0Ni4xMTk2IDQ5LjUxMjkgNDYuNzA4OSA0OS40MTg2QzQ2LjkwNTIgNDkuMzg3MiA0Ny4wMDM4IDQ5LjM3MTcgNDcuMDkxNyA0OS4zNTIyQzQ4LjIxOTUgNDkuMTAwOSA0OS4xMDEyIDQ4LjIyMDIgNDkuMzUyNSA0Ny4wOTI0QzQ5LjM3MjEgNDcuMDA0NCA0OS4zODc0IDQ2LjkwNiA0OS40MTg5IDQ2LjcwOTZDNDkuNTEzMiA0Ni4xMjAxIDQ5LjU2MDEgNDUuODI0NiA0OS42MDI1IDQ1LjUzMDlDNTAuMTMxOSA0MS44NjI0IDUwLjEzMTkgMzguMTM2OSA0OS42MDI1IDM0LjQ2ODRDNDkuNTYwMSAzNC4xNzQ3IDQ5LjUxMzEgMzMuODc5OSA0OS40MTg5IDMzLjI5MDZDNDkuMzg3NCAzMy4wOTQxIDQ5LjM3MjEgMzIuOTk0OSA0OS4zNTI1IDMyLjkwNjlDNDkuMTAxMSAzMS43NzkyIDQ4LjIxOTQgMzAuODk4MyA0Ny4wOTE3IDMwLjY0NzFDNDcuMDAzOCAzMC42Mjc1IDQ2LjkwNTEgMzAuNjEyMSA0Ni43MDg5IDMwLjU4MDdDNDYuMTE5NiAzMC40ODY0IDQ1LjgyNDkgMzAuNDM5NSA0NS41MzEyIDMwLjM5NzFaTTE1LjUzMjIgMC4zOTcwODZDMTEuODYzNSAtMC4xMzIzNjIgOC4xMzczMSAtMC4xMzIzNjIgNC40Njg2NyAwLjM5NzA4NkM0LjE3NDk3IDAuNDM5NDczIDMuODgwMjMgMC40ODYzOTMgMy4yOTA5NCAwLjU4MDY3OUMzLjA5NDYxIDAuNjEyMDkyIDIuOTk2MSAwLjYyNzUwMyAyLjkwODEzIDAuNjQ3MDg2QzEuNzgwNDkgMC44OTgzMTMgMC44OTk3NjkgMS43NzkyOCAwLjY0ODM2MSAyLjkwNjg1QzAuNjI4NzQyIDIuOTk0OTEgMC42MTI0MzQgMy4wOTQwNSAwLjU4MDk3OCAzLjI5MDY0QzAuNDg2NzA2IDMuODc5ODQgMC40Mzk3NyA0LjE3NDY3IDAuMzk3Mzg1IDQuNDY4MzdDLTAuMTMyMDIzIDguMTM2ODggLTAuMTMyMDA0IDExLjg2MjQgMC4zOTczODUgMTUuNTMwOUMwLjQzOTc4MSAxNS44MjQ2IDAuNDg2NjYgMTYuMTIwMSAwLjU4MDk3OCAxNi43MDk2QzAuNjEyNCAxNi45MDYgMC42Mjg3NTQgMTcuMDA0NCAwLjY0ODM2MSAxNy4wOTI0QzAuODk5NzA4IDE4LjIyMDEgMS43ODA0MiAxOS4xMDA5IDIuOTA4MTMgMTkuMzUyMkMyLjk5NjExIDE5LjM3MTggMy4wOTQ1NyAxOS4zODcyIDMuMjkwOTQgMTkuNDE4NkMzLjg4MDMyIDE5LjUxMjkgNC4xNzQ5MyAxOS41NjA3IDQuNDY4NjcgMTkuNjAzMUM4LjEzNzMxIDIwLjEzMjYgMTEuODYzNSAyMC4xMzI2IDE1LjUzMjIgMTkuNjAzMUMxNS44MjU4IDE5LjU2MDggMTYuMTIwNyAxOS41MTI4IDE2LjcwOTkgMTkuNDE4NkMxNi45MDYzIDE5LjM4NzEgMTcuMDA0NyAxOS4zNzE4IDE3LjA5MjcgMTkuMzUyMkMxOC4yMjA0IDE5LjEwMDkgMTkuMTAxMSAxOC4yMjAxIDE5LjM1MjUgMTcuMDkyNEMxOS4zNzIxIDE3LjAwNDQgMTkuMzg3NSAxNi45MDU5IDE5LjQxODkgMTYuNzA5NkMxOS41MTMyIDE2LjEyMDEgMTkuNTYxIDE1LjgyNDYgMTkuNjAzNCAxNS41MzA5QzIwLjEzMjggMTEuODYyNCAyMC4xMzI4IDguMTM2ODUgMTkuNjAzNCA0LjQ2ODM3QzE5LjU2MTEgNC4xNzQ2NiAxOS41MTMxIDMuODc5OSAxOS40MTg5IDMuMjkwNjRDMTkuMzg3NCAzLjA5NDA1IDE5LjM3MjEgMi45OTQ5MSAxOS4zNTI1IDIuOTA2ODVDMTkuMTAxMSAxLjc3OTI0IDE4LjIyMDQgMC44OTgzMTggMTcuMDkyNyAwLjY0NzA4NkMxNy4wMDQ3IDAuNjI3NDc0IDE2LjkwNjMgMC42MTIxMTEgMTYuNzA5OSAwLjU4MDY3OUMxNi4xMjA3IDAuNDg2NDE1IDE1LjgyNTggMC40Mzk0NjMgMTUuNTMyMiAwLjM5NzA4NloiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=";
+const TEX_DARK="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM0LjQ2NzkgMC4zOTcwODZDMzguMTM2NSAtMC4xMzIzNjIgNDEuODYyNyAtMC4xMzIzNjIgNDUuNTMxMyAwLjM5NzA4NkM0NS44MjUgMC40Mzk0NzQgNDYuMTE5NyAwLjQ4NzM2MiA0Ni43MDkxIDAuNTgxNjU2QzQ2LjkwNTUgMC42MTMwODggNDcuMDAzOSAwLjYyODQ1OSA0Ny4wOTE5IDAuNjQ4MDYyQzQ4LjIxOTYgMC44OTkzMDYgNDkuMTAwMyAxLjc4MDE0IDQ5LjM1MTYgMi45MDc4M0M0OS4zNzEzIDIuOTk1ODQgNDkuMzg3NiAzLjA5NDI1IDQ5LjQxOSAzLjI5MDY0QzQ5LjUxMzMgMy44ODAxMiA0OS41NjAyIDQuMTc1NTggNDkuNjAyNiA0LjQ2OTM1QzUwLjEzMiA4LjEzNzg0IDUwLjEzMiAxMS44NjM0IDQ5LjYwMjYgMTUuNTMxOUM0OS41NjAyIDE1LjgyNTUgNDkuNTEzMyAxNi4xMjA0IDQ5LjQxOSAxNi43MDk2QzQ5LjM4NzYgMTYuOTA2MiA0OS4zNzEzIDE3LjAwNTMgNDkuMzUxNiAxNy4wOTM0QzQ5LjEwMDMgMTguMjIxIDQ4LjIxOTUgMTkuMTAxOSA0Ny4wOTE5IDE5LjM1MzFDNDcuMDAzOSAxOS4zNzI3IDQ2LjkwNTUgMTkuMzg4MSA0Ni43MDkxIDE5LjQxOTVDNDYuMTE5OCAxOS41MTM4IDQ1LjgyNSAxOS41NjA4IDQ1LjUzMTMgMTkuNjAzMUM0My42OTcyIDE5Ljg2NzggNDEuODQ4NSAyMC4wMDA2IDQwLjAwMDEgMjAuMDAwNkMyOC45NTQ5IDIwLjAwMDkgMjAuMDAxNiAyOC45NTQ1IDIwLjAwMTEgMzkuOTk5NkgyMC4wMDAxQzIwLjAwMDEgNDEuODQ4NSAxOS44Njc0IDQzLjY5NzMgMTkuNjAyNiA0NS41MzE5QzE5LjU2MDIgNDUuODI1NiAxOS41MTMzIDQ2LjEyMDQgMTkuNDE5IDQ2LjcwOTZDMTkuMzg3NiA0Ni45MDYyIDE5LjM3MjIgNDcuMDA1MyAxOS4zNTI2IDQ3LjA5MzRDMTkuMTAxMyA0OC4yMjA5IDE4LjIyMDQgNDkuMTAxOCAxNy4wOTI5IDQ5LjM1MzFDMTcuMDA0OCA0OS4zNzI4IDE2LjkwNTcgNDkuMzg4MSAxNi43MDkxIDQ5LjQxOTVDMTYuMTE5OSA0OS41MTM4IDE1LjgyNSA0OS41NjA4IDE1LjUzMTMgNDkuNjAzMUMxMS44NjI4IDUwLjEzMjYgOC4xMzczNyA1MC4xMzI2IDQuNDY4ODMgNDkuNjAzMUM0LjE3NTE0IDQ5LjU2MDggMy44ODAyNyA0OS41MTM4IDMuMjkxMSA0OS40MTk1QzMuMDk0NTEgNDkuMzg4MSAyLjk5NTM3IDQ5LjM3MjggMi45MDczMSA0OS4zNTMxQzEuNzc5NzUgNDkuMTAxOCAwLjg5ODg4MSA0OC4yMjA5IDAuNjQ3NTQzIDQ3LjA5MzRDMC42Mjc5MjQgNDcuMDA1MyAwLjYxMjU5MSA0Ni45MDYyIDAuNTgxMTM3IDQ2LjcwOTZDMC40ODY4NjQgNDYuMTIwNCAwLjQzOTkyOSA0NS44MjU2IDAuMzk3NTQzIDQ1LjUzMTlDLTAuMTMxODcxIDQxLjg2MzMgLTAuMTMxODU1IDM4LjEzNzkgMC4zOTc1NDMgMzQuNDY5NEMwLjQzOTkzOSAzNC4xNzU2IDAuNDg2ODIgMzMuODgwMSAwLjU4MTEzNyAzMy4yOTA2QzAuNjEyNTUgMzMuMDk0MyAwLjYyNzkzNyAzMi45OTU4IDAuNjQ3NTQzIDMyLjkwNzhDMC44OTg4MzIgMzEuNzgwMiAxLjc3OTcxIDMwLjg5OTQgMi45MDczMSAzMC42NDgxQzIuOTk1MzcgMzAuNjI4NCAzLjA5NDUxIDMwLjYxMzEgMy4yOTExIDMwLjU4MTdDMy44ODAyOSAzMC40ODc0IDQuMTc1MTMgMzAuNDM5NSA0LjQ2ODgzIDMwLjM5NzFDNi4zMDMwNiAzMC4xMzI0IDguMTUxNiAzMC4wMDA2IDEwLjAwMDEgMzAuMDAwNlYyOS45OTg2QzIwLjg3MjggMjkuOTk4NCAyOS43MTkyIDIxLjMyMyAyOS45OTMyIDEwLjUxNjJMMjkuOTk5MSAxMC4wNDE2QzI5Ljk5NzEgOC4xNzk0NSAzMC4xMjk5IDYuMzE3MTYgMzAuMzk2NiA0LjQ2OTM1QzMwLjQzOSA0LjE3NTU4IDMwLjQ4NTggMy44ODAxMiAzMC41ODAyIDMuMjkwNjRDMzAuNjExNiAzLjA5NDI1IDMwLjYyNzkgMi45OTU4NCAzMC42NDc1IDIuOTA3ODNDMzAuODk4OSAxLjc4MDE1IDMxLjc3OTYgMC44OTkzMDUgMzIuOTA3MyAwLjY0ODA2MkMzMi45OTUzIDAuNjI4NDYgMzMuMDkzNyAwLjYxMzA4OCAzMy4yOTAxIDAuNTgxNjU2QzMzLjg3OTUgMC40ODczNTkgMzQuMTc0MSAwLjQzOTQ3NSAzNC40Njc5IDAuMzk3MDg2WiIgZmlsbD0iIzQ5QTNBNiIvPgo8cGF0aCBkPSJNNDUuNTMwNyAzMC4zOTdDNDEuODYyMiAyOS44Njc3IDM4LjEzNjYgMjkuODY3NiAzNC40NjgyIDMwLjM5N0MzNC4xNzQ0IDMwLjQzOTQgMzMuODc5OCAzMC40ODczIDMzLjI5MDQgMzAuNTgxNkMzMy4wOTQxIDMwLjYxMyAzMi45OTU2IDMwLjYyODQgMzIuOTA3NiAzMC42NDhDMzEuNzc5OSAzMC44OTkzIDMwLjg5OTIgMzEuNzgwMSAzMC42NDc4IDMyLjkwNzhDMzAuNjI4MiAzMi45OTU4IDMwLjYxMTkgMzMuMDk0MSAzMC41ODA1IDMzLjI5MDZDMzAuNDg2MiAzMy44Nzk4IDMwLjQzOTIgMzQuMTc0NyAzMC4zOTY5IDM0LjQ2ODNDMjkuODY3NCAzOC4xMzcgMjkuODY3NCA0MS44NjMxIDMwLjM5NjkgNDUuNTMxOEMzMC40MzkzIDQ1LjgyNTUgMzAuNDg2MiA0Ni4xMjAzIDMwLjU4MDUgNDYuNzA5NUMzMC42MTE5IDQ2LjkwNTkgMzAuNjI4MyA0Ny4wMDQ0IDMwLjY0NzggNDcuMDkyNEMzMC44OTkxIDQ4LjIyMDIgMzEuNzc5OCA0OS4xMDA5IDMyLjkwNzYgNDkuMzUyMUMzMi45OTU2IDQ5LjM3MTcgMzMuMDk0IDQ5LjM4ODEgMzMuMjkwNCA0OS40MTk1QzMzLjg3OTcgNDkuNTEzOCAzNC4xNzQ0IDQ5LjU2MDcgMzQuNDY4MiA0OS42MDMxQzM4LjEzNjcgNTAuMTMyNSA0MS44NjIxIDUwLjEzMjUgNDUuNTMwNyA0OS42MDMxQzQ1LjgyNDQgNDkuNTYwNyA0Ni4xMTk5IDQ5LjUxMzggNDYuNzA5NCA0OS40MTk1QzQ2LjkwNTggNDkuMzg4MSA0Ny4wMDQyIDQ5LjM3MTcgNDcuMDkyMiA0OS4zNTIxQzQ4LjIxOTkgNDkuMTAwOCA0OS4xMDA3IDQ4LjIyMDEgNDkuMzUxOSA0Ny4wOTI0QzQ5LjM3MTUgNDcuMDA0NCA0OS4zODY5IDQ2LjkwNTkgNDkuNDE4NCA0Ni43MDk1QzQ5LjUxMjYgNDYuMTIwMiA0OS41NjA1IDQ1LjgyNTYgNDkuNjAyOSA0NS41MzE4QzUwLjEzMjQgNDEuODYzMiA1MC4xMzI0IDM4LjEzNyA0OS42MDI5IDM0LjQ2ODNDNDkuNTYwNSAzNC4xNzQ3IDQ5LjUxMjYgMzMuODc5OCA0OS40MTg0IDMzLjI5MDZDNDkuMzg2OSAzMy4wOTQyIDQ5LjM3MTYgMzIuOTk1OCA0OS4zNTE5IDMyLjkwNzhDNDkuMTAwNyAzMS43ODAxIDQ4LjIxOTkgMzAuODk5MyA0Ny4wOTIyIDMwLjY0OEM0Ny4wMDQyIDMwLjYyODQgNDYuOTA1NyAzMC42MTMgNDYuNzA5NCAzMC41ODE2QzQ2LjExOTkgMzAuNDg3MyA0NS44MjQ0IDMwLjQzOTQgNDUuNTMwNyAzMC4zOTdaTTE1LjUzMTYgMC4zOTcwNUMxMS44NjMyIC0wLjEzMjM3NCA4LjEzNzYxIC0wLjEzMjMyNiA0LjQ2OTEzIDAuMzk3MDVDNC4xNzUzNiAwLjQzOTQ0NiAzLjg3OTkgMC40ODczMDMgMy4yOTA0MiAwLjU4MTYyQzMuMDk0MDQgMC42MTMwNDEgMi45OTU2MiAwLjYyODQxOCAyLjkwNzYxIDAuNjQ4MDI2QzEuNzc5ODggMC44OTkzMjIgMC44OTkxMDkgMS43ODAwNCAwLjY0Nzg0MiAyLjkwNzc5QzAuNjI4MjMxIDIuOTk1ODIgMC42MTI4NjUgMy4wOTQxOCAwLjU4MTQzNiAzLjI5MDZDMC40ODcxNjQgMy44Nzk4MiAwLjQzOTI0NyA0LjE3NDcgMC4zOTY4NjYgNC40NjgzNEMtMC4xMzI1NzYgOC4xMzY5OSAtMC4xMzI1NzIgMTEuODYzMiAwLjM5Njg2NiAxNS41MzE4QzAuNDM5MjU5IDE1LjgyNTYgMC40ODcxNDEgMTYuMTIwMiAwLjU4MTQzNiAxNi43MDk1QzAuNjEyODQ2IDE2LjkwNTkgMC42MjgyNjIgMTcuMDA0NCAwLjY0Nzg0MiAxNy4wOTI0QzAuODk5MDkgMTguMjIwMSAxLjc3OTkxIDE5LjEwMDggMi45MDc2MSAxOS4zNTIxQzIuOTk1NjMgMTkuMzcxNyAzLjA5Mzk5IDE5LjM4ODEgMy4yOTA0MiAxOS40MTk1QzMuODc5OSAxOS41MTM4IDQuMTc1MzYgMTkuNTYwNyA0LjQ2OTEzIDE5LjYwMzFDOC4xMzc2MyAyMC4xMzI1IDExLjg2MzEgMjAuMTMyNSAxNS41MzE2IDE5LjYwMzFDMTUuODI1MyAxOS41NjA3IDE2LjEyMDEgMTkuNTEzOCAxNi43MDk0IDE5LjQxOTVDMTYuOTA1OCAxOS4zODgxIDE3LjAwNDIgMTkuMzcxNyAxNy4wOTIyIDE5LjM1MjFDMTguMjIgMTkuMTAwOSAxOS4xMDA3IDE4LjIyMDIgMTkuMzUxOSAxNy4wOTI0QzE5LjM3MTUgMTcuMDA0NCAxOS4zODc5IDE2LjkwNTkgMTkuNDE5MyAxNi43MDk1QzE5LjUxMzYgMTYuMTIwMyAxOS41NjA1IDE1LjgyNTUgMTkuNjAyOSAxNS41MzE4QzIwLjEzMjQgMTEuODYzMSAyMC4xMzI0IDguMTM3MDEgMTkuNjAyOSA0LjQ2ODM0QzE5LjU2MDUgNC4xNzQ3MiAxOS41MTM2IDMuODc5NzggMTkuNDE5MyAzLjI5MDZDMTkuMzg3OSAzLjA5NDEyIDE5LjM3MTYgMi45OTU4MyAxOS4zNTE5IDIuOTA3NzlDMTkuMTAwNiAxLjc4MDA1IDE4LjIxOTkgMC44OTkyNzkgMTcuMDkyMiAwLjY0ODAyNkMxNy4wMDQyIDAuNjI4NDQgMTYuOTA1NyAwLjYxMzAzNyAxNi43MDk0IDAuNTgxNjJDMTYuMTIgMC40ODczMTggMTUuODI1NCAwLjQzOTQ0MiAxNS41MzE2IDAuMzk3MDVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K";
+const TEX_GREEN="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDUuNTMxMiAzMC4zOTcxQzQxLjg2MjYgMjkuODY3NyAzOC4xMzcyIDI5Ljg2NzcgMzQuNDY4NyAzMC4zOTcxQzM0LjE3NDkgMzAuNDM5NSAzMy44Nzk0IDMwLjQ4NjQgMzMuMjkgMzAuNTgwN0MzMy4wOTM2IDMwLjYxMjEgMzIuOTk1MiAzMC42Mjc1IDMyLjkwNzEgMzAuNjQ3MUMzMS43Nzk1IDMwLjg5ODQgMzAuODk4OCAzMS43NzkzIDMwLjY0NzQgMzIuOTA2OUMzMC42Mjc4IDMyLjk5NDkgMzAuNjEyNCAzMy4wOTQxIDMwLjU4MSAzMy4yOTA2QzMwLjQ4NjcgMzMuODc5OSAzMC40Mzg4IDM0LjE3NDcgMzAuMzk2NCAzNC40Njg0QzI5Ljg2NyAzOC4xMzY4IDI5Ljg2NyA0MS44NjI0IDMwLjM5NjQgNDUuNTMwOUMzMC40Mzg4IDQ1LjgyNDYgMzAuNDg2NyA0Ni4xMjAxIDMwLjU4MSA0Ni43MDk2QzMwLjYxMjQgNDYuOTA1OSAzMC42Mjc4IDQ3LjAwNDQgMzAuNjQ3NCA0Ny4wOTI0QzMwLjg5ODcgNDguMjIwMSAzMS43Nzk1IDQ5LjEwMDkgMzIuOTA3MSA0OS4zNTIyQzMyLjk5NTIgNDkuMzcxOCAzMy4wOTM2IDQ5LjM4NzIgMzMuMjkgNDkuNDE4NkMzMy44Nzk0IDQ5LjUxMjkgMzQuMTc0OSA0OS41NjA3IDM0LjQ2ODcgNDkuNjAzMUMzOC4xMzcxIDUwLjEzMjUgNDEuODYyNyA1MC4xMzI2IDQ1LjUzMTIgNDkuNjAzMUM0NS44MjQ5IDQ5LjU2MDggNDYuMTE5NiA0OS41MTI5IDQ2LjcwODkgNDkuNDE4NkM0Ni45MDUyIDQ5LjM4NzIgNDcuMDAzOCA0OS4zNzE3IDQ3LjA5MTcgNDkuMzUyMkM0OC4yMTk1IDQ5LjEwMDkgNDkuMTAxMiA0OC4yMjAyIDQ5LjM1MjUgNDcuMDkyNEM0OS4zNzIxIDQ3LjAwNDQgNDkuMzg3NCA0Ni45MDYgNDkuNDE4OSA0Ni43MDk2QzQ5LjUxMzIgNDYuMTIwMSA0OS41NjAxIDQ1LjgyNDYgNDkuNjAyNSA0NS41MzA5QzUwLjEzMTkgNDEuODYyNCA1MC4xMzE5IDM4LjEzNjkgNDkuNjAyNSAzNC40Njg0QzQ5LjU2MDEgMzQuMTc0NyA0OS41MTMxIDMzLjg3OTkgNDkuNDE4OSAzMy4yOTA2QzQ5LjM4NzQgMzMuMDk0MSA0OS4zNzIxIDMyLjk5NDkgNDkuMzUyNSAzMi45MDY5QzQ5LjEwMTEgMzEuNzc5MiA0OC4yMTk0IDMwLjg5ODMgNDcuMDkxNyAzMC42NDcxQzQ3LjAwMzggMzAuNjI3NSA0Ni45MDUxIDMwLjYxMjEgNDYuNzA4OSAzMC41ODA3QzQ2LjExOTYgMzAuNDg2NCA0NS44MjQ5IDMwLjQzOTUgNDUuNTMxMiAzMC4zOTcxWk0xNS41MzIyIDAuMzk3MDg2QzExLjg2MzUgLTAuMTMyMzYyIDguMTM3MzEgLTAuMTMyMzYyIDQuNDY4NjcgMC4zOTcwODZDNC4xNzQ5NyAwLjQzOTQ3MyAzLjg4MDIzIDAuNDg2MzkzIDMuMjkwOTQgMC41ODA2NzlDMy4wOTQ2MSAwLjYxMjA5MiAyLjk5NjEgMC42Mjc1MDMgMi45MDgxMyAwLjY0NzA4NkMxLjc4MDQ5IDAuODk4MzEzIDAuODk5NzY5IDEuNzc5MjggMC42NDgzNjEgMi45MDY4NUMwLjYyODc0MiAyLjk5NDkxIDAuNjEyNDM0IDMuMDk0MDUgMC41ODA5NzggMy4yOTA2NEMwLjQ4NjcwNiAzLjg3OTg0IDAuNDM5NzcgNC4xNzQ2NyAwLjM5NzM4NSA0LjQ2ODM3Qy0wLjEzMjAyMyA4LjEzNjg4IC0wLjEzMjAwNCAxMS44NjI0IDAuMzk3Mzg1IDE1LjUzMDlDMC40Mzk3ODEgMTUuODI0NiAwLjQ4NjY2IDE2LjEyMDEgMC41ODA5NzggMTYuNzA5NkMwLjYxMjQgMTYuOTA2IDAuNjI4NzU0IDE3LjAwNDQgMC42NDgzNjEgMTcuMDkyNEMwLjg5OTcwOCAxOC4yMjAxIDEuNzgwNDIgMTkuMTAwOSAyLjkwODEzIDE5LjM1MjJDMi45OTYxMSAxOS4zNzE4IDMuMDk0NTcgMTkuMzg3MiAzLjI5MDk0IDE5LjQxODZDMy44ODAzMiAxOS41MTI5IDQuMTc0OTMgMTkuNTYwNyA0LjQ2ODY3IDE5LjYwMzFDOC4xMzczMSAyMC4xMzI2IDExLjg2MzUgMjAuMTMyNiAxNS41MzIyIDE5LjYwMzFDMTUuODI1OCAxOS41NjA4IDE2LjEyMDcgMTkuNTEyOCAxNi43MDk5IDE5LjQxODZDMTYuOTA2MyAxOS4zODcxIDE3LjAwNDcgMTkuMzcxOCAxNy4wOTI3IDE5LjM1MjJDMTguMjIwNCAxOS4xMDA5IDE5LjEwMTEgMTguMjIwMSAxOS4zNTI1IDE3LjA5MjRDMTkuMzcyMSAxNy4wMDQ0IDE5LjM4NzUgMTYuOTA1OSAxOS40MTg5IDE2LjcwOTZDMTkuNTEzMiAxNi4xMjAxIDE5LjU2MSAxNS44MjQ2IDE5LjYwMzQgMTUuNTMwOUMyMC4xMzI4IDExLjg2MjQgMjAuMTMyOCA4LjEzNjg1IDE5LjYwMzQgNC40NjgzN0MxOS41NjExIDQuMTc0NjYgMTkuNTEzMSAzLjg3OTkgMTkuNDE4OSAzLjI5MDY0QzE5LjM4NzQgMy4wOTQwNSAxOS4zNzIxIDIuOTk0OTEgMTkuMzUyNSAyLjkwNjg1QzE5LjEwMTEgMS43NzkyNCAxOC4yMjA0IDAuODk4MzE4IDE3LjA5MjcgMC42NDcwODZDMTcuMDA0NyAwLjYyNzQ3NCAxNi45MDYzIDAuNjEyMTExIDE2LjcwOTkgMC41ODA2NzlDMTYuMTIwNyAwLjQ4NjQxNSAxNS44MjU4IDAuNDM5NDYzIDE1LjUzMjIgMC4zOTcwODZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K";
+const FS=`precision highp float;
+uniform vec2 uRes,uOff;uniform float uTime,uFlowT,uEnergy,uBreath,uDark,uZoom,uShadow,uSpin,uPop,uHead,uFlare,uCaScale,uSwirl,uStreak,uEdgeDark,uDrop,uCent,uOrbit,uAwait,uWrite,uPenT,uSat;uniform vec3 uBg,uRim,uInk,uD1,uD2,uD3,uC1,uC2,uC3;uniform sampler2D uTex;uniform sampler2D uPath;
+vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
+vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
+ vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
+ vec3 x1=x0-i1+C.xxx;vec3 x2=x0-i2+C.yyy;vec3 x3=x0-D.yyy;i=mod289(i);
+ vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+ float n_=0.142857142857;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);
+ vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);
+ vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
+ vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+ vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
+ vec4 nr=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=nr.x;p1*=nr.y;p2*=nr.z;p3*=nr.w;
+ vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
+ return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}
+float fbm2(vec3 p){return 0.6*snoise(p)+0.3*snoise(p*2.03);}
+float lobe(float ang,vec3 D){float e=atan(sin(ang-D.x),cos(ang-D.x));return D.z*exp(-e*e/(2.0*D.y*D.y));}
+void main(){
+ vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0;
+ vec2 P=vec2(uv.x,uv.y)/uZoom-uOff;float r=length(P);float baseR=0.70*uBreath;
+ float ang=atan(P.y,P.x);
+ float orbR=baseR*(1.0+lobe(ang,uD1)+lobe(ang,uD2)+lobe(ang,uD3));
+ vec3 col=uBg;
+ if(uDark>0.5){
+   col+=pow(clamp(1.0-r/(orbR*1.5),0.0,1.0),2.0)*0.07;
+   /* 深底的墙面反光:只比 logo 大一圈的小光斑,位于下方偏右;
+      颜色取球内迷幻色在该角度的当前值,随环流实时呼应 */
+   vec2 rc=P-normalize(vec2(0.25,-0.97))*orbR*1.0;
+   float rd=length(rc)/(orbR*0.48);
+   float mm1=0.5+0.5*cos(ang-uSwirl);
+   float mm2=0.5+0.5*cos(ang-2.09-uSwirl*1.27);
+   float mm3=0.5+0.5*cos(ang+2.09-uSwirl*0.83);
+   vec3 rIr=(uC1*mm1*mm1+uC2*mm2*mm2+uC3*mm3*mm3)/(mm1*mm1+mm2*mm2+mm3*mm3+0.0001);
+   col+=rIr*0.40*exp(-rd*rd*3.0)*(0.55+0.45*uEnergy)*(0.8+0.4*uFlare)*(0.75+0.25*uPop);
+ }
+ if(r>=orbR){float sd=1.0-smoothstep(orbR,orbR*1.22,r);col=mix(col,col*(1.0-0.16*uShadow),sd);}
+ if(uDrop>0.01){
+   /* 水滴式墙面投影,四层贴着球轮廓、偏向背光侧(右下)成月牙:
+      1 接触暗线(最深最窄) 2 透镜聚光亮隙 3 柔和本影 4 极淡半影 */
+   vec2 dir=normalize(vec2(0.55,-0.83));
+   float w=pow(max(dot(normalize(P+vec2(1e-5)),dir),0.0),1.6); /* 只在背光侧成月牙,向光半边完全没有 */
+   float rN=r/orbR;
+   float contact=(1.0-smoothstep(1.0,1.10,rN))*smoothstep(0.97,1.0,rN);
+   float gap=(1.0-smoothstep(1.08,1.20,rN))*smoothstep(1.02,1.10,rN);
+   float body=(1.0-smoothstep(1.18,1.50,rN))*smoothstep(1.02,1.22,rN);
+   float pen=(1.0-smoothstep(1.35,1.85,rN))*smoothstep(1.05,1.35,rN);
+   float shA=(contact*0.28+body*0.15+pen*0.05)*w*(1.0-0.75*gap*w)*(0.75+0.25*uPop)*uDrop;
+   col=mix(col,col*vec3(0.76,0.84,0.88),clamp(shA,0.0,0.5));
+   col+=vec3(0.09,0.10,0.09)*gap*w*0.5*uDrop;
+ }
+ if(r<orbR*1.06){
+   float z=sqrt(max(1.0-(r/orbR)*(r/orbR),0.0001));vec3 N=vec3(P.x/orbR,P.y/orbR,z);float fres=1.0-z;
+   vec3 gbody=clamp(uBg+vec3(0.13*pow(z,1.5)),0.0,1.0);
+   vec2 luv=P/orbR*0.44;luv+=N.xy*(0.04+0.16*fres);luv/=uPop;
+   vec2 fw=vec2(fbm2(vec3(luv*1.5+vec2(uFlowT*0.3,0.0),0.0)),fbm2(vec3(luv*1.5+vec2(0.0,uFlowT*0.24),3.3)));
+   luv+=fw*0.03*uEnergy;
+   vec4 tG=texture2D(uTex,luv+0.5);
+   float rr2=r/orbR;
+   float m1=0.5+0.5*cos(ang-uSwirl);
+   float m2=0.5+0.5*cos(ang-2.09-uSwirl*1.27);
+   float m3=0.5+0.5*cos(ang+2.09-uSwirl*0.83);
+   vec3 irid=(uC1*m1*m1+uC2*m2*m2+uC3*m3*m3)/(m1*m1+m2*m2+m3*m3+0.0001);
+   float a2=ang-uSwirl*1.1;
+   float angF=mix(0.85,0.45,uStreak);
+   float ipatch=smoothstep(-0.35,0.75,fbm2(vec3(cos(a2)*angF,sin(a2)*angF,rr2*0.9+uFlowT*0.05)));
+   float iband=smoothstep(mix(0.30,0.55,uCent),mix(0.85,0.92,uCent),rr2);
+   float iw=iband*(0.25+0.75*ipatch)*(0.35+0.55*uEnergy)*(1.0+0.7*uFlare)*(1.0+0.35*uCent);
+   /* 细纹长在迷幻色带上:不对称的弧段刻痕,随环流游走 */
+   float ripB=smoothstep(0.45,0.75,rr2)*(1.0-smoothstep(0.96,1.01,rr2));
+   float ripP=smoothstep(0.05,0.75,fbm2(vec3(cos(a2)*1.1+9.0,sin(a2)*1.1,uFlowT*0.07)));
+   float rip=sin(rr2*240.0-uFlowT*1.3+4.0*fbm2(vec3(cos(a2)*0.9,sin(a2)*0.9,2.2)));
+   irid*=1.0+0.45*rip*ripB*ripP*smoothstep(0.55,0.85,uZoom);
+   /* 后层迷幻色:在 logo 身后,略微雾化——远的东西朦一点 */
+   vec3 iridB=mix(irid,gbody,0.18);
+   vec3 gbodyI=mix(gbody,iridB,clamp(iw,0.0,0.9));
+   vec3 cLogo=mix(gbodyI,tG.rgb,smoothstep(0.04,0.55,tG.a));
+   float spinA=0.0;
+   for(int i=0;i<6;i++){
+     float fi=float(i);
+     float aD=uHead+fi*1.0472;
+     vec2 er=vec2(cos(aD),sin(aD));vec2 et=vec2(-er.y,er.x);
+     vec2 d=luv-uOrbit*er;
+     float fx=dot(d,et)/max(abs(cos(uTime*2.6+fi*1.1)),0.22);
+     float fy=dot(d,er);
+     spinA=max(spinA,smoothstep(0.104,0.072,length(vec2(fx,fy))));
+   }
+   vec3 cSpin=mix(gbodyI,uInk,spinA);
+   vec3 c=mix(cLogo,cSpin,uSpin);
+   /* 输出:手写「Alva」——笔尖沿签名路径书写,墨迹留存(新墨深旧墨淡);
+      写完抬笔(笔尖消失),整字渐隐,顿一拍,再从头落笔重写 */
+   c=mix(c,gbodyI,uWrite);
+   if(uWrite>0.01){
+     float s2=fract(uPenT*0.16);
+     float prog=min(s2/0.84,1.0);
+     float wA=0.0;
+     for(int k=0;k<128;k++){
+       float fk=float(k)/127.0;
+       float f=fk*prog;
+       vec2 pp=(texture2D(uPath,vec2(f,0.5)).rg-vec2(0.5))*0.9;
+       float age=prog-f;
+       float ink=exp(-age*1.2);
+       float rr=0.026+0.010*exp(-age*10.0);
+       wA=max(wA,smoothstep(rr,rr*0.55,length(luv-pp))*ink);
+     }
+     float lift=1.0-smoothstep(0.86,0.985,s2);
+     wA*=lift;
+     if(s2<0.84){
+       vec2 hp2=(texture2D(uPath,vec2(prog,0.5)).rg-vec2(0.5))*0.9;
+       wA=max(wA,smoothstep(0.045,0.028,length(luv-hp2)));
+     }
+     c=mix(c,uInk,clamp(wA,0.0,1.0)*uWrite);
+   }
+   /* 前层迷幻色:独立的一层玻璃膜——转速快 45%(视差)、能扫过球心盖住 logo、
+      色块分布与后层不同,清晰无雾——前后层滑动错开,纵深就出来了 */
+   float f1=0.5+0.5*cos(ang-uSwirl*1.45);
+   float f2=0.5+0.5*cos(ang-2.09-uSwirl*1.75);
+   float f3=0.5+0.5*cos(ang+2.09-uSwirl*1.15);
+   vec3 iridF=(uC1*f1*f1+uC2*f2*f2+uC3*f3*f3)/(f1*f1+f2*f2+f3*f3+0.0001);
+   float a2f=ang-uSwirl*1.5;
+   float ipatchF=smoothstep(-0.2,0.8,fbm2(vec3(cos(a2f)*angF,sin(a2f)*angF,rr2*0.9+uFlowT*0.05+7.0)));
+   float ibandF=smoothstep(0.10,0.75,rr2);
+   float iwF=ibandF*(0.2+0.8*ipatchF)*(0.30+0.45*uEnergy)*(1.0+0.6*uFlare)*(1.0+0.3*uCent);
+   c=mix(c,iridF,clamp(iwF*0.4,0.0,0.45));
+   /* 体积光影:左上受光更亮、右下背光更沉,球面有纵深 */
+   c*=0.965+0.07*clamp(dot(N.xy,vec2(-0.49,0.87)),-0.5,1.0);
+   c=mix(c,c*vec3(0.80,0.87,0.87),pow(fres,2.2)*uEdgeDark);
+   c+=uRim*pow(fres,3.2)*(0.7+0.45*uFlare);
+   vec3 Hn=normalize(vec3(-0.28,0.5,0.82));c+=pow(max(dot(N,Hn),0.0),55.0)*0.5;
+   float nnv=fbm2(vec3(N.xy*2.6,uFlowT*0.45));
+   float patch=smoothstep(-0.25,0.50,nnv);
+   float dirw=0.5+0.5*(N.x*cos(uFlowT*0.25)+N.y*sin(uFlowT*0.25));
+   float dm=pow(fres,1.3)*patch*(0.3+0.7*dirw);
+   float caE=0.038*dm*(1.0+0.9*uFlare)*uCaScale;
+   float aR=1.0-smoothstep(0.92,1.05,r/(orbR*(1.0+caE)));
+   float aG=1.0-smoothstep(0.92,1.05,r/orbR);
+   float aB=1.0-smoothstep(0.92,1.05,r/(orbR*(1.0-caE)));
+   col=vec3(mix(col.r,c.r,aR),mix(col.g,c.g,aG),mix(col.b,c.b,aB));
+ }
+ /* 等待回应:球外右上的呼吸蓝点;每 10s 沿倾斜椭圆轨道像卫星一样绕球一圈——
+    前半程从球面前掠过,后半程绕到球后被球体遮挡,回到右上停驻 */
+ if(uAwait>0.01){
+   float ds=mix(1.7,1.0,smoothstep(0.5,0.9,uZoom));
+   vec2 uD=vec2(0.7071,0.7071);vec2 vD=vec2(-0.7071,0.7071);
+   float cph=cos(uSat),sph=sin(uSat);
+   vec2 ap=(uD*cph*1.25+vD*sph*0.45)*orbR;
+   float behind=smoothstep(0.12,-0.12,sph);
+   float occ=1.0-behind*(1.0-smoothstep(orbR*0.97,orbR*1.03,r));
+   float sc=mix(1.08,0.8,behind);
+   float ad=length(P-ap);
+   vec3 blue=vec3(0.28,0.60,1.0);
+   float pu=0.8+0.2*sin(uTime*2.1);
+   col+=blue*exp(-(ad*ad)/(orbR*orbR*0.05*ds*ds*sc*sc))*0.5*uAwait*pu*occ*(1.0-0.45*behind);
+   col=mix(col,blue,smoothstep(orbR*0.16*ds*sc,orbR*0.115*ds*sc,ad)*0.95*uAwait*occ*(1.0-0.3*behind));
+ }
+ gl_FragColor=vec4(col,1.0);
+}`;
+const VS="attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+/* 手写「Alva」签名路径:控制点 → Catmull-Rom 平滑 → 按弧长均匀重采样 256 点 → 1D 纹理 */
+function alvaPathTex(gl){
+  const C=[[0.155,0.44],[0.09,0.47],[0.035,0.33],[0.03,0.15],[0.08,0.03],[0.155,0.06],[0.195,0.20],[0.205,0.38],[0.205,0.44],[0.215,0.20],[0.225,0.04],[0.26,0.02],[0.30,0.10],
+  [0.335,0.30],[0.365,0.60],[0.36,0.71],[0.335,0.64],[0.325,0.40],[0.33,0.15],[0.345,0.02],[0.385,0.06],[0.415,0.14],
+  [0.45,0.28],[0.475,0.10],[0.49,0.03],[0.515,0.14],[0.535,0.28],[0.55,0.31],[0.565,0.27],
+  [0.625,0.27],[0.585,0.31],[0.555,0.20],[0.56,0.07],[0.60,0.015],[0.64,0.06],[0.655,0.20],[0.66,0.29],[0.665,0.12],[0.675,0.03],[0.71,0.02],[0.76,0.10],[0.80,0.20]];
+  const dense=[];
+  for(let i=0;i<C.length-1;i++){
+    const p0=C[Math.max(0,i-1)],p1=C[i],p2=C[i+1],p3=C[Math.min(C.length-1,i+2)];
+    for(let t=0;t<1;t+=0.04){
+      const t2=t*t,t3=t2*t;
+      dense.push([
+        0.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+        0.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)]);
+    }
+  }
+  dense.push(C[C.length-1].slice());
+  const al=[0];for(let i=1;i<dense.length;i++)al.push(al[i-1]+Math.hypot(dense[i][0]-dense[i-1][0],dense[i][1]-dense[i-1][1]));
+  const total=al[al.length-1];
+  const data=new Uint8Array(256*4);let j=0;
+  for(let k=0;k<256;k++){
+    const target=total*k/255;
+    while(j<al.length-2&&al[j+1]<target)j++;
+    const f=(target-al[j])/Math.max(1e-6,al[j+1]-al[j]);
+    const x=dense[j][0]+(dense[j+1][0]-dense[j][0])*f;
+    const y=dense[j][1]+(dense[j+1][1]-dense[j][1])*f;
+    let lx=(x-0.415)*0.72, ly=(y-0.30)*0.72;
+    lx+=0.22*ly; /* 右斜 */
+    data[k*4]=Math.max(0,Math.min(255,Math.round((lx/0.9+0.5)*255)));
+    data[k*4+1]=Math.max(0,Math.min(255,Math.round((ly/0.9+0.5)*255)));
+    data[k*4+2]=0;data[k*4+3]=255;
+  }
+  const tx=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tx);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,256,1,0,gl.RGBA,gl.UNSIGNED_BYTE,data);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  return tx;
+}
+function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop){
+  const gl=cv.getContext("webgl")||cv.getContext("experimental-webgl");if(!gl)return null;
+  function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.log(gl.getShaderInfoLog(o));return o;}
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.log(gl.getProgramInfoLog(pr));return null;}
+  gl.useProgram(pr);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const lp=gl.getAttribLocation(pr,"p");gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+  const U={};["uRes","uTime","uFlowT","uEnergy","uBreath","uDark","uZoom","uShadow","uSpin","uPop","uHead","uFlare","uCaScale","uSwirl","uStreak","uEdgeDark","uDrop","uCent","uOrbit","uAwait","uWrite","uPenT","uSat","uOff","uPath","uBg","uRim","uInk","uD1","uD2","uD3","uC1","uC2","uC3","uTex"].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
+  gl.uniform1f(U.uCaScale,caScale==null?1.0:caScale);gl.uniform1f(U.uEdgeDark,edgeDark==null?0.0:edgeDark);gl.uniform1f(U.uDrop,drop==null?0.0:drop);
+  const pathTex=alvaPathTex(gl);gl.uniform1i(U.uPath,1);
+  gl.uniform3f(U.uBg,bg[0],bg[1],bg[2]);gl.uniform3f(U.uRim,rim[0],rim[1],rim[2]);gl.uniform3f(U.uInk,ink[0],ink[1],ink[2]);gl.uniform1f(U.uDark,dark?1:0);gl.uniform1f(U.uZoom,zoom);gl.uniform1f(U.uShadow,shadow);
+  gl.uniform3f(U.uC1,pal[0][0],pal[0][1],pal[0][2]);gl.uniform3f(U.uC2,pal[1][0],pal[1][1],pal[1][2]);gl.uniform3f(U.uC3,pal[2][0],pal[2][1],pal[2][2]);
+  let ready=false;const tex=gl.createTexture();const img=new Image();img.onload=()=>{
+    /* 512 超采样 + 轻微模糊 + mipmap:logo 边缘柔和无锯齿 */
+    const c=document.createElement("canvas");c.width=512;c.height=512;const x=c.getContext("2d");x.clearRect(0,0,512,512);
+    x.filter="blur(1.2px)";
+    const sz=512*0.46;x.drawImage(img,(512-sz)/2,(512-sz)/2,sz,sz);
+    gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);ready=true;
+  };img.src=uri;
+  function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;cv.width=Math.round(w*dpr);cv.height=Math.round(w*dpr);gl.viewport(0,0,cv.width,cv.height);}
+  function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);gl.activeTexture(gl.TEXTURE0);gl.uniform2f(U.uRes,cv.width,cv.height);
+    gl.uniform1f(U.uTime,o.t);gl.uniform1f(U.uFlowT,o.ft);gl.uniform1f(U.uEnergy,o.en);gl.uniform1f(U.uBreath,o.br);gl.uniform1f(U.uSpin,o.spin);gl.uniform1f(U.uPop,o.pop);gl.uniform1f(U.uHead,o.head);gl.uniform1f(U.uFlare,o.flare);gl.uniform1f(U.uSwirl,o.swirl);gl.uniform1f(U.uStreak,o.streak);gl.uniform1f(U.uCent,o.cent);gl.uniform1f(U.uOrbit,o.orbit);gl.uniform1f(U.uAwait,o.awa);gl.uniform1f(U.uWrite,o.wri);gl.uniform1f(U.uPenT,o.penT);gl.uniform1f(U.uSat,o.sat);gl.uniform2f(U.uOff,o.off[0],o.off[1]);gl.uniform3f(U.uD1,o.d1[0],o.d1[1],o.d1[2]);gl.uniform3f(U.uD2,o.d2[0],o.d2[1],o.d2[2]);gl.uniform3f(U.uD3,o.d3[0],o.d3[1],o.d3[2]);gl.drawArrays(gl.TRIANGLES,0,3);}
+  return {resize,render};
+}
+function hex(h){return[((h>>16)&255)/255,((h>>8)&255)/255,(h&255)/255];}
+const SCENES=[
+ {bg:0xFFFFFF,css:"#ffffff",dark:0,tex:TEX_LIGHT,rim:[0.5,0.55,0.68],ink:[0.286,0.639,0.651],shadow:0.0,cap:"白底 · 黑绿",
+  pal:[[0.42,0.80,0.79],[0.55,0.88,0.94],[0.80,0.72,0.94]],ca:1.0,ed:2.2,drop:1.0},
+ {bg:0x0E0F13,css:"#0e0f13",dark:1,tex:TEX_DARK,rim:[0.75,0.82,1.0],ink:[1,1,1],shadow:0.0,cap:"深底 · 白绿",
+  pal:[[0.26,0.82,0.78],[0.30,0.70,0.98],[0.85,0.48,0.85]],ca:0.65,ed:0.0,drop:0},
+ {bg:0x49A3A6,css:"#49a3a6",dark:0,tex:TEX_GREEN,rim:[0.95,0.98,1.0],ink:[0,0,0],shadow:0.45,cap:"品牌绿 · 黑白",
+  pal:[[0.90,0.99,1.00],[0.62,0.95,0.90],[0.82,0.76,0.98]],ca:0.45,ed:0.5,drop:0.85},
+];
+const cols=document.getElementById("cols");const insts=[];
+SCENES.forEach(sc=>{
+  const col=document.createElement("div");col.className="col";
+  col.innerHTML='<div class="stage big" style="background:'+sc.css+'"><canvas></canvas></div><div class="r24"><div class="stage sm" style="background:'+sc.css+'"><canvas></canvas></div><span>球体 24px</span></div><div class="cap">'+sc.cap+'</div>';
+  cols.appendChild(col);const bg=hex(sc.bg);
+  const gB=makeGL(col.querySelector(".big canvas"),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.9,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop);
+  const gS=makeGL(col.querySelector(".sm canvas"),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.476,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop);
+  if(gB)insts.push(gB);if(gS)insts.push(gS);
+});
+function fit(){insts.forEach(i=>i.resize());}fit();window.addEventListener("resize",fit);
+let state="idle",flowT=0,last=performance.now(),spin=0,head=0;
+let transStart=-9,transFrom=0,transTo=0,whipStart=-99,pendingLand=false;
+/* —— 微事件系统:活物的关键是「大部分时间安静 + 偶发的不可预测小动作」 —— */
+let evStart=-9,evType=0,evAng=0,evAmp=0,nextEv=2.0;
+let flare=0,flareTgt=0,swirl=0,streak=0.15,swirlVS=0.13,writeCF=0,awaitCF=0,penT=0;
+function fireEvent(t,forced){
+  evStart=t;
+  evType=(forced!==undefined)?forced:(Math.random()<0.55?1:2); /* 随机事件只留 1色散闪 2吸气;0颤 只在状态切换时触发 */
+  evAng=Math.random()*6.28318;
+  evAmp=(forced===0)?0.07:(0.045+Math.random()*0.05);
+  nextEv=t+2.2+Math.random()*3.6; /* 不可预测的间隔 */
+}
+/* 跳变曲线:预备下蹲(anticipation) → 阻尼弹簧回弹带过冲 */
+function jumpScale(el){
+  if(el<0||el>2.0)return 1;
+  const a=0.12;
+  if(el<a){const k=el/a;return 1-0.15*(k*k*(3-2*k));}
+  const s=el-a;return 1-0.15*Math.exp(-7.5*s)*Math.cos(15.0*s);
+}
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now/1000;
+  const el=t-transStart;
+  /* loading 圈在下蹲触底后才淡入——先蓄力再抛出 */
+  const cf=Math.min(Math.max((el-0.10)/0.20,0),1);const ke=cf*cf*(3-2*cf);
+  spin=transFrom+(transTo-transFrom)*ke;
+  const pop=jumpScale(el);
+  /* loading:缓动节奏 + 进入思考时的甩入加速(指数衰减) */
+  const baseVel=1.0+7.0*Math.pow(0.5+0.5*Math.sin(t*1.7),3.0);
+  const wel=t-whipStart;
+  const whip=(wel>0&&wel<1.4)?13.0*Math.exp(-wel/0.30):0;
+  head+=dt*(baseVel+whip);
+  if((state==="idle"||state==="awaiting")&&t>=nextEv&&el>0.9)fireEvent(t);
+  /* 事件包络 */
+  const es=t-evStart;let evQ=0,evF=0,evB=0;
+  if(es>=0&&es<1.6){
+    if(evType===0){evQ=Math.exp(-es*3.2)*Math.sin(es*22.0);evF=0.7*Math.exp(-es/0.22);}
+    else if(evType===1){evF=0.8*Math.pow(Math.sin(3.1416*Math.min(es/1.25,1.0)),2);} /* 色散闪:缓亮缓灭的驼峰 */
+    else{evB=Math.exp(-es*2.6)*Math.sin(Math.min(es*6.0,3.1416));evF=0.3*Math.pow(Math.sin(3.1416*Math.min(es/1.3,1.0)),2);}
+  }
+  let en,br,fsp,d1,d2,swTgt,penV=0;
+  const d3=[0.0,1.0,0.0];
+  const off=[0,0];
+  if(state==="thinking"){
+    en=0.7+0.3*flare;fsp=0.7;
+    /* 呼吸与 loading 节奏错相位(1.13/0.53 vs 1.7),避免同频机械感 */
+    br=1.0+0.006*Math.sin(t*1.13)+0.004*Math.sin(t*0.53+0.7);
+    /* 蹙眉游走,幅度随 flare(即圆点甩速的延迟余韵)微涨——细节间有因果 */
+    d1=[t*0.23+0.4*Math.sin(t*0.37),1.0,0.018+0.02*flare];
+    d2=[-t*0.16+2.6,1.2,0.012];
+    flareTgt=Math.min(1,Math.max(0,(baseVel-4.2)/3.8))*0.55;
+    swTgt=0.35+0.30*baseVel+0.15*whip;
+  } else if(state==="speaking"){
+    /* 输出:语音节奏——慢的"语句门"(句间有停顿) × 快的"音节抖动" */
+    const ph=0.5+0.5*Math.sin(t*0.9)+0.3*Math.sin(t*0.53+1.7);
+    const gate=Math.max(0,Math.min(1,(ph-0.25)*3.0));
+    const syl=0.5+0.32*Math.sin(t*7.3)+0.22*Math.sin(t*11.7+0.9)+0.16*Math.sin(t*4.9+2.2);
+    const sp=gate*Math.max(0,syl);
+    en=0.8+0.5*sp;fsp=0.9;
+    br=1.0+0.006*Math.sin(t*1.1)+0.008*sp;
+    d1=[t*0.25+0.8,0.9,0.030+0.020*sp];
+    d2=[t*0.20+1.0,1.1,0.015];
+    flareTgt=0.15+0.5*sp; /* 说话时光彩随语句起伏 */
+    swTgt=0.30+0.95*sp;
+    penV=0.3+4.2*Math.pow(gate,1.5); /* 快写或停顿,不做慢动作:门开疾书,门关即驻笔 */
+  } else if(state==="awaiting"){
+    /* 等待回应:期待而专注——朝用户方向持续微倾,呼吸稍快稍浅,周期性柔和"示意" */
+    en=0.9;fsp=0.8;
+    const nud=Math.pow(0.5+0.5*Math.sin(t*0.55),3.0);
+    br=1.0+0.005*Math.sin(t*1.45)+0.0035*Math.sin(t*2.3+0.8);
+    d1=[0.35,0.9,0.05+0.045*nud]; /* 右上方向(朝向用户)的柔和鼓起,缓慢探身 */
+    d2=[-t*0.18+2.0,0.9,0.030];
+    flareTgt=evF+0.18*nud;
+    swTgt=0.15+0.05*nud;
+  } else {
+    en=0.85+0.35*evF;fsp=0.85;
+    /* 呼吸:两个无理数比频率叠加,近似匀但不匀;事件2=偶尔轻轻吸一口气 */
+    br=1.0+0.004*Math.sin(t*0.9)+0.0032*Math.sin(t*1.7+1.3)+0.010*evB;
+    /* 基线型变:幅度保持原调校,但游走角速度摆动 + 双频幅度调制,节奏不再均匀 */
+    const w1=0.30*t+0.6*Math.sin(t*0.11);
+    d1=[w1,0.8,0.075+0.020*Math.sin(t*0.63)+0.008*Math.sin(t*1.31+0.5)];
+    d2=[-0.22*t+2.0,0.85,0.058+0.015*Math.sin(t*0.49+1.0)];
+    flareTgt=evF;
+    swTgt=0.13+0.02*Math.sin(t*0.23);
+  }
+  br+=0.8*evAmp*evQ; /* 切入思考:尺寸大小的阻尼抖动(非位移) */
+  /* flare 缓入缓出 */
+  flare+=(flareTgt-flare)*(flareTgt>flare?1-Math.exp(-dt*8):1-Math.exp(-dt*4.5));
+  /* 环流:目标速度由各状态给出,经惯性滤波——加速滞后(被卷起来),退回慢速状态用慢惯性滑落 */
+  swirlVS+=(swTgt-swirlVS)*(swTgt>swirlVS?1-Math.exp(-dt*1.5):1-Math.exp(-dt*((state==="thinking"||state==="speaking")?1.3:0.7)));
+  swirl+=dt*swirlVS;
+  /* 离心感:转得越快,光彩越贴外圈、越密 */
+  const cent=Math.min(1,Math.max(0,(swirlVS-0.25)/1.8));
+  /* 圆点轨道:切思考时从球心弹射出去(带过冲),回待机时收拢回球心——切换的动感 */
+  let orbit;
+  if(state==="thinking"){const s=Math.max(0,el-0.10);orbit=0.24*(1-Math.exp(-7*s)*Math.cos(11*s));}
+  else{orbit=0.24*Math.exp(-9*Math.max(0,el));}
+  const streakT=(state==="thinking")?0.75:(state==="speaking"?0.35:0.15); /* 转快时条纹拉长 */
+  streak+=(streakT-streak)*(1-Math.exp(-dt*6));
+  writeCF+=((state==="speaking"?1:0)-writeCF)*(1-Math.exp(-dt*8));
+  awaitCF+=((state==="awaiting"?1:0)-awaitCF)*(1-Math.exp(-dt*6));
+  penT+=dt*penV;
+  /* 卫星轨道:等待态下,每停驻 7.2s 便用 2.8s 绕球一圈(缓入缓出),回到右上 */
+  let sat=0;
+  if(state==="awaiting"){const ph=(t-transStart)%10;if(ph>7.2){const k=(ph-7.2)/2.8;sat=(k*k*(3-2*k))*6.28318;}}
+  flowT+=dt*fsp;
+  const o={t:t,ft:flowT,en:en,br:br,spin:spin,pop:pop,head:head,flare:flare,swirl:swirl,streak:streak,cent:cent,orbit:orbit,awa:awaitCF,wri:writeCF,penT:penT,sat:sat,off:off,d1:d1,d2:d2,d3:d3};
+  insts.forEach(i=>i.render(o));requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+document.querySelectorAll("#seg button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("#seg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+  state=b.dataset.s;transStart=performance.now()/1000;transFrom=spin;transTo=(state==="thinking")?1:0;
+  if(state==="thinking"){whipStart=transStart+0.10;}
+  evStart=-9;nextEv=transStart+1.6+Math.random()*2.0;
+  /* 只在切入思考时抖(尺寸抖动);返回待机不抖 */
+  if(state==="thinking"){evStart=transStart+0.06;evType=0;evAng=Math.random()*6.28318;evAmp=0.07;}
+  if(state==="speaking"){penT=0;} /* 进入输出:从「A」落笔开始写 */
+}));
+</script>
+</body>
+</html>
