@@ -53,12 +53,14 @@ float lobe(float ang,vec3 D){float e=atan(sin(ang-D.x),cos(ang-D.x));return D.z*
 void main(){
  vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0;
  vec2 P=vec2(uv.x,uv.y)/uZoom-uOff;
- /* 蓝点轨迹像绳子捆住球:沿轨道长轴被勒细,垂直方向被挤得鼓出来(可为负=弹回时反向过冲) */
- vec2 uDs=vec2(0.7071,0.7071);vec2 vDs=vec2(-0.7071,0.7071);
- if(abs(uSq)>0.001){float pu2=dot(P,uDs),pv2=dot(P,vDs);P=uDs*pu2/(1.0-uSq*1.3)+vDs*pv2/(1.0+uSq);}
  float r=length(P);float baseR=0.70*uBreath;
  float ang=atan(P.y,P.x);
  float orbR=baseR*(1.0+lobe(ang,uD1)+lobe(ang,uD2)+lobe(ang,uD3));
+ /* 绳子勒球:轮廓只在绳经过的两点(±45°)向内掐出腰,被挤的体积往垂直方向鼓——沙漏式局部勒痕 */
+ if(abs(uSq)>0.001){
+   float cs=cos(ang-0.7854),sn=sin(ang-0.7854);
+   orbR*=1.0-uSq*1.5*pow(cs*cs,3.0)+uSq*0.8*pow(sn*sn,3.0);
+ }
  vec3 col=uBg;
  if(uDark>0.5){
    col+=pow(clamp(1.0-r/(orbR*1.5),0.0,1.0),2.0)*0.07;
@@ -198,16 +200,17 @@ void main(){
 const VS="attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
 /* 手写「Alva」签名路径 ×4 变体:控制点抖动+斜度/字号差异 → Catmull-Rom → 弧长重采样 → 256×4 纹理 */
 const ALVA_PATH_DATA=(function(){
-  const base=[[0.155,0.44],[0.09,0.47],[0.035,0.33],[0.03,0.15],[0.08,0.03],[0.155,0.06],[0.195,0.20],[0.205,0.38],[0.205,0.44],[0.215,0.20],[0.225,0.04],[0.26,0.02],[0.30,0.10],
+  const base=[[0.02,0.02],[0.075,0.35],[0.13,0.62],[0.155,0.71],[0.18,0.60],[0.225,0.30],[0.26,0.03],
+  [0.245,0.14],[0.19,0.30],[0.135,0.34],[0.115,0.30],[0.15,0.26],[0.22,0.24],[0.30,0.10],
   [0.335,0.30],[0.365,0.60],[0.36,0.71],[0.335,0.64],[0.325,0.40],[0.33,0.15],[0.345,0.02],[0.385,0.06],[0.415,0.14],
   [0.45,0.28],[0.475,0.10],[0.49,0.03],[0.515,0.14],[0.535,0.28],[0.55,0.31],[0.565,0.27],
   [0.625,0.27],[0.585,0.31],[0.555,0.20],[0.56,0.07],[0.60,0.015],[0.64,0.06],[0.655,0.20],[0.66,0.29],[0.665,0.12],[0.675,0.03],[0.71,0.02],[0.76,0.10],[0.80,0.20]];
   function rng(seed){let s=seed>>>0;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
-  const slants=[0.22,0.30,0.15,0.27],scales=[1.0,0.92,1.06,0.97];
+  const slants=[0.20,0.34,0.10,0.28],scales=[1.0,0.90,1.08,0.96],rots=[0,0.05,-0.045,0.03];
   const data=new Uint8Array(256*4*4);
   for(let v=0;v<4;v++){
     const R=rng(97+v*131);
-    const C=base.map(p=>[p[0]+(R()-0.5)*0.026,p[1]+(R()-0.5)*0.026]);
+    const C=base.map(p=>[p[0]+(R()-0.5)*0.042,p[1]+(R()-0.5)*0.042]);
     const dense=[];
     for(let i=0;i<C.length-1;i++){
       const p0=C[Math.max(0,i-1)],p1=C[i],p2=C[i+1],p3=C[Math.min(C.length-1,i+2)];
@@ -227,8 +230,11 @@ const ALVA_PATH_DATA=(function(){
       const f=(target-al[j])/Math.max(1e-6,al[j+1]-al[j]);
       const x=dense[j][0]+(dense[j+1][0]-dense[j][0])*f;
       const y=dense[j][1]+(dense[j+1][1]-dense[j][1])*f;
-      let lx=(x-0.415)*0.72*scales[v], ly=(y-0.30)*0.72*scales[v];
+      let lx=(x-0.41)*0.70*scales[v], ly=(y-0.30)*0.70*scales[v];
       lx+=slants[v]*ly;
+      const cr=Math.cos(rots[v]),sr=Math.sin(rots[v]);
+      const rx=lx*cr-ly*sr, ry=lx*sr+ly*cr;
+      lx=rx;ly=ry;
       const o=(v*256+k)*4;
       data[o]=Math.max(0,Math.min(255,Math.round((lx/0.9+0.5)*255)));
       data[o+1]=Math.max(0,Math.min(255,Math.round((ly/0.9+0.5)*255)));
@@ -402,16 +408,13 @@ function loop(now){
   if(state==="awaiting"){
     const ph=(t-transStart)%10;
     if(ph>8.5&&ph<=9.7){
-      /* 绕圈:蓄力-疾掠-过冲;绳子越绕越紧,球被勒细 */
+      /* 绕圈:蓄力-疾掠-过冲;前段绳子越绕越紧,后段松绳弹回——蓝点归位时球已复原 */
       const k=(ph-8.5)/1.2;
       const c2b=2.5949095;
       const fb=(k<0.5)?(4*k*k*((c2b+1)*2*k-c2b))/2:((2*k-2)*(2*k-2)*((c2b+1)*(2*k-2)+c2b)+2)/2;
       sat=fb*6.28318;
-      sq=0.10*Math.min(1,k*1.8);
-    } else if(ph>9.7){
-      /* 绕完松绳:阻尼震荡弹回原样 */
-      const s=ph-9.7;
-      sq=0.10*Math.exp(-s*7)*Math.cos(s*22);
+      if(k<0.55){sq=0.10*Math.min(1,k*2.5);}
+      else{const s=(k-0.55)*1.2;sq=0.10*Math.exp(-s*9)*Math.cos(s*26);}
     }
   }
   flowT+=dt*fsp;
