@@ -33,7 +33,7 @@ const TEX_LIGHT="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiI
 const TEX_DARK="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM0LjQ2NzkgMC4zOTcwODZDMzguMTM2NSAtMC4xMzIzNjIgNDEuODYyNyAtMC4xMzIzNjIgNDUuNTMxMyAwLjM5NzA4NkM0NS44MjUgMC40Mzk0NzQgNDYuMTE5NyAwLjQ4NzM2MiA0Ni43MDkxIDAuNTgxNjU2QzQ2LjkwNTUgMC42MTMwODggNDcuMDAzOSAwLjYyODQ1OSA0Ny4wOTE5IDAuNjQ4MDYyQzQ4LjIxOTYgMC44OTkzMDYgNDkuMTAwMyAxLjc4MDE0IDQ5LjM1MTYgMi45MDc4M0M0OS4zNzEzIDIuOTk1ODQgNDkuMzg3NiAzLjA5NDI1IDQ5LjQxOSAzLjI5MDY0QzQ5LjUxMzMgMy44ODAxMiA0OS41NjAyIDQuMTc1NTggNDkuNjAyNiA0LjQ2OTM1QzUwLjEzMiA4LjEzNzg0IDUwLjEzMiAxMS44NjM0IDQ5LjYwMjYgMTUuNTMxOUM0OS41NjAyIDE1LjgyNTUgNDkuNTEzMyAxNi4xMjA0IDQ5LjQxOSAxNi43MDk2QzQ5LjM4NzYgMTYuOTA2MiA0OS4zNzEzIDE3LjAwNTMgNDkuMzUxNiAxNy4wOTM0QzQ5LjEwMDMgMTguMjIxIDQ4LjIxOTUgMTkuMTAxOSA0Ny4wOTE5IDE5LjM1MzFDNDcuMDAzOSAxOS4zNzI3IDQ2LjkwNTUgMTkuMzg4MSA0Ni43MDkxIDE5LjQxOTVDNDYuMTE5OCAxOS41MTM4IDQ1LjgyNSAxOS41NjA4IDQ1LjUzMTMgMTkuNjAzMUM0My42OTcyIDE5Ljg2NzggNDEuODQ4NSAyMC4wMDA2IDQwLjAwMDEgMjAuMDAwNkMyOC45NTQ5IDIwLjAwMDkgMjAuMDAxNiAyOC45NTQ1IDIwLjAwMTEgMzkuOTk5NkgyMC4wMDAxQzIwLjAwMDEgNDEuODQ4NSAxOS44Njc0IDQzLjY5NzMgMTkuNjAyNiA0NS41MzE5QzE5LjU2MDIgNDUuODI1NiAxOS41MTMzIDQ2LjEyMDQgMTkuNDE5IDQ2LjcwOTZDMTkuMzg3NiA0Ni45MDYyIDE5LjM3MjIgNDcuMDA1MyAxOS4zNTI2IDQ3LjA5MzRDMTkuMTAxMyA0OC4yMjA5IDE4LjIyMDQgNDkuMTAxOCAxNy4wOTI5IDQ5LjM1MzFDMTcuMDA0OCA0OS4zNzI4IDE2LjkwNTcgNDkuMzg4MSAxNi43MDkxIDQ5LjQxOTVDMTYuMTE5OSA0OS41MTM4IDE1LjgyNSA0OS41NjA4IDE1LjUzMTMgNDkuNjAzMUMxMS44NjI4IDUwLjEzMjYgOC4xMzczNyA1MC4xMzI2IDQuNDY4ODMgNDkuNjAzMUM0LjE3NTE0IDQ5LjU2MDggMy44ODAyNyA0OS41MTM4IDMuMjkxMSA0OS40MTk1QzMuMDk0NTEgNDkuMzg4MSAyLjk5NTM3IDQ5LjM3MjggMi45MDczMSA0OS4zNTMxQzEuNzc5NzUgNDkuMTAxOCAwLjg5ODg4MSA0OC4yMjA5IDAuNjQ3NTQzIDQ3LjA5MzRDMC42Mjc5MjQgNDcuMDA1MyAwLjYxMjU5MSA0Ni45MDYyIDAuNTgxMTM3IDQ2LjcwOTZDMC40ODY4NjQgNDYuMTIwNCAwLjQzOTkyOSA0NS44MjU2IDAuMzk3NTQzIDQ1LjUzMTlDLTAuMTMxODcxIDQxLjg2MzMgLTAuMTMxODU1IDM4LjEzNzkgMC4zOTc1NDMgMzQuNDY5NEMwLjQzOTkzOSAzNC4xNzU2IDAuNDg2ODIgMzMuODgwMSAwLjU4MTEzNyAzMy4yOTA2QzAuNjEyNTUgMzMuMDk0MyAwLjYyNzkzNyAzMi45OTU4IDAuNjQ3NTQzIDMyLjkwNzhDMC44OTg4MzIgMzEuNzgwMiAxLjc3OTcxIDMwLjg5OTQgMi45MDczMSAzMC42NDgxQzIuOTk1MzcgMzAuNjI4NCAzLjA5NDUxIDMwLjYxMzEgMy4yOTExIDMwLjU4MTdDMy44ODAyOSAzMC40ODc0IDQuMTc1MTMgMzAuNDM5NSA0LjQ2ODgzIDMwLjM5NzFDNi4zMDMwNiAzMC4xMzI0IDguMTUxNiAzMC4wMDA2IDEwLjAwMDEgMzAuMDAwNlYyOS45OTg2QzIwLjg3MjggMjkuOTk4NCAyOS43MTkyIDIxLjMyMyAyOS45OTMyIDEwLjUxNjJMMjkuOTk5MSAxMC4wNDE2QzI5Ljk5NzEgOC4xNzk0NSAzMC4xMjk5IDYuMzE3MTYgMzAuMzk2NiA0LjQ2OTM1QzMwLjQzOSA0LjE3NTU4IDMwLjQ4NTggMy44ODAxMiAzMC41ODAyIDMuMjkwNjRDMzAuNjExNiAzLjA5NDI1IDMwLjYyNzkgMi45OTU4NCAzMC42NDc1IDIuOTA3ODNDMzAuODk4OSAxLjc4MDE1IDMxLjc3OTYgMC44OTkzMDUgMzIuOTA3MyAwLjY0ODA2MkMzMi45OTUzIDAuNjI4NDYgMzMuMDkzNyAwLjYxMzA4OCAzMy4yOTAxIDAuNTgxNjU2QzMzLjg3OTUgMC40ODczNTkgMzQuMTc0MSAwLjQzOTQ3NSAzNC40Njc5IDAuMzk3MDg2WiIgZmlsbD0iIzQ5QTNBNiIvPgo8cGF0aCBkPSJNNDUuNTMwNyAzMC4zOTdDNDEuODYyMiAyOS44Njc3IDM4LjEzNjYgMjkuODY3NiAzNC40NjgyIDMwLjM5N0MzNC4xNzQ0IDMwLjQzOTQgMzMuODc5OCAzMC40ODczIDMzLjI5MDQgMzAuNTgxNkMzMy4wOTQxIDMwLjYxMyAzMi45OTU2IDMwLjYyODQgMzIuOTA3NiAzMC42NDhDMzEuNzc5OSAzMC44OTkzIDMwLjg5OTIgMzEuNzgwMSAzMC42NDc4IDMyLjkwNzhDMzAuNjI4MiAzMi45OTU4IDMwLjYxMTkgMzMuMDk0MSAzMC41ODA1IDMzLjI5MDZDMzAuNDg2MiAzMy44Nzk4IDMwLjQzOTIgMzQuMTc0NyAzMC4zOTY5IDM0LjQ2ODNDMjkuODY3NCAzOC4xMzcgMjkuODY3NCA0MS44NjMxIDMwLjM5NjkgNDUuNTMxOEMzMC40MzkzIDQ1LjgyNTUgMzAuNDg2MiA0Ni4xMjAzIDMwLjU4MDUgNDYuNzA5NUMzMC42MTE5IDQ2LjkwNTkgMzAuNjI4MyA0Ny4wMDQ0IDMwLjY0NzggNDcuMDkyNEMzMC44OTkxIDQ4LjIyMDIgMzEuNzc5OCA0OS4xMDA5IDMyLjkwNzYgNDkuMzUyMUMzMi45OTU2IDQ5LjM3MTcgMzMuMDk0IDQ5LjM4ODEgMzMuMjkwNCA0OS40MTk1QzMzLjg3OTcgNDkuNTEzOCAzNC4xNzQ0IDQ5LjU2MDcgMzQuNDY4MiA0OS42MDMxQzM4LjEzNjcgNTAuMTMyNSA0MS44NjIxIDUwLjEzMjUgNDUuNTMwNyA0OS42MDMxQzQ1LjgyNDQgNDkuNTYwNyA0Ni4xMTk5IDQ5LjUxMzggNDYuNzA5NCA0OS40MTk1QzQ2LjkwNTggNDkuMzg4MSA0Ny4wMDQyIDQ5LjM3MTcgNDcuMDkyMiA0OS4zNTIxQzQ4LjIxOTkgNDkuMTAwOCA0OS4xMDA3IDQ4LjIyMDEgNDkuMzUxOSA0Ny4wOTI0QzQ5LjM3MTUgNDcuMDA0NCA0OS4zODY5IDQ2LjkwNTkgNDkuNDE4NCA0Ni43MDk1QzQ5LjUxMjYgNDYuMTIwMiA0OS41NjA1IDQ1LjgyNTYgNDkuNjAyOSA0NS41MzE4QzUwLjEzMjQgNDEuODYzMiA1MC4xMzI0IDM4LjEzNyA0OS42MDI5IDM0LjQ2ODNDNDkuNTYwNSAzNC4xNzQ3IDQ5LjUxMjYgMzMuODc5OCA0OS40MTg0IDMzLjI5MDZDNDkuMzg2OSAzMy4wOTQyIDQ5LjM3MTYgMzIuOTk1OCA0OS4zNTE5IDMyLjkwNzhDNDkuMTAwNyAzMS43ODAxIDQ4LjIxOTkgMzAuODk5MyA0Ny4wOTIyIDMwLjY0OEM0Ny4wMDQyIDMwLjYyODQgNDYuOTA1NyAzMC42MTMgNDYuNzA5NCAzMC41ODE2QzQ2LjExOTkgMzAuNDg3MyA0NS44MjQ0IDMwLjQzOTQgNDUuNTMwNyAzMC4zOTdaTTE1LjUzMTYgMC4zOTcwNUMxMS44NjMyIC0wLjEzMjM3NCA4LjEzNzYxIC0wLjEzMjMyNiA0LjQ2OTEzIDAuMzk3MDVDNC4xNzUzNiAwLjQzOTQ0NiAzLjg3OTkgMC40ODczMDMgMy4yOTA0MiAwLjU4MTYyQzMuMDk0MDQgMC42MTMwNDEgMi45OTU2MiAwLjYyODQxOCAyLjkwNzYxIDAuNjQ4MDI2QzEuNzc5ODggMC44OTkzMjIgMC44OTkxMDkgMS43ODAwNCAwLjY0Nzg0MiAyLjkwNzc5QzAuNjI4MjMxIDIuOTk1ODIgMC42MTI4NjUgMy4wOTQxOCAwLjU4MTQzNiAzLjI5MDZDMC40ODcxNjQgMy44Nzk4MiAwLjQzOTI0NyA0LjE3NDcgMC4zOTY4NjYgNC40NjgzNEMtMC4xMzI1NzYgOC4xMzY5OSAtMC4xMzI1NzIgMTEuODYzMiAwLjM5Njg2NiAxNS41MzE4QzAuNDM5MjU5IDE1LjgyNTYgMC40ODcxNDEgMTYuMTIwMiAwLjU4MTQzNiAxNi43MDk1QzAuNjEyODQ2IDE2LjkwNTkgMC42MjgyNjIgMTcuMDA0NCAwLjY0Nzg0MiAxNy4wOTI0QzAuODk5MDkgMTguMjIwMSAxLjc3OTkxIDE5LjEwMDggMi45MDc2MSAxOS4zNTIxQzIuOTk1NjMgMTkuMzcxNyAzLjA5Mzk5IDE5LjM4ODEgMy4yOTA0MiAxOS40MTk1QzMuODc5OSAxOS41MTM4IDQuMTc1MzYgMTkuNTYwNyA0LjQ2OTEzIDE5LjYwMzFDOC4xMzc2MyAyMC4xMzI1IDExLjg2MzEgMjAuMTMyNSAxNS41MzE2IDE5LjYwMzFDMTUuODI1MyAxOS41NjA3IDE2LjEyMDEgMTkuNTEzOCAxNi43MDk0IDE5LjQxOTVDMTYuOTA1OCAxOS4zODgxIDE3LjAwNDIgMTkuMzcxNyAxNy4wOTIyIDE5LjM1MjFDMTguMjIgMTkuMTAwOSAxOS4xMDA3IDE4LjIyMDIgMTkuMzUxOSAxNy4wOTI0QzE5LjM3MTUgMTcuMDA0NCAxOS4zODc5IDE2LjkwNTkgMTkuNDE5MyAxNi43MDk1QzE5LjUxMzYgMTYuMTIwMyAxOS41NjA1IDE1LjgyNTUgMTkuNjAyOSAxNS41MzE4QzIwLjEzMjQgMTEuODYzMSAyMC4xMzI0IDguMTM3MDEgMTkuNjAyOSA0LjQ2ODM0QzE5LjU2MDUgNC4xNzQ3MiAxOS41MTM2IDMuODc5NzggMTkuNDE5MyAzLjI5MDZDMTkuMzg3OSAzLjA5NDEyIDE5LjM3MTYgMi45OTU4MyAxOS4zNTE5IDIuOTA3NzlDMTkuMTAwNiAxLjc4MDA1IDE4LjIxOTkgMC44OTkyNzkgMTcuMDkyMiAwLjY0ODAyNkMxNy4wMDQyIDAuNjI4NDQgMTYuOTA1NyAwLjYxMzAzNyAxNi43MDk0IDAuNTgxNjJDMTYuMTIgMC40ODczMTggMTUuODI1NCAwLjQzOTQ0MiAxNS41MzE2IDAuMzk3MDVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K";
 const TEX_GREEN="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDUuNTMxMiAzMC4zOTcxQzQxLjg2MjYgMjkuODY3NyAzOC4xMzcyIDI5Ljg2NzcgMzQuNDY4NyAzMC4zOTcxQzM0LjE3NDkgMzAuNDM5NSAzMy44Nzk0IDMwLjQ4NjQgMzMuMjkgMzAuNTgwN0MzMy4wOTM2IDMwLjYxMjEgMzIuOTk1MiAzMC42Mjc1IDMyLjkwNzEgMzAuNjQ3MUMzMS43Nzk1IDMwLjg5ODQgMzAuODk4OCAzMS43NzkzIDMwLjY0NzQgMzIuOTA2OUMzMC42Mjc4IDMyLjk5NDkgMzAuNjEyNCAzMy4wOTQxIDMwLjU4MSAzMy4yOTA2QzMwLjQ4NjcgMzMuODc5OSAzMC40Mzg4IDM0LjE3NDcgMzAuMzk2NCAzNC40Njg0QzI5Ljg2NyAzOC4xMzY4IDI5Ljg2NyA0MS44NjI0IDMwLjM5NjQgNDUuNTMwOUMzMC40Mzg4IDQ1LjgyNDYgMzAuNDg2NyA0Ni4xMjAxIDMwLjU4MSA0Ni43MDk2QzMwLjYxMjQgNDYuOTA1OSAzMC42Mjc4IDQ3LjAwNDQgMzAuNjQ3NCA0Ny4wOTI0QzMwLjg5ODcgNDguMjIwMSAzMS43Nzk1IDQ5LjEwMDkgMzIuOTA3MSA0OS4zNTIyQzMyLjk5NTIgNDkuMzcxOCAzMy4wOTM2IDQ5LjM4NzIgMzMuMjkgNDkuNDE4NkMzMy44Nzk0IDQ5LjUxMjkgMzQuMTc0OSA0OS41NjA3IDM0LjQ2ODcgNDkuNjAzMUMzOC4xMzcxIDUwLjEzMjUgNDEuODYyNyA1MC4xMzI2IDQ1LjUzMTIgNDkuNjAzMUM0NS44MjQ5IDQ5LjU2MDggNDYuMTE5NiA0OS41MTI5IDQ2LjcwODkgNDkuNDE4NkM0Ni45MDUyIDQ5LjM4NzIgNDcuMDAzOCA0OS4zNzE3IDQ3LjA5MTcgNDkuMzUyMkM0OC4yMTk1IDQ5LjEwMDkgNDkuMTAxMiA0OC4yMjAyIDQ5LjM1MjUgNDcuMDkyNEM0OS4zNzIxIDQ3LjAwNDQgNDkuMzg3NCA0Ni45MDYgNDkuNDE4OSA0Ni43MDk2QzQ5LjUxMzIgNDYuMTIwMSA0OS41NjAxIDQ1LjgyNDYgNDkuNjAyNSA0NS41MzA5QzUwLjEzMTkgNDEuODYyNCA1MC4xMzE5IDM4LjEzNjkgNDkuNjAyNSAzNC40Njg0QzQ5LjU2MDEgMzQuMTc0NyA0OS41MTMxIDMzLjg3OTkgNDkuNDE4OSAzMy4yOTA2QzQ5LjM4NzQgMzMuMDk0MSA0OS4zNzIxIDMyLjk5NDkgNDkuMzUyNSAzMi45MDY5QzQ5LjEwMTEgMzEuNzc5MiA0OC4yMTk0IDMwLjg5ODMgNDcuMDkxNyAzMC42NDcxQzQ3LjAwMzggMzAuNjI3NSA0Ni45MDUxIDMwLjYxMjEgNDYuNzA4OSAzMC41ODA3QzQ2LjExOTYgMzAuNDg2NCA0NS44MjQ5IDMwLjQzOTUgNDUuNTMxMiAzMC4zOTcxWk0xNS41MzIyIDAuMzk3MDg2QzExLjg2MzUgLTAuMTMyMzYyIDguMTM3MzEgLTAuMTMyMzYyIDQuNDY4NjcgMC4zOTcwODZDNC4xNzQ5NyAwLjQzOTQ3MyAzLjg4MDIzIDAuNDg2MzkzIDMuMjkwOTQgMC41ODA2NzlDMy4wOTQ2MSAwLjYxMjA5MiAyLjk5NjEgMC42Mjc1MDMgMi45MDgxMyAwLjY0NzA4NkMxLjc4MDQ5IDAuODk4MzEzIDAuODk5NzY5IDEuNzc5MjggMC42NDgzNjEgMi45MDY4NUMwLjYyODc0MiAyLjk5NDkxIDAuNjEyNDM0IDMuMDk0MDUgMC41ODA5NzggMy4yOTA2NEMwLjQ4NjcwNiAzLjg3OTg0IDAuNDM5NzcgNC4xNzQ2NyAwLjM5NzM4NSA0LjQ2ODM3Qy0wLjEzMjAyMyA4LjEzNjg4IC0wLjEzMjAwNCAxMS44NjI0IDAuMzk3Mzg1IDE1LjUzMDlDMC40Mzk3ODEgMTUuODI0NiAwLjQ4NjY2IDE2LjEyMDEgMC41ODA5NzggMTYuNzA5NkMwLjYxMjQgMTYuOTA2IDAuNjI4NzU0IDE3LjAwNDQgMC42NDgzNjEgMTcuMDkyNEMwLjg5OTcwOCAxOC4yMjAxIDEuNzgwNDIgMTkuMTAwOSAyLjkwODEzIDE5LjM1MjJDMi45OTYxMSAxOS4zNzE4IDMuMDk0NTcgMTkuMzg3MiAzLjI5MDk0IDE5LjQxODZDMy44ODAzMiAxOS41MTI5IDQuMTc0OTMgMTkuNTYwNyA0LjQ2ODY3IDE5LjYwMzFDOC4xMzczMSAyMC4xMzI2IDExLjg2MzUgMjAuMTMyNiAxNS41MzIyIDE5LjYwMzFDMTUuODI1OCAxOS41NjA4IDE2LjEyMDcgMTkuNTEyOCAxNi43MDk5IDE5LjQxODZDMTYuOTA2MyAxOS4zODcxIDE3LjAwNDcgMTkuMzcxOCAxNy4wOTI3IDE5LjM1MjJDMTguMjIwNCAxOS4xMDA5IDE5LjEwMTEgMTguMjIwMSAxOS4zNTI1IDE3LjA5MjRDMTkuMzcyMSAxNy4wMDQ0IDE5LjM4NzUgMTYuOTA1OSAxOS40MTg5IDE2LjcwOTZDMTkuNTEzMiAxNi4xMjAxIDE5LjU2MSAxNS44MjQ2IDE5LjYwMzQgMTUuNTMwOUMyMC4xMzI4IDExLjg2MjQgMjAuMTMyOCA4LjEzNjg1IDE5LjYwMzQgNC40NjgzN0MxOS41NjExIDQuMTc0NjYgMTkuNTEzMSAzLjg3OTkgMTkuNDE4OSAzLjI5MDY0QzE5LjM4NzQgMy4wOTQwNSAxOS4zNzIxIDIuOTk0OTEgMTkuMzUyNSAyLjkwNjg1QzE5LjEwMTEgMS43NzkyNCAxOC4yMjA0IDAuODk4MzE4IDE3LjA5MjcgMC42NDcwODZDMTcuMDA0NyAwLjYyNzQ3NCAxNi45MDYzIDAuNjEyMTExIDE2LjcwOTkgMC41ODA2NzlDMTYuMTIwNyAwLjQ4NjQxNSAxNS44MjU4IDAuNDM5NDYzIDE1LjUzMjIgMC4zOTcwODZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K";
 const FS=`precision highp float;
-uniform vec2 uRes,uOff;uniform float uTime,uFlowT,uEnergy,uBreath,uDark,uZoom,uShadow,uSpin,uPop,uHead,uFlare,uCaScale,uSwirl,uStreak,uEdgeDark,uDrop,uCent,uOrbit,uAwait,uWrite,uPenT,uSat;uniform vec3 uBg,uRim,uInk,uD1,uD2,uD3,uC1,uC2,uC3;uniform sampler2D uTex;uniform sampler2D uPath;
+uniform vec2 uRes,uOff;uniform float uTime,uFlowT,uEnergy,uBreath,uDark,uZoom,uShadow,uSpin,uPop,uHead,uFlare,uCaScale,uSwirl,uStreak,uEdgeDark,uDrop,uCent,uOrbit,uAwait,uWrite,uPenT,uSat,uSq,uVar;uniform vec3 uBg,uRim,uInk,uD1,uD2,uD3,uC1,uC2,uC3;uniform sampler2D uTex;uniform sampler2D uPath;
 vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
 vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
 float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
@@ -52,7 +52,11 @@ float fbm2(vec3 p){return 0.6*snoise(p)+0.3*snoise(p*2.03);}
 float lobe(float ang,vec3 D){float e=atan(sin(ang-D.x),cos(ang-D.x));return D.z*exp(-e*e/(2.0*D.y*D.y));}
 void main(){
  vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0;
- vec2 P=vec2(uv.x,uv.y)/uZoom-uOff;float r=length(P);float baseR=0.70*uBreath;
+ vec2 P=vec2(uv.x,uv.y)/uZoom-uOff;
+ /* 卫星绕圈时,主球被"勒"得沿轨道长轴拉长、短轴压扁(卡通挤压) */
+ vec2 uDs=vec2(0.7071,0.7071);vec2 vDs=vec2(-0.7071,0.7071);
+ if(uSq>0.001){float pu2=dot(P,uDs),pv2=dot(P,vDs);P=uDs*pu2/(1.0+uSq)+vDs*pv2/(1.0-1.4*uSq);}
+ float r=length(P);float baseR=0.70*uBreath;
  float ang=atan(P.y,P.x);
  float orbR=baseR*(1.0+lobe(ang,uD1)+lobe(ang,uD2)+lobe(ang,uD3));
  vec3 col=uBg;
@@ -90,6 +94,13 @@ void main(){
    vec2 fw=vec2(fbm2(vec3(luv*1.5+vec2(uFlowT*0.3,0.0),0.0)),fbm2(vec3(luv*1.5+vec2(0.0,uFlowT*0.24),3.3)));
    luv+=fw*0.03*uEnergy;
    vec4 tG=texture2D(uTex,luv+0.5);
+   /* 书写相位与笔头位置(提前算,供"笔触推开光晕"用) */
+   float s2=0.0,progW=0.0;vec2 penH=vec2(9.0);
+   if(uWrite>0.01){
+     s2=fract(uPenT*0.16);progW=min(s2/0.84,1.0);
+     penH=(texture2D(uPath,vec2(progW,(uVar+0.5)/4.0)).rg-vec2(0.5))*0.9;
+   }
+   float pushW=(uWrite>0.01&&s2<0.84)?uWrite*exp(-dot(luv-penH,luv-penH)/0.02):0.0;
    float rr2=r/orbR;
    float m1=0.5+0.5*cos(ang-uSwirl);
    float m2=0.5+0.5*cos(ang-2.09-uSwirl*1.27);
@@ -99,7 +110,7 @@ void main(){
    float angF=mix(0.85,0.45,uStreak);
    float ipatch=smoothstep(-0.35,0.75,fbm2(vec3(cos(a2)*angF,sin(a2)*angF,rr2*0.9+uFlowT*0.05)));
    float iband=smoothstep(mix(0.30,0.55,uCent),mix(0.85,0.92,uCent),rr2);
-   float iw=iband*(0.25+0.75*ipatch)*(0.35+0.55*uEnergy)*(1.0+0.7*uFlare)*(1.0+0.35*uCent);
+   float iw=iband*(0.25+0.75*ipatch)*(0.35+0.55*uEnergy)*(1.0+0.7*uFlare)*(1.0+0.35*uCent)*(1.0-0.8*pushW);
    /* 细纹长在迷幻色带上:不对称的弧段刻痕,随环流游走 */
    float ripB=smoothstep(0.45,0.75,rr2)*(1.0-smoothstep(0.96,1.01,rr2));
    float ripP=smoothstep(0.05,0.75,fbm2(vec3(cos(a2)*1.1+9.0,sin(a2)*1.1,uFlowT*0.07)));
@@ -125,24 +136,19 @@ void main(){
       写完抬笔(笔尖消失),整字渐隐,顿一拍,再从头落笔重写 */
    c=mix(c,gbodyI,uWrite);
    if(uWrite>0.01){
-     float s2=fract(uPenT*0.16);
-     float prog=min(s2/0.84,1.0);
      float wA=0.0;
      for(int k=0;k<128;k++){
        float fk=float(k)/127.0;
-       float f=fk*prog;
-       vec2 pp=(texture2D(uPath,vec2(f,0.5)).rg-vec2(0.5))*0.9;
-       float age=prog-f;
+       float f=fk*progW;
+       vec2 pp=(texture2D(uPath,vec2(f,(uVar+0.5)/4.0)).rg-vec2(0.5))*0.9;
+       float age=progW-f;
        float ink=exp(-age*1.2);
        float rr=0.026+0.010*exp(-age*10.0);
        wA=max(wA,smoothstep(rr,rr*0.55,length(luv-pp))*ink);
      }
-     float lift=1.0-smoothstep(0.86,0.985,s2);
+     float lift=1.0-smoothstep(0.84,0.96,s2); /* 写完后慢慢消散 */
      wA*=lift;
-     if(s2<0.84){
-       vec2 hp2=(texture2D(uPath,vec2(prog,0.5)).rg-vec2(0.5))*0.9;
-       wA=max(wA,smoothstep(0.045,0.028,length(luv-hp2)));
-     }
+     if(s2<0.84){wA=max(wA,smoothstep(0.045,0.028,length(luv-penH)));}
      c=mix(c,uInk,clamp(wA,0.0,1.0)*uWrite);
    }
    /* 前层迷幻色:独立的一层玻璃膜——转速快 45%(视差)、能扫过球心盖住 logo、
@@ -154,7 +160,7 @@ void main(){
    float a2f=ang-uSwirl*1.5;
    float ipatchF=smoothstep(-0.2,0.8,fbm2(vec3(cos(a2f)*angF,sin(a2f)*angF,rr2*0.9+uFlowT*0.05+7.0)));
    float ibandF=smoothstep(0.10,0.75,rr2);
-   float iwF=ibandF*(0.2+0.8*ipatchF)*(0.30+0.45*uEnergy)*(1.0+0.6*uFlare)*(1.0+0.3*uCent);
+   float iwF=ibandF*(0.2+0.8*ipatchF)*(0.30+0.45*uEnergy)*(1.0+0.6*uFlare)*(1.0+0.3*uCent)*(1.0-0.8*pushW);
    c=mix(c,iridF,clamp(iwF*0.4,0.0,0.45));
    /* 体积光影:左上受光更亮、右下背光更沉,球面有纵深 */
    c*=0.965+0.07*clamp(dot(N.xy,vec2(-0.49,0.87)),-0.5,1.0);
@@ -190,41 +196,51 @@ void main(){
  gl_FragColor=vec4(col,1.0);
 }`;
 const VS="attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
-/* 手写「Alva」签名路径:控制点 → Catmull-Rom 平滑 → 按弧长均匀重采样 256 点 → 1D 纹理 */
-function alvaPathTex(gl){
-  const C=[[0.155,0.44],[0.09,0.47],[0.035,0.33],[0.03,0.15],[0.08,0.03],[0.155,0.06],[0.195,0.20],[0.205,0.38],[0.205,0.44],[0.215,0.20],[0.225,0.04],[0.26,0.02],[0.30,0.10],
+/* 手写「Alva」签名路径 ×4 变体:控制点抖动+斜度/字号差异 → Catmull-Rom → 弧长重采样 → 256×4 纹理 */
+const ALVA_PATH_DATA=(function(){
+  const base=[[0.155,0.44],[0.09,0.47],[0.035,0.33],[0.03,0.15],[0.08,0.03],[0.155,0.06],[0.195,0.20],[0.205,0.38],[0.205,0.44],[0.215,0.20],[0.225,0.04],[0.26,0.02],[0.30,0.10],
   [0.335,0.30],[0.365,0.60],[0.36,0.71],[0.335,0.64],[0.325,0.40],[0.33,0.15],[0.345,0.02],[0.385,0.06],[0.415,0.14],
   [0.45,0.28],[0.475,0.10],[0.49,0.03],[0.515,0.14],[0.535,0.28],[0.55,0.31],[0.565,0.27],
   [0.625,0.27],[0.585,0.31],[0.555,0.20],[0.56,0.07],[0.60,0.015],[0.64,0.06],[0.655,0.20],[0.66,0.29],[0.665,0.12],[0.675,0.03],[0.71,0.02],[0.76,0.10],[0.80,0.20]];
-  const dense=[];
-  for(let i=0;i<C.length-1;i++){
-    const p0=C[Math.max(0,i-1)],p1=C[i],p2=C[i+1],p3=C[Math.min(C.length-1,i+2)];
-    for(let t=0;t<1;t+=0.04){
-      const t2=t*t,t3=t2*t;
-      dense.push([
-        0.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
-        0.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)]);
+  function rng(seed){let s=seed>>>0;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+  const slants=[0.22,0.30,0.15,0.27],scales=[1.0,0.92,1.06,0.97];
+  const data=new Uint8Array(256*4*4);
+  for(let v=0;v<4;v++){
+    const R=rng(97+v*131);
+    const C=base.map(p=>[p[0]+(R()-0.5)*0.026,p[1]+(R()-0.5)*0.026]);
+    const dense=[];
+    for(let i=0;i<C.length-1;i++){
+      const p0=C[Math.max(0,i-1)],p1=C[i],p2=C[i+1],p3=C[Math.min(C.length-1,i+2)];
+      for(let t=0;t<1;t+=0.04){
+        const t2=t*t,t3=t2*t;
+        dense.push([
+          0.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+          0.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)]);
+      }
+    }
+    dense.push(C[C.length-1].slice());
+    const al=[0];for(let i=1;i<dense.length;i++)al.push(al[i-1]+Math.hypot(dense[i][0]-dense[i-1][0],dense[i][1]-dense[i-1][1]));
+    const total=al[al.length-1];let j=0;
+    for(let k=0;k<256;k++){
+      const target=total*k/255;
+      while(j<al.length-2&&al[j+1]<target)j++;
+      const f=(target-al[j])/Math.max(1e-6,al[j+1]-al[j]);
+      const x=dense[j][0]+(dense[j+1][0]-dense[j][0])*f;
+      const y=dense[j][1]+(dense[j+1][1]-dense[j][1])*f;
+      let lx=(x-0.415)*0.72*scales[v], ly=(y-0.30)*0.72*scales[v];
+      lx+=slants[v]*ly;
+      const o=(v*256+k)*4;
+      data[o]=Math.max(0,Math.min(255,Math.round((lx/0.9+0.5)*255)));
+      data[o+1]=Math.max(0,Math.min(255,Math.round((ly/0.9+0.5)*255)));
+      data[o+2]=0;data[o+3]=255;
     }
   }
-  dense.push(C[C.length-1].slice());
-  const al=[0];for(let i=1;i<dense.length;i++)al.push(al[i-1]+Math.hypot(dense[i][0]-dense[i-1][0],dense[i][1]-dense[i-1][1]));
-  const total=al[al.length-1];
-  const data=new Uint8Array(256*4);let j=0;
-  for(let k=0;k<256;k++){
-    const target=total*k/255;
-    while(j<al.length-2&&al[j+1]<target)j++;
-    const f=(target-al[j])/Math.max(1e-6,al[j+1]-al[j]);
-    const x=dense[j][0]+(dense[j+1][0]-dense[j][0])*f;
-    const y=dense[j][1]+(dense[j+1][1]-dense[j][1])*f;
-    let lx=(x-0.415)*0.72, ly=(y-0.30)*0.72;
-    lx+=0.22*ly; /* 右斜 */
-    data[k*4]=Math.max(0,Math.min(255,Math.round((lx/0.9+0.5)*255)));
-    data[k*4+1]=Math.max(0,Math.min(255,Math.round((ly/0.9+0.5)*255)));
-    data[k*4+2]=0;data[k*4+3]=255;
-  }
+  return data;
+})();
+function alvaPathTex(gl){
   const tx=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tx);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
-  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,256,1,0,gl.RGBA,gl.UNSIGNED_BYTE,data);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,256,4,0,gl.RGBA,gl.UNSIGNED_BYTE,ALVA_PATH_DATA);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
   return tx;
@@ -236,7 +252,7 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop){
   if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.log(gl.getProgramInfoLog(pr));return null;}
   gl.useProgram(pr);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
   const lp=gl.getAttribLocation(pr,"p");gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
-  const U={};["uRes","uTime","uFlowT","uEnergy","uBreath","uDark","uZoom","uShadow","uSpin","uPop","uHead","uFlare","uCaScale","uSwirl","uStreak","uEdgeDark","uDrop","uCent","uOrbit","uAwait","uWrite","uPenT","uSat","uOff","uPath","uBg","uRim","uInk","uD1","uD2","uD3","uC1","uC2","uC3","uTex"].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
+  const U={};["uRes","uTime","uFlowT","uEnergy","uBreath","uDark","uZoom","uShadow","uSpin","uPop","uHead","uFlare","uCaScale","uSwirl","uStreak","uEdgeDark","uDrop","uCent","uOrbit","uAwait","uWrite","uPenT","uSat","uSq","uVar","uOff","uPath","uBg","uRim","uInk","uD1","uD2","uD3","uC1","uC2","uC3","uTex"].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
   gl.uniform1f(U.uCaScale,caScale==null?1.0:caScale);gl.uniform1f(U.uEdgeDark,edgeDark==null?0.0:edgeDark);gl.uniform1f(U.uDrop,drop==null?0.0:drop);
   const pathTex=alvaPathTex(gl);gl.uniform1i(U.uPath,1);
   gl.uniform3f(U.uBg,bg[0],bg[1],bg[2]);gl.uniform3f(U.uRim,rim[0],rim[1],rim[2]);gl.uniform3f(U.uInk,ink[0],ink[1],ink[2]);gl.uniform1f(U.uDark,dark?1:0);gl.uniform1f(U.uZoom,zoom);gl.uniform1f(U.uShadow,shadow);
@@ -253,7 +269,7 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop){
   };img.src=uri;
   function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;cv.width=Math.round(w*dpr);cv.height=Math.round(w*dpr);gl.viewport(0,0,cv.width,cv.height);}
   function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);gl.activeTexture(gl.TEXTURE0);gl.uniform2f(U.uRes,cv.width,cv.height);
-    gl.uniform1f(U.uTime,o.t);gl.uniform1f(U.uFlowT,o.ft);gl.uniform1f(U.uEnergy,o.en);gl.uniform1f(U.uBreath,o.br);gl.uniform1f(U.uSpin,o.spin);gl.uniform1f(U.uPop,o.pop);gl.uniform1f(U.uHead,o.head);gl.uniform1f(U.uFlare,o.flare);gl.uniform1f(U.uSwirl,o.swirl);gl.uniform1f(U.uStreak,o.streak);gl.uniform1f(U.uCent,o.cent);gl.uniform1f(U.uOrbit,o.orbit);gl.uniform1f(U.uAwait,o.awa);gl.uniform1f(U.uWrite,o.wri);gl.uniform1f(U.uPenT,o.penT);gl.uniform1f(U.uSat,o.sat);gl.uniform2f(U.uOff,o.off[0],o.off[1]);gl.uniform3f(U.uD1,o.d1[0],o.d1[1],o.d1[2]);gl.uniform3f(U.uD2,o.d2[0],o.d2[1],o.d2[2]);gl.uniform3f(U.uD3,o.d3[0],o.d3[1],o.d3[2]);gl.drawArrays(gl.TRIANGLES,0,3);}
+    gl.uniform1f(U.uTime,o.t);gl.uniform1f(U.uFlowT,o.ft);gl.uniform1f(U.uEnergy,o.en);gl.uniform1f(U.uBreath,o.br);gl.uniform1f(U.uSpin,o.spin);gl.uniform1f(U.uPop,o.pop);gl.uniform1f(U.uHead,o.head);gl.uniform1f(U.uFlare,o.flare);gl.uniform1f(U.uSwirl,o.swirl);gl.uniform1f(U.uStreak,o.streak);gl.uniform1f(U.uCent,o.cent);gl.uniform1f(U.uOrbit,o.orbit);gl.uniform1f(U.uAwait,o.awa);gl.uniform1f(U.uWrite,o.wri);gl.uniform1f(U.uPenT,o.penT);gl.uniform1f(U.uSat,o.sat);gl.uniform1f(U.uSq,o.sq);gl.uniform1f(U.uVar,o.pvar);gl.uniform2f(U.uOff,o.off[0],o.off[1]);gl.uniform3f(U.uD1,o.d1[0],o.d1[1],o.d1[2]);gl.uniform3f(U.uD2,o.d2[0],o.d2[1],o.d2[2]);gl.uniform3f(U.uD3,o.d3[0],o.d3[1],o.d3[2]);gl.drawArrays(gl.TRIANGLES,0,3);}
   return {resize,render};
 }
 function hex(h){return[((h>>16)&255)/255,((h>>8)&255)/255,(h&255)/255];}
@@ -279,7 +295,7 @@ let state="idle",flowT=0,last=performance.now(),spin=0,head=0;
 let transStart=-9,transFrom=0,transTo=0,whipStart=-99,pendingLand=false;
 /* —— 微事件系统:活物的关键是「大部分时间安静 + 偶发的不可预测小动作」 —— */
 let evStart=-9,evType=0,evAng=0,evAmp=0,nextEv=2.0;
-let flare=0,flareTgt=0,swirl=0,streak=0.15,swirlVS=0.13,writeCF=0,awaitCF=0,penT=0;
+let flare=0,flareTgt=0,swirl=0,streak=0.15,swirlVS=0.13,writeCF=0,awaitCF=0,penT=0,penVar=0,lastS2=0;
 function fireEvent(t,forced){
   evStart=t;
   evType=(forced!==undefined)?forced:(Math.random()<0.55?1:2); /* 随机事件只留 1色散闪 2吸气;0颤 只在状态切换时触发 */
@@ -338,7 +354,11 @@ function loop(now){
     d2=[t*0.20+1.0,1.1,0.015];
     flareTgt=0.15+0.5*sp; /* 说话时光彩随语句起伏 */
     swTgt=0.30+0.95*sp;
-    penV=0.3+4.2*Math.pow(gate,1.5); /* 快写或停顿,不做慢动作:门开疾书,门关即驻笔 */
+    /* 一气呵成:书写全程匀速疾书;消散慢速;消散后顿一拍再重写 */
+    const s2js=(penT*0.16)%1;
+    penV=(s2js<0.84)?3.4:(s2js<0.96?0.6:0.3);
+    if(s2js<lastS2)penVar=Math.floor(Math.random()*4); /* 每次重写换一种手写体 */
+    lastS2=s2js;
   } else if(state==="awaiting"){
     /* 等待回应:期待而专注——朝用户方向持续微倾,呼吸稍快稍浅,周期性柔和"示意" */
     en=0.9;fsp=0.8;
@@ -376,11 +396,21 @@ function loop(now){
   writeCF+=((state==="speaking"?1:0)-writeCF)*(1-Math.exp(-dt*8));
   awaitCF+=((state==="awaiting"?1:0)-awaitCF)*(1-Math.exp(-dt*6));
   penT+=dt*penV;
-  /* 卫星轨道:等待态下,每停驻 7.2s 便用 2.8s 绕球一圈(缓入缓出),回到右上 */
-  let sat=0;
-  if(state==="awaiting"){const ph=(t-transStart)%10;if(ph>7.2){const k=(ph-7.2)/2.8;sat=(k*k*(3-2*k))*6.28318;}}
+  /* 卫星轨道:停驻 8.8s 后用 1.2s 迪士尼式绕球一圈——先向后蓄力、疾速掠过、过冲回位;
+     绕圈途中主球被"勒"得沿轨道拉长压扁 */
+  let sat=0,sq=0;
+  if(state==="awaiting"){
+    const ph=(t-transStart)%10;
+    if(ph>8.8){
+      const k=(ph-8.8)/1.2;
+      const c2b=2.5949095;
+      const fb=(k<0.5)?(4*k*k*((c2b+1)*2*k-c2b))/2:((2*k-2)*(2*k-2)*((c2b+1)*(2*k-2)+c2b)+2)/2;
+      sat=fb*6.28318;
+      sq=Math.sin(Math.min(1,Math.max(0,k))*3.1416)*0.07;
+    }
+  }
   flowT+=dt*fsp;
-  const o={t:t,ft:flowT,en:en,br:br,spin:spin,pop:pop,head:head,flare:flare,swirl:swirl,streak:streak,cent:cent,orbit:orbit,awa:awaitCF,wri:writeCF,penT:penT,sat:sat,off:off,d1:d1,d2:d2,d3:d3};
+  const o={t:t,ft:flowT,en:en,br:br,spin:spin,pop:pop,head:head,flare:flare,swirl:swirl,streak:streak,cent:cent,orbit:orbit,awa:awaitCF,wri:writeCF,penT:penT,sat:sat,sq:sq,pvar:penVar,off:off,d1:d1,d2:d2,d3:d3};
   insts.forEach(i=>i.render(o));requestAnimationFrame(loop);}
 requestAnimationFrame(loop);
 document.querySelectorAll("#seg button").forEach(b=>b.addEventListener("click",()=>{
@@ -390,7 +420,7 @@ document.querySelectorAll("#seg button").forEach(b=>b.addEventListener("click",(
   evStart=-9;nextEv=transStart+1.6+Math.random()*2.0;
   /* 只在切入思考时抖(尺寸抖动);返回待机不抖 */
   if(state==="thinking"){evStart=transStart+0.06;evType=0;evAng=Math.random()*6.28318;evAmp=0.07;}
-  if(state==="speaking"){penT=0;} /* 进入输出:从「A」落笔开始写 */
+  if(state==="speaking"){penT=0;lastS2=0;penVar=Math.floor(Math.random()*4);} /* 进入输出:随机一种手写体,从「A」落笔 */
 }));
 </script>
 </body>
