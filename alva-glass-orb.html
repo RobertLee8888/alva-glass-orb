@@ -193,8 +193,8 @@ void main(){
    float ad=length(P-ap);
    vec3 blue=uDot;
    float pu=0.8+0.2*sin(uTime*2.1);
-   col+=blue*exp(-(ad*ad)/(orbR*orbR*0.05*ds*ds*sc*sc))*0.5*uAwait*pu*occ*(1.0-0.45*behind);
-   col=mix(col,blue,smoothstep(orbR*0.16*ds*sc,orbR*0.115*ds*sc,ad)*0.95*uAwait*occ*(1.0-0.3*behind));
+   col+=blue*exp(-(ad*ad)/(orbR*orbR*0.085*ds*ds*sc*sc))*0.5*uAwait*pu*occ*(1.0-0.45*behind);
+   col=mix(col,blue,smoothstep(orbR*0.21*ds*sc,orbR*0.155*ds*sc,ad)*0.95*uAwait*occ*(1.0-0.3*behind));
  }
  gl_FragColor=vec4(col,1.0);
 }`;
