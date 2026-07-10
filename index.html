@@ -11,22 +11,20 @@
   .seg{display:inline-flex;gap:3px;background:#232429;border:1px solid #303138;border-radius:10px;padding:4px}
   .seg button{border:none;background:transparent;color:#9a9aa2;font-size:13px;padding:7px 16px;border-radius:7px;cursor:pointer;font-family:inherit}
   .seg button.on{background:#3a3b42;color:#fff}
-  .cols{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
-  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .grid{display:grid;grid-template-columns:auto repeat(3,auto);gap:12px 18px;align-items:center;justify-items:center}
+  .gh{font-size:12px;color:#a6a6ac;padding-bottom:2px}
+  .gl{font-size:12px;color:#8a8a92;justify-self:end;text-align:right;line-height:1.5}
   .stage{border-radius:16px;overflow:hidden}
-  .big{width:76px;height:76px;border-radius:14px} /* 球体≈48px,对齐 Notion 右下角气泡 */
-  .r24{display:flex;align-items:center;gap:8px}
-  .sm{width:72px;height:72px;border-radius:14px}
-  .r24 span{font-size:11px;color:#8a8a92}
+  .big{width:76px;height:76px;border-radius:14px} /* 球体≈48px,PC 常驻按钮 */
+  .sm{width:48px;height:48px;border-radius:10px}  /* 球体≈32px,chat 行内 logo(对齐 Claude 行内头像) */
   canvas{display:block;width:100%;height:100%}
-  .cap{font-size:12px;color:#a6a6ac}
   .hint{font-size:12px;color:#75757d;max-width:560px;text-align:center;line-height:1.6}
 </style>
 </head>
 <body>
   <h1>Alva AI · 玻璃标识 — 待机 / 思考</h1>
   <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出中</button><button data-s="awaiting">等待回应</button></div>
-  <div class="cols" id="cols"></div>
+  <div class="grid" id="cols"></div>
   <div class="hint" id="hint"></div>
 <script>
 const TEX_LIGHT="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IiM0OUEzQTYiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS41MzEyIDMwLjM5NzFDNDEuODYyNiAyOS44Njc3IDM4LjEzNzIgMjkuODY3NyAzNC40Njg3IDMwLjM5NzFDMzQuMTc0OSAzMC40Mzk1IDMzLjg3OTQgMzAuNDg2NCAzMy4yOSAzMC41ODA3QzMzLjA5MzYgMzAuNjEyMSAzMi45OTUyIDMwLjYyNzUgMzIuOTA3MSAzMC42NDcxQzMxLjc3OTUgMzAuODk4NCAzMC44OTg4IDMxLjc3OTMgMzAuNjQ3NCAzMi45MDY5QzMwLjYyNzggMzIuOTk0OSAzMC42MTI0IDMzLjA5NDEgMzAuNTgxIDMzLjI5MDZDMzAuNDg2NyAzMy44Nzk5IDMwLjQzODggMzQuMTc0NyAzMC4zOTY0IDM0LjQ2ODRDMjkuODY3IDM4LjEzNjggMjkuODY3IDQxLjg2MjQgMzAuMzk2NCA0NS41MzA5QzMwLjQzODggNDUuODI0NiAzMC40ODY3IDQ2LjEyMDEgMzAuNTgxIDQ2LjcwOTZDMzAuNjEyNCA0Ni45MDU5IDMwLjYyNzggNDcuMDA0NCAzMC42NDc0IDQ3LjA5MjRDMzAuODk4NyA0OC4yMjAxIDMxLjc3OTUgNDkuMTAwOSAzMi45MDcxIDQ5LjM1MjJDMzIuOTk1MiA0OS4zNzE4IDMzLjA5MzYgNDkuMzg3MiAzMy4yOSA0OS40MTg2QzMzLjg3OTQgNDkuNTEyOSAzNC4xNzQ5IDQ5LjU2MDcgMzQuNDY4NyA0OS42MDMxQzM4LjEzNzEgNTAuMTMyNSA0MS44NjI3IDUwLjEzMjYgNDUuNTMxMiA0OS42MDMxQzQ1LjgyNDkgNDkuNTYwOCA0Ni4xMTk2IDQ5LjUxMjkgNDYuNzA4OSA0OS40MTg2QzQ2LjkwNTIgNDkuMzg3MiA0Ny4wMDM4IDQ5LjM3MTcgNDcuMDkxNyA0OS4zNTIyQzQ4LjIxOTUgNDkuMTAwOSA0OS4xMDEyIDQ4LjIyMDIgNDkuMzUyNSA0Ny4wOTI0QzQ5LjM3MjEgNDcuMDA0NCA0OS4zODc0IDQ2LjkwNiA0OS40MTg5IDQ2LjcwOTZDNDkuNTEzMiA0Ni4xMjAxIDQ5LjU2MDEgNDUuODI0NiA0OS42MDI1IDQ1LjUzMDlDNTAuMTMxOSA0MS44NjI0IDUwLjEzMTkgMzguMTM2OSA0OS42MDI1IDM0LjQ2ODRDNDkuNTYwMSAzNC4xNzQ3IDQ5LjUxMzEgMzMuODc5OSA0OS40MTg5IDMzLjI5MDZDNDkuMzg3NCAzMy4wOTQxIDQ5LjM3MjEgMzIuOTk0OSA0OS4zNTI1IDMyLjkwNjlDNDkuMTAxMSAzMS43NzkyIDQ4LjIxOTQgMzAuODk4MyA0Ny4wOTE3IDMwLjY0NzFDNDcuMDAzOCAzMC42Mjc1IDQ2LjkwNTEgMzAuNjEyMSA0Ni43MDg5IDMwLjU4MDdDNDYuMTE5NiAzMC40ODY0IDQ1LjgyNDkgMzAuNDM5NSA0NS41MzEyIDMwLjM5NzFaTTE1LjUzMjIgMC4zOTcwODZDMTEuODYzNSAtMC4xMzIzNjIgOC4xMzczMSAtMC4xMzIzNjIgNC40Njg2NyAwLjM5NzA4NkM0LjE3NDk3IDAuNDM5NDczIDMuODgwMjMgMC40ODYzOTMgMy4yOTA5NCAwLjU4MDY3OUMzLjA5NDYxIDAuNjEyMDkyIDIuOTk2MSAwLjYyNzUwMyAyLjkwODEzIDAuNjQ3MDg2QzEuNzgwNDkgMC44OTgzMTMgMC44OTk3NjkgMS43NzkyOCAwLjY0ODM2MSAyLjkwNjg1QzAuNjI4NzQyIDIuOTk0OTEgMC42MTI0MzQgMy4wOTQwNSAwLjU4MDk3OCAzLjI5MDY0QzAuNDg2NzA2IDMuODc5ODQgMC40Mzk3NyA0LjE3NDY3IDAuMzk3Mzg1IDQuNDY4MzdDLTAuMTMyMDIzIDguMTM2ODggLTAuMTMyMDA0IDExLjg2MjQgMC4zOTczODUgMTUuNTMwOUMwLjQzOTc4MSAxNS44MjQ2IDAuNDg2NjYgMTYuMTIwMSAwLjU4MDk3OCAxNi43MDk2QzAuNjEyNCAxNi45MDYgMC42Mjg3NTQgMTcuMDA0NCAwLjY0ODM2MSAxNy4wOTI0QzAuODk5NzA4IDE4LjIyMDEgMS43ODA0MiAxOS4xMDA5IDIuOTA4MTMgMTkuMzUyMkMyLjk5NjExIDE5LjM3MTggMy4wOTQ1NyAxOS4zODcyIDMuMjkwOTQgMTkuNDE4NkMzLjg4MDMyIDE5LjUxMjkgNC4xNzQ5MyAxOS41NjA3IDQuNDY4NjcgMTkuNjAzMUM4LjEzNzMxIDIwLjEzMjYgMTEuODYzNSAyMC4xMzI2IDE1LjUzMjIgMTkuNjAzMUMxNS44MjU4IDE5LjU2MDggMTYuMTIwNyAxOS41MTI4IDE2LjcwOTkgMTkuNDE4NkMxNi45MDYzIDE5LjM4NzEgMTcuMDA0NyAxOS4zNzE4IDE3LjA5MjcgMTkuMzUyMkMxOC4yMjA0IDE5LjEwMDkgMTkuMTAxMSAxOC4yMjAxIDE5LjM1MjUgMTcuMDkyNEMxOS4zNzIxIDE3LjAwNDQgMTkuMzg3NSAxNi45MDU5IDE5LjQxODkgMTYuNzA5NkMxOS41MTMyIDE2LjEyMDEgMTkuNTYxIDE1LjgyNDYgMTkuNjAzNCAxNS41MzA5QzIwLjEzMjggMTEuODYyNCAyMC4xMzI4IDguMTM2ODUgMTkuNjAzNCA0LjQ2ODM3QzE5LjU2MTEgNC4xNzQ2NiAxOS41MTMxIDMuODc5OSAxOS40MTg5IDMuMjkwNjRDMTkuMzg3NCAzLjA5NDA1IDE5LjM3MjEgMi45OTQ5MSAxOS4zNTI1IDIuOTA2ODVDMTkuMTAxMSAxLjc3OTI0IDE4LjIyMDQgMC44OTgzMTggMTcuMDkyNyAwLjY0NzA4NkMxNy4wMDQ3IDAuNjI3NDc0IDE2LjkwNjMgMC42MTIxMTEgMTYuNzA5OSAwLjU4MDY3OUMxNi4xMjA3IDAuNDg2NDE1IDE1LjgyNTggMC40Mzk0NjMgMTUuNTMyMiAwLjM5NzA4NloiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=";
@@ -290,12 +288,14 @@ const SCENES=[
   pal:[[0.90,0.99,1.00],[0.62,0.95,0.90],[0.82,0.76,0.98]],ca:0.45,ed:0.5,drop:0.85,dot:[1,1,1]},
 ];
 const cols=document.getElementById("cols");const insts=[];
-SCENES.forEach(sc=>{
-  const col=document.createElement("div");col.className="col";
-  col.innerHTML='<div class="stage big" style="background:'+sc.css+'"><canvas></canvas></div><div class="r24"><div class="stage sm" style="background:'+sc.css+'"><canvas></canvas></div><span>球体 24px</span></div><div class="cap">'+sc.cap+'</div>';
-  cols.appendChild(col);const bg=hex(sc.bg);
-  const gB=makeGL(col.querySelector(".big canvas"),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.9,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
-  const gS=makeGL(col.querySelector(".sm canvas"),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.476,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
+/* 表格:表头=三种配色;第一行=PC 常驻按钮(48px);第二行=Chat 行内 logo(32px) */
+cols.innerHTML='<div class="gh"></div>'+SCENES.map(sc=>'<div class="gh">'+sc.cap+'</div>').join('')
+ +'<div class="gl">PC 常驻按钮<br>48px</div>'+SCENES.map((sc,i)=>'<div class="stage big" style="background:'+sc.css+'"><canvas data-k="b'+i+'"></canvas></div>').join('')
+ +'<div class="gl">Chat 行内 logo<br>32px</div>'+SCENES.map((sc,i)=>'<div class="stage sm" style="background:'+sc.css+'"><canvas data-k="s'+i+'"></canvas></div>').join('');
+SCENES.forEach((sc,i)=>{
+  const bg=hex(sc.bg);
+  const gB=makeGL(cols.querySelector('[data-k="b'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.9,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
+  const gS=makeGL(cols.querySelector('[data-k="s'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.952,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
   if(gB)insts.push(gB);if(gS)insts.push(gS);
 });
 function fit(){insts.forEach(i=>i.resize());}fit();window.addEventListener("resize",fit);
