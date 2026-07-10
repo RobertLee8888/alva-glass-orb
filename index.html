@@ -413,7 +413,8 @@ function loop(now){
       const c2b=2.5949095;
       const fb=(k<0.5)?(4*k*k*((c2b+1)*2*k-c2b))/2:((2*k-2)*(2*k-2)*((c2b+1)*(2*k-2)+c2b)+2)/2;
       sat=fb*6.28318;
-      if(k<0.55){sq=0.10*Math.min(1,k*2.5);}
+      /* 勒紧量跟随实际缠绕进度:蓄力后撤(fb<0)时不勒,起飞缠上去才渐紧 */
+      if(k<0.55){sq=0.10*Math.min(1,Math.max(0,fb)*1.6);}
       else{const s=(k-0.55)*1.2;sq=0.10*Math.exp(-s*9)*Math.cos(s*26);}
     }
   }
