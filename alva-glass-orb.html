@@ -23,7 +23,10 @@
 </head>
 <body>
   <h1>Alva AI · 玻璃标识 — 待机 / 思考</h1>
-  <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出中</button><button data-s="awaiting">等待回应</button></div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出中</button><button data-s="awaiting">等待回应</button></div>
+    <div class="seg" id="vseg"><button data-v="plain" class="on">纯色背景</button><button data-v="page">页面内容</button></div>
+  </div>
   <table id="cols"></table>
   <div class="hint" id="hint"></div>
 <script>
@@ -31,7 +34,7 @@ const TEX_LIGHT="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiI
 const TEX_DARK="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM0LjQ2NzkgMC4zOTcwODZDMzguMTM2NSAtMC4xMzIzNjIgNDEuODYyNyAtMC4xMzIzNjIgNDUuNTMxMyAwLjM5NzA4NkM0NS44MjUgMC40Mzk0NzQgNDYuMTE5NyAwLjQ4NzM2MiA0Ni43MDkxIDAuNTgxNjU2QzQ2LjkwNTUgMC42MTMwODggNDcuMDAzOSAwLjYyODQ1OSA0Ny4wOTE5IDAuNjQ4MDYyQzQ4LjIxOTYgMC44OTkzMDYgNDkuMTAwMyAxLjc4MDE0IDQ5LjM1MTYgMi45MDc4M0M0OS4zNzEzIDIuOTk1ODQgNDkuMzg3NiAzLjA5NDI1IDQ5LjQxOSAzLjI5MDY0QzQ5LjUxMzMgMy44ODAxMiA0OS41NjAyIDQuMTc1NTggNDkuNjAyNiA0LjQ2OTM1QzUwLjEzMiA4LjEzNzg0IDUwLjEzMiAxMS44NjM0IDQ5LjYwMjYgMTUuNTMxOUM0OS41NjAyIDE1LjgyNTUgNDkuNTEzMyAxNi4xMjA0IDQ5LjQxOSAxNi43MDk2QzQ5LjM4NzYgMTYuOTA2MiA0OS4zNzEzIDE3LjAwNTMgNDkuMzUxNiAxNy4wOTM0QzQ5LjEwMDMgMTguMjIxIDQ4LjIxOTUgMTkuMTAxOSA0Ny4wOTE5IDE5LjM1MzFDNDcuMDAzOSAxOS4zNzI3IDQ2LjkwNTUgMTkuMzg4MSA0Ni43MDkxIDE5LjQxOTVDNDYuMTE5OCAxOS41MTM4IDQ1LjgyNSAxOS41NjA4IDQ1LjUzMTMgMTkuNjAzMUM0My42OTcyIDE5Ljg2NzggNDEuODQ4NSAyMC4wMDA2IDQwLjAwMDEgMjAuMDAwNkMyOC45NTQ5IDIwLjAwMDkgMjAuMDAxNiAyOC45NTQ1IDIwLjAwMTEgMzkuOTk5NkgyMC4wMDAxQzIwLjAwMDEgNDEuODQ4NSAxOS44Njc0IDQzLjY5NzMgMTkuNjAyNiA0NS41MzE5QzE5LjU2MDIgNDUuODI1NiAxOS41MTMzIDQ2LjEyMDQgMTkuNDE5IDQ2LjcwOTZDMTkuMzg3NiA0Ni45MDYyIDE5LjM3MjIgNDcuMDA1MyAxOS4zNTI2IDQ3LjA5MzRDMTkuMTAxMyA0OC4yMjA5IDE4LjIyMDQgNDkuMTAxOCAxNy4wOTI5IDQ5LjM1MzFDMTcuMDA0OCA0OS4zNzI4IDE2LjkwNTcgNDkuMzg4MSAxNi43MDkxIDQ5LjQxOTVDMTYuMTE5OSA0OS41MTM4IDE1LjgyNSA0OS41NjA4IDE1LjUzMTMgNDkuNjAzMUMxMS44NjI4IDUwLjEzMjYgOC4xMzczNyA1MC4xMzI2IDQuNDY4ODMgNDkuNjAzMUM0LjE3NTE0IDQ5LjU2MDggMy44ODAyNyA0OS41MTM4IDMuMjkxMSA0OS40MTk1QzMuMDk0NTEgNDkuMzg4MSAyLjk5NTM3IDQ5LjM3MjggMi45MDczMSA0OS4zNTMxQzEuNzc5NzUgNDkuMTAxOCAwLjg5ODg4MSA0OC4yMjA5IDAuNjQ3NTQzIDQ3LjA5MzRDMC42Mjc5MjQgNDcuMDA1MyAwLjYxMjU5MSA0Ni45MDYyIDAuNTgxMTM3IDQ2LjcwOTZDMC40ODY4NjQgNDYuMTIwNCAwLjQzOTkyOSA0NS44MjU2IDAuMzk3NTQzIDQ1LjUzMTlDLTAuMTMxODcxIDQxLjg2MzMgLTAuMTMxODU1IDM4LjEzNzkgMC4zOTc1NDMgMzQuNDY5NEMwLjQzOTkzOSAzNC4xNzU2IDAuNDg2ODIgMzMuODgwMSAwLjU4MTEzNyAzMy4yOTA2QzAuNjEyNTUgMzMuMDk0MyAwLjYyNzkzNyAzMi45OTU4IDAuNjQ3NTQzIDMyLjkwNzhDMC44OTg4MzIgMzEuNzgwMiAxLjc3OTcxIDMwLjg5OTQgMi45MDczMSAzMC42NDgxQzIuOTk1MzcgMzAuNjI4NCAzLjA5NDUxIDMwLjYxMzEgMy4yOTExIDMwLjU4MTdDMy44ODAyOSAzMC40ODc0IDQuMTc1MTMgMzAuNDM5NSA0LjQ2ODgzIDMwLjM5NzFDNi4zMDMwNiAzMC4xMzI0IDguMTUxNiAzMC4wMDA2IDEwLjAwMDEgMzAuMDAwNlYyOS45OTg2QzIwLjg3MjggMjkuOTk4NCAyOS43MTkyIDIxLjMyMyAyOS45OTMyIDEwLjUxNjJMMjkuOTk5MSAxMC4wNDE2QzI5Ljk5NzEgOC4xNzk0NSAzMC4xMjk5IDYuMzE3MTYgMzAuMzk2NiA0LjQ2OTM1QzMwLjQzOSA0LjE3NTU4IDMwLjQ4NTggMy44ODAxMiAzMC41ODAyIDMuMjkwNjRDMzAuNjExNiAzLjA5NDI1IDMwLjYyNzkgMi45OTU4NCAzMC42NDc1IDIuOTA3ODNDMzAuODk4OSAxLjc4MDE1IDMxLjc3OTYgMC44OTkzMDUgMzIuOTA3MyAwLjY0ODA2MkMzMi45OTUzIDAuNjI4NDYgMzMuMDkzNyAwLjYxMzA4OCAzMy4yOTAxIDAuNTgxNjU2QzMzLjg3OTUgMC40ODczNTkgMzQuMTc0MSAwLjQzOTQ3NSAzNC40Njc5IDAuMzk3MDg2WiIgZmlsbD0iIzQ5QTNBNiIvPgo8cGF0aCBkPSJNNDUuNTMwNyAzMC4zOTdDNDEuODYyMiAyOS44Njc3IDM4LjEzNjYgMjkuODY3NiAzNC40NjgyIDMwLjM5N0MzNC4xNzQ0IDMwLjQzOTQgMzMuODc5OCAzMC40ODczIDMzLjI5MDQgMzAuNTgxNkMzMy4wOTQxIDMwLjYxMyAzMi45OTU2IDMwLjYyODQgMzIuOTA3NiAzMC42NDhDMzEuNzc5OSAzMC44OTkzIDMwLjg5OTIgMzEuNzgwMSAzMC42NDc4IDMyLjkwNzhDMzAuNjI4MiAzMi45OTU4IDMwLjYxMTkgMzMuMDk0MSAzMC41ODA1IDMzLjI5MDZDMzAuNDg2MiAzMy44Nzk4IDMwLjQzOTIgMzQuMTc0NyAzMC4zOTY5IDM0LjQ2ODNDMjkuODY3NCAzOC4xMzcgMjkuODY3NCA0MS44NjMxIDMwLjM5NjkgNDUuNTMxOEMzMC40MzkzIDQ1LjgyNTUgMzAuNDg2MiA0Ni4xMjAzIDMwLjU4MDUgNDYuNzA5NUMzMC42MTE5IDQ2LjkwNTkgMzAuNjI4MyA0Ny4wMDQ0IDMwLjY0NzggNDcuMDkyNEMzMC44OTkxIDQ4LjIyMDIgMzEuNzc5OCA0OS4xMDA5IDMyLjkwNzYgNDkuMzUyMUMzMi45OTU2IDQ5LjM3MTcgMzMuMDk0IDQ5LjM4ODEgMzMuMjkwNCA0OS40MTk1QzMzLjg3OTcgNDkuNTEzOCAzNC4xNzQ0IDQ5LjU2MDcgMzQuNDY4MiA0OS42MDMxQzM4LjEzNjcgNTAuMTMyNSA0MS44NjIxIDUwLjEzMjUgNDUuNTMwNyA0OS42MDMxQzQ1LjgyNDQgNDkuNTYwNyA0Ni4xMTk5IDQ5LjUxMzggNDYuNzA5NCA0OS40MTk1QzQ2LjkwNTggNDkuMzg4MSA0Ny4wMDQyIDQ5LjM3MTcgNDcuMDkyMiA0OS4zNTIxQzQ4LjIxOTkgNDkuMTAwOCA0OS4xMDA3IDQ4LjIyMDEgNDkuMzUxOSA0Ny4wOTI0QzQ5LjM3MTUgNDcuMDA0NCA0OS4zODY5IDQ2LjkwNTkgNDkuNDE4NCA0Ni43MDk1QzQ5LjUxMjYgNDYuMTIwMiA0OS41NjA1IDQ1LjgyNTYgNDkuNjAyOSA0NS41MzE4QzUwLjEzMjQgNDEuODYzMiA1MC4xMzI0IDM4LjEzNyA0OS42MDI5IDM0LjQ2ODNDNDkuNTYwNSAzNC4xNzQ3IDQ5LjUxMjYgMzMuODc5OCA0OS40MTg0IDMzLjI5MDZDNDkuMzg2OSAzMy4wOTQyIDQ5LjM3MTYgMzIuOTk1OCA0OS4zNTE5IDMyLjkwNzhDNDkuMTAwNyAzMS43ODAxIDQ4LjIxOTkgMzAuODk5MyA0Ny4wOTIyIDMwLjY0OEM0Ny4wMDQyIDMwLjYyODQgNDYuOTA1NyAzMC42MTMgNDYuNzA5NCAzMC41ODE2QzQ2LjExOTkgMzAuNDg3MyA0NS44MjQ0IDMwLjQzOTQgNDUuNTMwNyAzMC4zOTdaTTE1LjUzMTYgMC4zOTcwNUMxMS44NjMyIC0wLjEzMjM3NCA4LjEzNzYxIC0wLjEzMjMyNiA0LjQ2OTEzIDAuMzk3MDVDNC4xNzUzNiAwLjQzOTQ0NiAzLjg3OTkgMC40ODczMDMgMy4yOTA0MiAwLjU4MTYyQzMuMDk0MDQgMC42MTMwNDEgMi45OTU2MiAwLjYyODQxOCAyLjkwNzYxIDAuNjQ4MDI2QzEuNzc5ODggMC44OTkzMjIgMC44OTkxMDkgMS43ODAwNCAwLjY0Nzg0MiAyLjkwNzc5QzAuNjI4MjMxIDIuOTk1ODIgMC42MTI4NjUgMy4wOTQxOCAwLjU4MTQzNiAzLjI5MDZDMC40ODcxNjQgMy44Nzk4MiAwLjQzOTI0NyA0LjE3NDcgMC4zOTY4NjYgNC40NjgzNEMtMC4xMzI1NzYgOC4xMzY5OSAtMC4xMzI1NzIgMTEuODYzMiAwLjM5Njg2NiAxNS41MzE4QzAuNDM5MjU5IDE1LjgyNTYgMC40ODcxNDEgMTYuMTIwMiAwLjU4MTQzNiAxNi43MDk1QzAuNjEyODQ2IDE2LjkwNTkgMC42MjgyNjIgMTcuMDA0NCAwLjY0Nzg0MiAxNy4wOTI0QzAuODk5MDkgMTguMjIwMSAxLjc3OTkxIDE5LjEwMDggMi45MDc2MSAxOS4zNTIxQzIuOTk1NjMgMTkuMzcxNyAzLjA5Mzk5IDE5LjM4ODEgMy4yOTA0MiAxOS40MTk1QzMuODc5OSAxOS41MTM4IDQuMTc1MzYgMTkuNTYwNyA0LjQ2OTEzIDE5LjYwMzFDOC4xMzc2MyAyMC4xMzI1IDExLjg2MzEgMjAuMTMyNSAxNS41MzE2IDE5LjYwMzFDMTUuODI1MyAxOS41NjA3IDE2LjEyMDEgMTkuNTEzOCAxNi43MDk0IDE5LjQxOTVDMTYuOTA1OCAxOS4zODgxIDE3LjAwNDIgMTkuMzcxNyAxNy4wOTIyIDE5LjM1MjFDMTguMjIgMTkuMTAwOSAxOS4xMDA3IDE4LjIyMDIgMTkuMzUxOSAxNy4wOTI0QzE5LjM3MTUgMTcuMDA0NCAxOS4zODc5IDE2LjkwNTkgMTkuNDE5MyAxNi43MDk1QzE5LjUxMzYgMTYuMTIwMyAxOS41NjA1IDE1LjgyNTUgMTkuNjAyOSAxNS41MzE4QzIwLjEzMjQgMTEuODYzMSAyMC4xMzI0IDguMTM3MDEgMTkuNjAyOSA0LjQ2ODM0QzE5LjU2MDUgNC4xNzQ3MiAxOS41MTM2IDMuODc5NzggMTkuNDE5MyAzLjI5MDZDMTkuMzg3OSAzLjA5NDEyIDE5LjM3MTYgMi45OTU4MyAxOS4zNTE5IDIuOTA3NzlDMTkuMTAwNiAxLjc4MDA1IDE4LjIxOTkgMC44OTkyNzkgMTcuMDkyMiAwLjY0ODAyNkMxNy4wMDQyIDAuNjI4NDQgMTYuOTA1NyAwLjYxMzAzNyAxNi43MDk0IDAuNTgxNjJDMTYuMTIgMC40ODczMTggMTUuODI1NCAwLjQzOTQ0MiAxNS41MzE2IDAuMzk3MDVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K";
 const TEX_GREEN="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDUuNTMxMiAzMC4zOTcxQzQxLjg2MjYgMjkuODY3NyAzOC4xMzcyIDI5Ljg2NzcgMzQuNDY4NyAzMC4zOTcxQzM0LjE3NDkgMzAuNDM5NSAzMy44Nzk0IDMwLjQ4NjQgMzMuMjkgMzAuNTgwN0MzMy4wOTM2IDMwLjYxMjEgMzIuOTk1MiAzMC42Mjc1IDMyLjkwNzEgMzAuNjQ3MUMzMS43Nzk1IDMwLjg5ODQgMzAuODk4OCAzMS43NzkzIDMwLjY0NzQgMzIuOTA2OUMzMC42Mjc4IDMyLjk5NDkgMzAuNjEyNCAzMy4wOTQxIDMwLjU4MSAzMy4yOTA2QzMwLjQ4NjcgMzMuODc5OSAzMC40Mzg4IDM0LjE3NDcgMzAuMzk2NCAzNC40Njg0QzI5Ljg2NyAzOC4xMzY4IDI5Ljg2NyA0MS44NjI0IDMwLjM5NjQgNDUuNTMwOUMzMC40Mzg4IDQ1LjgyNDYgMzAuNDg2NyA0Ni4xMjAxIDMwLjU4MSA0Ni43MDk2QzMwLjYxMjQgNDYuOTA1OSAzMC42Mjc4IDQ3LjAwNDQgMzAuNjQ3NCA0Ny4wOTI0QzMwLjg5ODcgNDguMjIwMSAzMS43Nzk1IDQ5LjEwMDkgMzIuOTA3MSA0OS4zNTIyQzMyLjk5NTIgNDkuMzcxOCAzMy4wOTM2IDQ5LjM4NzIgMzMuMjkgNDkuNDE4NkMzMy44Nzk0IDQ5LjUxMjkgMzQuMTc0OSA0OS41NjA3IDM0LjQ2ODcgNDkuNjAzMUMzOC4xMzcxIDUwLjEzMjUgNDEuODYyNyA1MC4xMzI2IDQ1LjUzMTIgNDkuNjAzMUM0NS44MjQ5IDQ5LjU2MDggNDYuMTE5NiA0OS41MTI5IDQ2LjcwODkgNDkuNDE4NkM0Ni45MDUyIDQ5LjM4NzIgNDcuMDAzOCA0OS4zNzE3IDQ3LjA5MTcgNDkuMzUyMkM0OC4yMTk1IDQ5LjEwMDkgNDkuMTAxMiA0OC4yMjAyIDQ5LjM1MjUgNDcuMDkyNEM0OS4zNzIxIDQ3LjAwNDQgNDkuMzg3NCA0Ni45MDYgNDkuNDE4OSA0Ni43MDk2QzQ5LjUxMzIgNDYuMTIwMSA0OS41NjAxIDQ1LjgyNDYgNDkuNjAyNSA0NS41MzA5QzUwLjEzMTkgNDEuODYyNCA1MC4xMzE5IDM4LjEzNjkgNDkuNjAyNSAzNC40Njg0QzQ5LjU2MDEgMzQuMTc0NyA0OS41MTMxIDMzLjg3OTkgNDkuNDE4OSAzMy4yOTA2QzQ5LjM4NzQgMzMuMDk0MSA0OS4zNzIxIDMyLjk5NDkgNDkuMzUyNSAzMi45MDY5QzQ5LjEwMTEgMzEuNzc5MiA0OC4yMTk0IDMwLjg5ODMgNDcuMDkxNyAzMC42NDcxQzQ3LjAwMzggMzAuNjI3NSA0Ni45MDUxIDMwLjYxMjEgNDYuNzA4OSAzMC41ODA3QzQ2LjExOTYgMzAuNDg2NCA0NS44MjQ5IDMwLjQzOTUgNDUuNTMxMiAzMC4zOTcxWk0xNS41MzIyIDAuMzk3MDg2QzExLjg2MzUgLTAuMTMyMzYyIDguMTM3MzEgLTAuMTMyMzYyIDQuNDY4NjcgMC4zOTcwODZDNC4xNzQ5NyAwLjQzOTQ3MyAzLjg4MDIzIDAuNDg2MzkzIDMuMjkwOTQgMC41ODA2NzlDMy4wOTQ2MSAwLjYxMjA5MiAyLjk5NjEgMC42Mjc1MDMgMi45MDgxMyAwLjY0NzA4NkMxLjc4MDQ5IDAuODk4MzEzIDAuODk5NzY5IDEuNzc5MjggMC42NDgzNjEgMi45MDY4NUMwLjYyODc0MiAyLjk5NDkxIDAuNjEyNDM0IDMuMDk0MDUgMC41ODA5NzggMy4yOTA2NEMwLjQ4NjcwNiAzLjg3OTg0IDAuNDM5NzcgNC4xNzQ2NyAwLjM5NzM4NSA0LjQ2ODM3Qy0wLjEzMjAyMyA4LjEzNjg4IC0wLjEzMjAwNCAxMS44NjI0IDAuMzk3Mzg1IDE1LjUzMDlDMC40Mzk3ODEgMTUuODI0NiAwLjQ4NjY2IDE2LjEyMDEgMC41ODA5NzggMTYuNzA5NkMwLjYxMjQgMTYuOTA2IDAuNjI4NzU0IDE3LjAwNDQgMC42NDgzNjEgMTcuMDkyNEMwLjg5OTcwOCAxOC4yMjAxIDEuNzgwNDIgMTkuMTAwOSAyLjkwODEzIDE5LjM1MjJDMi45OTYxMSAxOS4zNzE4IDMuMDk0NTcgMTkuMzg3MiAzLjI5MDk0IDE5LjQxODZDMy44ODAzMiAxOS41MTI5IDQuMTc0OTMgMTkuNTYwNyA0LjQ2ODY3IDE5LjYwMzFDOC4xMzczMSAyMC4xMzI2IDExLjg2MzUgMjAuMTMyNiAxNS41MzIyIDE5LjYwMzFDMTUuODI1OCAxOS41NjA4IDE2LjEyMDcgMTkuNTEyOCAxNi43MDk5IDE5LjQxODZDMTYuOTA2MyAxOS4zODcxIDE3LjAwNDcgMTkuMzcxOCAxNy4wOTI3IDE5LjM1MjJDMTguMjIwNCAxOS4xMDA5IDE5LjEwMTEgMTguMjIwMSAxOS4zNTI1IDE3LjA5MjRDMTkuMzcyMSAxNy4wMDQ0IDE5LjM4NzUgMTYuOTA1OSAxOS40MTg5IDE2LjcwOTZDMTkuNTEzMiAxNi4xMjAxIDE5LjU2MSAxNS44MjQ2IDE5LjYwMzQgMTUuNTMwOUMyMC4xMzI4IDExLjg2MjQgMjAuMTMyOCA4LjEzNjg1IDE5LjYwMzQgNC40NjgzN0MxOS41NjExIDQuMTc0NjYgMTkuNTEzMSAzLjg3OTkgMTkuNDE4OSAzLjI5MDY0QzE5LjM4NzQgMy4wOTQwNSAxOS4zNzIxIDIuOTk0OTEgMTkuMzUyNSAyLjkwNjg1QzE5LjEwMTEgMS43NzkyNCAxOC4yMjA0IDAuODk4MzE4IDE3LjA5MjcgMC42NDcwODZDMTcuMDA0NyAwLjYyNzQ3NCAxNi45MDYzIDAuNjEyMTExIDE2LjcwOTkgMC41ODA2NzlDMTYuMTIwNyAwLjQ4NjQxNSAxNS44MjU4IDAuNDM5NDYzIDE1LjUzMjIgMC4zOTcwODZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K";
 const FS=`precision highp float;
-uniform vec2 uRes,uOff;uniform float uTime,uFlowT,uEnergy,uBreath,uDark,uZoom,uShadow,uSpin,uPop,uHead,uFlare,uCaScale,uSwirl,uStreak,uEdgeDark,uDrop,uCent,uOrbit,uAwait,uWrite,uPenT,uSat,uSq,uVar;uniform vec3 uBg,uRim,uInk,uD1,uD2,uD3,uC1,uC2,uC3,uDot;uniform sampler2D uTex;uniform sampler2D uPath;
+uniform vec2 uRes,uOff;uniform float uTime,uFlowT,uEnergy,uBreath,uDark,uZoom,uShadow,uSpin,uPop,uHead,uFlare,uCaScale,uSwirl,uStreak,uEdgeDark,uDrop,uCent,uOrbit,uAwait,uWrite,uPenT,uSat,uSq,uVar;uniform vec3 uBg,uRim,uInk,uD1,uD2,uD3,uC1,uC2,uC3,uDot;uniform sampler2D uTex;uniform sampler2D uPath;uniform sampler2D uBgTex;uniform float uPage,uScroll;
 vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
 vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
 float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
@@ -48,11 +51,17 @@ float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.
  return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}
 float fbm2(vec3 p){return 0.6*snoise(p)+0.3*snoise(p*2.03);}
 float lobe(float ang,vec3 D){float e=atan(sin(ang-D.x),cos(ang-D.x));return D.z*exp(-e*e/(2.0*D.y*D.y));}
+vec2 pageUV(vec2 s,vec2 res){
+  /* 屏幕坐标→页面纹理坐标:等像素比映射,竖向随 uScroll 循环上滚 */
+  float win=(res.y/res.x)*0.5;
+  return vec2(s.x,fract((1.0-s.y)*win+uScroll));
+}
 void main(){
  vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0;
  vec2 P=vec2(uv.x*(uRes.x/uRes.y),uv.y)/uZoom-uOff; /* 宽高比校正:非正方形画布也保持正圆 */
  float r=length(P);float baseR=0.70*uBreath;
  float ang=atan(P.y,P.x);
+ vec2 s01=gl_FragCoord.xy/uRes;
  float orbR=baseR*(1.0+lobe(ang,uD1)+lobe(ang,uD2)+lobe(ang,uD3));
  /* 绳子勒球:轮廓只在绳经过的两点(±45°)向内掐出腰,被挤的体积往垂直方向鼓——沙漏式局部勒痕 */
  if(abs(uSq)>0.001){
@@ -60,6 +69,7 @@ void main(){
    orbR*=1.0-uSq*1.5*pow(cs*cs,3.0)+uSq*0.8*pow(sn*sn,3.0);
  }
  vec3 col=uBg;
+ if(uPage>0.01){col=mix(col,texture2D(uBgTex,pageUV(s01,uRes)).rgb,uPage);} /* 页面内容模式:背景是滚动的文字 */
  if(uDark>0.5){
    col+=pow(clamp(1.0-r/(orbR*1.5),0.0,1.0),2.0)*0.07;
    /* 深底的墙面反光:只比 logo 大一圈的小光斑,位于下方偏右;
@@ -89,7 +99,18 @@ void main(){
  }
  if(r<orbR*1.06){
    float z=sqrt(max(1.0-(r/orbR)*(r/orbR),0.0001));vec3 N=vec3(P.x/orbR,P.y/orbR,z);float fres=1.0-z;
-   vec3 gbody=clamp(uBg+vec3(0.13*pow(z,1.5)),0.0,1.0);
+   /* Liquid glass:球后的页面内容被折射扭曲(沿法线弯折,边缘更强)并模糊(mipmap 偏置多次采样) */
+   vec3 glassBg=uBg;
+   if(uPage>0.01){
+     float asp=uRes.x/uRes.y;
+     vec2 d01=s01-N.xy*vec2(0.5*uZoom/asp,0.5*uZoom)*(0.14+0.55*fres);
+     vec2 pv=pageUV(d01,uRes);
+     vec3 acc=texture2D(uBgTex,pv,2.5).rgb*0.4
+             +texture2D(uBgTex,pv+vec2(0.010,0.005),3.5).rgb*0.3
+             +texture2D(uBgTex,pv-vec2(0.007,0.010),3.5).rgb*0.3;
+     glassBg=mix(uBg,acc,uPage);
+   }
+   vec3 gbody=clamp(glassBg+vec3(0.13*pow(z,1.5)),0.0,1.0);
    vec2 luv=P/orbR*0.44;luv+=N.xy*(0.04+0.16*fres);luv/=uPop;
    vec2 fw=vec2(fbm2(vec3(luv*1.5+vec2(uFlowT*0.3,0.0),0.0)),fbm2(vec3(luv*1.5+vec2(0.0,uFlowT*0.24),3.3)));
    luv+=fw*0.03*uEnergy;
@@ -250,17 +271,39 @@ function alvaPathTex(gl){
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
   return tx;
 }
-function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dotC){
+/* 页面文字纹理:512×1024,正常字号(约15px CSS)的中英文段落,滚动循环 */
+function pageTex(gl,css,inkCss,subCss){
+  const c=document.createElement("canvas");c.width=512;c.height=1024;const x=c.getContext("2d");
+  x.fillStyle=css;x.fillRect(0,0,512,1024);
+  const H=["设计原则","动效语言","状态与反馈","Liquid Glass"];
+  const L=["Alva 常驻在页面右下角,像一颗有生命的玻璃球。","它在待机时安静呼吸,思考时圆点绕心飞旋,","回答问题时在球心疾书自己的签名。","The orb refracts whatever scrolls beneath it,","bending paragraphs of text like liquid glass.","滚动页面时,身后的文字被折射、放大、模糊,","立体感来自真实的光学规则而不是贴图。","Motion should feel alive: irregular rhythms,","anticipation, overshoot, and settle.","每一次状态切换都有预备、过冲与回弹,","像一个活物的反应,而不是开关的切换。","Colors lean toward the brand teal family,","with a veil of iridescence front and back."];
+  let y=64,li=0,hi=0;
+  while(y<1000){
+    if(li%6===0){x.font="600 54px -apple-system,PingFang SC,sans-serif";x.fillStyle=inkCss;x.fillText(H[hi%H.length],40,y);hi++;y+=78;}
+    x.font="42px -apple-system,PingFang SC,sans-serif";x.fillStyle=(li%5===4)?subCss:inkCss;
+    x.fillText(L[li%L.length],40,y);li++;y+=62;
+  }
+  const tx=gl.createTexture();gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tx);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.REPEAT);
+  gl.activeTexture(gl.TEXTURE0);
+  return tx;
+}
+function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dotC,pageable,pinks){
   const gl=cv.getContext("webgl")||cv.getContext("experimental-webgl");if(!gl)return null;
   function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.log(gl.getShaderInfoLog(o));return o;}
   const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);
   if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.log(gl.getProgramInfoLog(pr));return null;}
   gl.useProgram(pr);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
   const lp=gl.getAttribLocation(pr,"p");gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
-  const U={};["uRes","uTime","uFlowT","uEnergy","uBreath","uDark","uZoom","uShadow","uSpin","uPop","uHead","uFlare","uCaScale","uSwirl","uStreak","uEdgeDark","uDrop","uCent","uOrbit","uAwait","uWrite","uPenT","uSat","uSq","uVar","uOff","uPath","uBg","uRim","uInk","uD1","uD2","uD3","uC1","uC2","uC3","uDot","uTex"].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
+  const U={};["uRes","uTime","uFlowT","uEnergy","uBreath","uDark","uZoom","uShadow","uSpin","uPop","uHead","uFlare","uCaScale","uSwirl","uStreak","uEdgeDark","uDrop","uCent","uOrbit","uAwait","uWrite","uPenT","uSat","uSq","uVar","uOff","uPath","uBg","uRim","uInk","uD1","uD2","uD3","uC1","uC2","uC3","uDot","uTex","uBgTex","uPage","uScroll"].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
   gl.uniform1f(U.uCaScale,caScale==null?1.0:caScale);gl.uniform1f(U.uEdgeDark,edgeDark==null?0.0:edgeDark);gl.uniform1f(U.uDrop,drop==null?0.0:drop);
   const pathTex=alvaPathTex(gl);gl.uniform1i(U.uPath,1);
   const dc2=dotC||[0.28,0.60,1.0];gl.uniform3f(U.uDot,dc2[0],dc2[1],dc2[2]);
+  const bgTex=pageable?pageTex(gl,pinks[0],pinks[1],pinks[2]):null;gl.uniform1i(U.uBgTex,2);
   gl.uniform3f(U.uBg,bg[0],bg[1],bg[2]);gl.uniform3f(U.uRim,rim[0],rim[1],rim[2]);gl.uniform3f(U.uInk,ink[0],ink[1],ink[2]);gl.uniform1f(U.uDark,dark?1:0);gl.uniform1f(U.uZoom,zoom);gl.uniform1f(U.uShadow,shadow);
   gl.uniform3f(U.uC1,pal[0][0],pal[0][1],pal[0][2]);gl.uniform3f(U.uC2,pal[1][0],pal[1][1],pal[1][2]);gl.uniform3f(U.uC3,pal[2][0],pal[2][1],pal[2][2]);
   let ready=false;const tex=gl.createTexture();const img=new Image();img.onload=()=>{
@@ -274,18 +317,19 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dot
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);ready=true;
   };img.src=uri;
   function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;const h=cv.clientHeight||w;cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);gl.viewport(0,0,cv.width,cv.height);}
-  function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);gl.activeTexture(gl.TEXTURE0);gl.uniform2f(U.uRes,cv.width,cv.height);
+  function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);if(bgTex){gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,bgTex);}gl.activeTexture(gl.TEXTURE0);
+    gl.uniform1f(U.uPage,bgTex?o.pg:0.0);gl.uniform1f(U.uScroll,o.scr);gl.uniform2f(U.uRes,cv.width,cv.height);
     gl.uniform1f(U.uTime,o.t);gl.uniform1f(U.uFlowT,o.ft);gl.uniform1f(U.uEnergy,o.en);gl.uniform1f(U.uBreath,o.br);gl.uniform1f(U.uSpin,o.spin);gl.uniform1f(U.uPop,o.pop);gl.uniform1f(U.uHead,o.head);gl.uniform1f(U.uFlare,o.flare);gl.uniform1f(U.uSwirl,o.swirl);gl.uniform1f(U.uStreak,o.streak);gl.uniform1f(U.uCent,o.cent);gl.uniform1f(U.uOrbit,o.orbit);gl.uniform1f(U.uAwait,o.awa);gl.uniform1f(U.uWrite,o.wri);gl.uniform1f(U.uPenT,o.penT);gl.uniform1f(U.uSat,o.sat);gl.uniform1f(U.uSq,o.sq);gl.uniform1f(U.uVar,o.pvar);gl.uniform2f(U.uOff,o.off[0],o.off[1]);gl.uniform3f(U.uD1,o.d1[0],o.d1[1],o.d1[2]);gl.uniform3f(U.uD2,o.d2[0],o.d2[1],o.d2[2]);gl.uniform3f(U.uD3,o.d3[0],o.d3[1],o.d3[2]);gl.drawArrays(gl.TRIANGLES,0,3);}
   return {resize,render};
 }
 function hex(h){return[((h>>16)&255)/255,((h>>8)&255)/255,(h&255)/255];}
 const SCENES=[
  {bg:0xFFFFFF,css:"#ffffff",dark:0,tex:TEX_LIGHT,rim:[0.5,0.55,0.68],ink:[0.286,0.639,0.651],shadow:0.0,cap:"白底 · 黑绿",
-  pal:[[0.42,0.80,0.79],[0.55,0.88,0.94],[0.80,0.72,0.94]],ca:1.0,ed:2.2,drop:1.0},
+  pal:[[0.42,0.80,0.79],[0.55,0.88,0.94],[0.80,0.72,0.94]],ca:1.0,ed:2.2,drop:1.0,pink:["#ffffff","#2a2d33","#9aa0a8"]},
  {bg:0x0E0F13,css:"#0e0f13",dark:1,tex:TEX_DARK,rim:[0.75,0.82,1.0],ink:[1,1,1],shadow:0.0,cap:"深底 · 白绿",
-  pal:[[0.26,0.82,0.78],[0.30,0.70,0.98],[0.85,0.48,0.85]],ca:0.65,ed:0.0,drop:0},
+  pal:[[0.26,0.82,0.78],[0.30,0.70,0.98],[0.85,0.48,0.85]],ca:0.65,ed:0.0,drop:0,pink:["#0e0f13","#e6e8ec","#6f737c"]},
  {bg:0x49A3A6,css:"#49a3a6",dark:0,tex:TEX_GREEN,rim:[0.95,0.98,1.0],ink:[0,0,0],shadow:0.45,cap:"品牌绿 · 黑白",
-  pal:[[0.90,0.99,1.00],[0.62,0.95,0.90],[0.82,0.76,0.98]],ca:0.45,ed:0.5,drop:0.85,dot:[1,1,1]},
+  pal:[[0.90,0.99,1.00],[0.62,0.95,0.90],[0.82,0.76,0.98]],ca:0.45,ed:0.5,drop:0.85,dot:[1,1,1],pink:["#49a3a6","#f4fbfa","#bfe3e2"]},
 ];
 const cols=document.getElementById("cols");const insts=[];
 /* 带边框表格:表头=三种配色;第一行=PC 常驻按钮(48px);第二行=Chat 行内 logo(32px);背景撑满单元格 */
@@ -294,9 +338,9 @@ cols.innerHTML='<tr><th></th>'+SCENES.map(sc=>'<th>'+sc.cap+'</th>').join('')+'<
  +'<tr><th class="rl">Chat 行内 logo<br>32px</th>'+SCENES.map((sc,i)=>'<td class="cell" style="background:'+sc.css+'"><canvas class="cv2" data-k="s'+i+'"></canvas></td>').join('')+'</tr>';
 SCENES.forEach((sc,i)=>{
   const bg=hex(sc.bg);
-  /* 球径 = 画布高 ×0.7×zoom → 100px 高 ×0.714≈48px;72px 高 ×0.635≈32px */
-  const gB=makeGL(cols.querySelector('[data-k="b'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.714,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
-  const gS=makeGL(cols.querySelector('[data-k="s'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.635,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
+  /* 球径 = 画布高 ×0.7×zoom → 100px 高 ×0.714≈48px;72px 高 ×0.635≈32px;仅大尺寸行支持页面内容模式 */
+  const gB=makeGL(cols.querySelector('[data-k="b'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.714,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot,true,sc.pink);
+  const gS=makeGL(cols.querySelector('[data-k="s'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.635,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot,false,null);
   if(gB)insts.push(gB);if(gS)insts.push(gS);
 });
 function fit(){insts.forEach(i=>i.resize());}fit();window.addEventListener("resize",fit);
@@ -305,6 +349,7 @@ let transStart=-9,transFrom=0,transTo=0,whipStart=-99,pendingLand=false;
 /* —— 微事件系统:活物的关键是「大部分时间安静 + 偶发的不可预测小动作」 —— */
 let evStart=-9,evType=0,evAng=0,evAmp=0,nextEv=2.0;
 let flare=0,flareTgt=0,swirl=0,streak=0.15,swirlVS=0.13,writeCF=0,awaitCF=0,penT=0,penVar=0,lastS2=0;
+let viewMode="plain",pageCF=0,scroll=0;
 function fireEvent(t,forced){
   evStart=t;
   evType=(forced!==undefined)?forced:(Math.random()<0.55?1:2); /* 随机事件只留 1色散闪 2吸气;0颤 只在状态切换时触发 */
@@ -405,6 +450,9 @@ function loop(now){
   writeCF+=((state==="speaking"?1:0)-writeCF)*(1-Math.exp(-dt*8));
   awaitCF+=((state==="awaiting"?1:0)-awaitCF)*(1-Math.exp(-dt*6));
   penT+=dt*penV;
+  /* 页面内容模式:淡入淡出 + 文字缓慢匀速上滚 */
+  pageCF+=((viewMode==="page"?1:0)-pageCF)*(1-Math.exp(-dt*6));
+  scroll=(scroll+dt*0.018*pageCF)%1;
   /* 卫星轨道:停驻 8.8s 后用 1.2s 迪士尼式绕球一圈——先向后蓄力、疾速掠过、过冲回位;
      绕圈途中主球被"勒"得沿轨道拉长压扁 */
   let sat=0,sq=0;
@@ -423,7 +471,7 @@ function loop(now){
     }
   }
   flowT+=dt*fsp;
-  const o={t:t,ft:flowT,en:en,br:br,spin:spin,pop:pop,head:head,flare:flare,swirl:swirl,streak:streak,cent:cent,orbit:orbit,awa:awaitCF,wri:writeCF,penT:penT,sat:sat,sq:sq,pvar:penVar,off:off,d1:d1,d2:d2,d3:d3};
+  const o={t:t,ft:flowT,en:en,br:br,spin:spin,pop:pop,head:head,flare:flare,swirl:swirl,streak:streak,cent:cent,orbit:orbit,awa:awaitCF,wri:writeCF,penT:penT,sat:sat,sq:sq,pvar:penVar,pg:pageCF,scr:scroll,off:off,d1:d1,d2:d2,d3:d3};
   insts.forEach(i=>i.render(o));requestAnimationFrame(loop);}
 requestAnimationFrame(loop);
 const DESC={
@@ -433,6 +481,10 @@ const DESC={
  awaiting:"等待回应 — 右上角一枚呼吸的蓝点示意「该你了」,球身朝用户方向微倾探身;每 10 秒蓝点先向后蓄力、再疾速绕球一圈:缠绕时球被轨道像绳子一样勒出腰身,松绳弹回,蓝点归位时球已复原。"
 };
 const hintEl=document.getElementById("hint");hintEl.textContent=DESC.idle;
+document.querySelectorAll("#vseg button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("#vseg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+  viewMode=b.dataset.v;
+}));
 document.querySelectorAll("#seg button").forEach(b=>b.addEventListener("click",()=>{
   hintEl.textContent=DESC[b.dataset.s];
   document.querySelectorAll("#seg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
