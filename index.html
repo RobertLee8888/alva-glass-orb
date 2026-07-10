@@ -11,20 +11,20 @@
   .seg{display:inline-flex;gap:3px;background:#232429;border:1px solid #303138;border-radius:10px;padding:4px}
   .seg button{border:none;background:transparent;color:#9a9aa2;font-size:13px;padding:7px 16px;border-radius:7px;cursor:pointer;font-family:inherit}
   .seg button.on{background:#3a3b42;color:#fff}
-  .grid{display:grid;grid-template-columns:auto repeat(3,auto);gap:12px 18px;align-items:center;justify-items:center}
-  .gh{font-size:12px;color:#a6a6ac;padding-bottom:2px}
-  .gl{font-size:12px;color:#8a8a92;justify-self:end;text-align:right;line-height:1.5}
-  .stage{border-radius:16px;overflow:hidden}
-  .big{width:76px;height:76px;border-radius:14px} /* 球体≈48px,PC 常驻按钮 */
-  .sm{width:48px;height:48px;border-radius:10px}  /* 球体≈32px,chat 行内 logo(对齐 Claude 行内头像) */
-  canvas{display:block;width:100%;height:100%}
+  table{border-collapse:collapse;margin:0 auto}
+  th,td{border:1px solid #3a3b42}
+  th{font-size:12px;color:#a6a6ac;font-weight:500;padding:9px 14px}
+  th.rl{color:#8a8a92;text-align:right;line-height:1.6;padding:0 14px}
+  td.cell{padding:0;line-height:0}
+  .cv1{width:180px;height:100px;display:block} /* 球体≈48px,PC 常驻按钮 */
+  .cv2{width:180px;height:72px;display:block}  /* 球体≈32px,chat 行内 logo(对齐 Claude 行内头像) */
   .hint{font-size:12px;color:#75757d;max-width:560px;text-align:center;line-height:1.6}
 </style>
 </head>
 <body>
   <h1>Alva AI · 玻璃标识 — 待机 / 思考</h1>
   <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出中</button><button data-s="awaiting">等待回应</button></div>
-  <div class="grid" id="cols"></div>
+  <table id="cols"></table>
   <div class="hint" id="hint"></div>
 <script>
 const TEX_LIGHT="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IiM0OUEzQTYiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS41MzEyIDMwLjM5NzFDNDEuODYyNiAyOS44Njc3IDM4LjEzNzIgMjkuODY3NyAzNC40Njg3IDMwLjM5NzFDMzQuMTc0OSAzMC40Mzk1IDMzLjg3OTQgMzAuNDg2NCAzMy4yOSAzMC41ODA3QzMzLjA5MzYgMzAuNjEyMSAzMi45OTUyIDMwLjYyNzUgMzIuOTA3MSAzMC42NDcxQzMxLjc3OTUgMzAuODk4NCAzMC44OTg4IDMxLjc3OTMgMzAuNjQ3NCAzMi45MDY5QzMwLjYyNzggMzIuOTk0OSAzMC42MTI0IDMzLjA5NDEgMzAuNTgxIDMzLjI5MDZDMzAuNDg2NyAzMy44Nzk5IDMwLjQzODggMzQuMTc0NyAzMC4zOTY0IDM0LjQ2ODRDMjkuODY3IDM4LjEzNjggMjkuODY3IDQxLjg2MjQgMzAuMzk2NCA0NS41MzA5QzMwLjQzODggNDUuODI0NiAzMC40ODY3IDQ2LjEyMDEgMzAuNTgxIDQ2LjcwOTZDMzAuNjEyNCA0Ni45MDU5IDMwLjYyNzggNDcuMDA0NCAzMC42NDc0IDQ3LjA5MjRDMzAuODk4NyA0OC4yMjAxIDMxLjc3OTUgNDkuMTAwOSAzMi45MDcxIDQ5LjM1MjJDMzIuOTk1MiA0OS4zNzE4IDMzLjA5MzYgNDkuMzg3MiAzMy4yOSA0OS40MTg2QzMzLjg3OTQgNDkuNTEyOSAzNC4xNzQ5IDQ5LjU2MDcgMzQuNDY4NyA0OS42MDMxQzM4LjEzNzEgNTAuMTMyNSA0MS44NjI3IDUwLjEzMjYgNDUuNTMxMiA0OS42MDMxQzQ1LjgyNDkgNDkuNTYwOCA0Ni4xMTk2IDQ5LjUxMjkgNDYuNzA4OSA0OS40MTg2QzQ2LjkwNTIgNDkuMzg3MiA0Ny4wMDM4IDQ5LjM3MTcgNDcuMDkxNyA0OS4zNTIyQzQ4LjIxOTUgNDkuMTAwOSA0OS4xMDEyIDQ4LjIyMDIgNDkuMzUyNSA0Ny4wOTI0QzQ5LjM3MjEgNDcuMDA0NCA0OS4zODc0IDQ2LjkwNiA0OS40MTg5IDQ2LjcwOTZDNDkuNTEzMiA0Ni4xMjAxIDQ5LjU2MDEgNDUuODI0NiA0OS42MDI1IDQ1LjUzMDlDNTAuMTMxOSA0MS44NjI0IDUwLjEzMTkgMzguMTM2OSA0OS42MDI1IDM0LjQ2ODRDNDkuNTYwMSAzNC4xNzQ3IDQ5LjUxMzEgMzMuODc5OSA0OS40MTg5IDMzLjI5MDZDNDkuMzg3NCAzMy4wOTQxIDQ5LjM3MjEgMzIuOTk0OSA0OS4zNTI1IDMyLjkwNjlDNDkuMTAxMSAzMS43NzkyIDQ4LjIxOTQgMzAuODk4MyA0Ny4wOTE3IDMwLjY0NzFDNDcuMDAzOCAzMC42Mjc1IDQ2LjkwNTEgMzAuNjEyMSA0Ni43MDg5IDMwLjU4MDdDNDYuMTE5NiAzMC40ODY0IDQ1LjgyNDkgMzAuNDM5NSA0NS41MzEyIDMwLjM5NzFaTTE1LjUzMjIgMC4zOTcwODZDMTEuODYzNSAtMC4xMzIzNjIgOC4xMzczMSAtMC4xMzIzNjIgNC40Njg2NyAwLjM5NzA4NkM0LjE3NDk3IDAuNDM5NDczIDMuODgwMjMgMC40ODYzOTMgMy4yOTA5NCAwLjU4MDY3OUMzLjA5NDYxIDAuNjEyMDkyIDIuOTk2MSAwLjYyNzUwMyAyLjkwODEzIDAuNjQ3MDg2QzEuNzgwNDkgMC44OTgzMTMgMC44OTk3NjkgMS43NzkyOCAwLjY0ODM2MSAyLjkwNjg1QzAuNjI4NzQyIDIuOTk0OTEgMC42MTI0MzQgMy4wOTQwNSAwLjU4MDk3OCAzLjI5MDY0QzAuNDg2NzA2IDMuODc5ODQgMC40Mzk3NyA0LjE3NDY3IDAuMzk3Mzg1IDQuNDY4MzdDLTAuMTMyMDIzIDguMTM2ODggLTAuMTMyMDA0IDExLjg2MjQgMC4zOTczODUgMTUuNTMwOUMwLjQzOTc4MSAxNS44MjQ2IDAuNDg2NjYgMTYuMTIwMSAwLjU4MDk3OCAxNi43MDk2QzAuNjEyNCAxNi45MDYgMC42Mjg3NTQgMTcuMDA0NCAwLjY0ODM2MSAxNy4wOTI0QzAuODk5NzA4IDE4LjIyMDEgMS43ODA0MiAxOS4xMDA5IDIuOTA4MTMgMTkuMzUyMkMyLjk5NjExIDE5LjM3MTggMy4wOTQ1NyAxOS4zODcyIDMuMjkwOTQgMTkuNDE4NkMzLjg4MDMyIDE5LjUxMjkgNC4xNzQ5MyAxOS41NjA3IDQuNDY4NjcgMTkuNjAzMUM4LjEzNzMxIDIwLjEzMjYgMTEuODYzNSAyMC4xMzI2IDE1LjUzMjIgMTkuNjAzMUMxNS44MjU4IDE5LjU2MDggMTYuMTIwNyAxOS41MTI4IDE2LjcwOTkgMTkuNDE4NkMxNi45MDYzIDE5LjM4NzEgMTcuMDA0NyAxOS4zNzE4IDE3LjA5MjcgMTkuMzUyMkMxOC4yMjA0IDE5LjEwMDkgMTkuMTAxMSAxOC4yMjAxIDE5LjM1MjUgMTcuMDkyNEMxOS4zNzIxIDE3LjAwNDQgMTkuMzg3NSAxNi45MDU5IDE5LjQxODkgMTYuNzA5NkMxOS41MTMyIDE2LjEyMDEgMTkuNTYxIDE1LjgyNDYgMTkuNjAzNCAxNS41MzA5QzIwLjEzMjggMTEuODYyNCAyMC4xMzI4IDguMTM2ODUgMTkuNjAzNCA0LjQ2ODM3QzE5LjU2MTEgNC4xNzQ2NiAxOS41MTMxIDMuODc5OSAxOS40MTg5IDMuMjkwNjRDMTkuMzg3NCAzLjA5NDA1IDE5LjM3MjEgMi45OTQ5MSAxOS4zNTI1IDIuOTA2ODVDMTkuMTAxMSAxLjc3OTI0IDE4LjIyMDQgMC44OTgzMTggMTcuMDkyNyAwLjY0NzA4NkMxNy4wMDQ3IDAuNjI3NDc0IDE2LjkwNjMgMC42MTIxMTEgMTYuNzA5OSAwLjU4MDY3OUMxNi4xMjA3IDAuNDg2NDE1IDE1LjgyNTggMC40Mzk0NjMgMTUuNTMyMiAwLjM5NzA4NloiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=";
@@ -50,7 +50,7 @@ float fbm2(vec3 p){return 0.6*snoise(p)+0.3*snoise(p*2.03);}
 float lobe(float ang,vec3 D){float e=atan(sin(ang-D.x),cos(ang-D.x));return D.z*exp(-e*e/(2.0*D.y*D.y));}
 void main(){
  vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0;
- vec2 P=vec2(uv.x,uv.y)/uZoom-uOff;
+ vec2 P=vec2(uv.x*(uRes.x/uRes.y),uv.y)/uZoom-uOff; /* 宽高比校正:非正方形画布也保持正圆 */
  float r=length(P);float baseR=0.70*uBreath;
  float ang=atan(P.y,P.x);
  float orbR=baseR*(1.0+lobe(ang,uD1)+lobe(ang,uD2)+lobe(ang,uD3));
@@ -115,7 +115,7 @@ void main(){
    float ripB=smoothstep(0.45,0.75,rr2)*(1.0-smoothstep(0.96,1.01,rr2));
    float ripP=smoothstep(0.05,0.75,fbm2(vec3(cos(a2)*1.1+9.0,sin(a2)*1.1,uFlowT*0.07)));
    float rip=sin(rr2*240.0-uFlowT*1.3+4.0*fbm2(vec3(cos(a2)*0.9,sin(a2)*0.9,2.2)));
-   irid*=1.0+0.45*rip*ripB*ripP*smoothstep(0.55,0.85,uZoom)*smoothstep(200.0,300.0,uRes.x); /* 小画布关纹理防摩尔纹 */
+   irid*=1.0+0.45*rip*ripB*ripP*smoothstep(160.0,230.0,uRes.y*uZoom); /* 球体像素太小时关纹理防摩尔纹 */
    /* 后层迷幻色:在 logo 身后,略微雾化——远的东西朦一点 */
    vec3 iridB=mix(irid,gbody,0.18);
    vec3 gbodyI=mix(gbody,iridB,clamp(iw,0.0,0.9));
@@ -273,7 +273,7 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dot
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);ready=true;
   };img.src=uri;
-  function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;cv.width=Math.round(w*dpr);cv.height=Math.round(w*dpr);gl.viewport(0,0,cv.width,cv.height);}
+  function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;const h=cv.clientHeight||w;cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);gl.viewport(0,0,cv.width,cv.height);}
   function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);gl.activeTexture(gl.TEXTURE0);gl.uniform2f(U.uRes,cv.width,cv.height);
     gl.uniform1f(U.uTime,o.t);gl.uniform1f(U.uFlowT,o.ft);gl.uniform1f(U.uEnergy,o.en);gl.uniform1f(U.uBreath,o.br);gl.uniform1f(U.uSpin,o.spin);gl.uniform1f(U.uPop,o.pop);gl.uniform1f(U.uHead,o.head);gl.uniform1f(U.uFlare,o.flare);gl.uniform1f(U.uSwirl,o.swirl);gl.uniform1f(U.uStreak,o.streak);gl.uniform1f(U.uCent,o.cent);gl.uniform1f(U.uOrbit,o.orbit);gl.uniform1f(U.uAwait,o.awa);gl.uniform1f(U.uWrite,o.wri);gl.uniform1f(U.uPenT,o.penT);gl.uniform1f(U.uSat,o.sat);gl.uniform1f(U.uSq,o.sq);gl.uniform1f(U.uVar,o.pvar);gl.uniform2f(U.uOff,o.off[0],o.off[1]);gl.uniform3f(U.uD1,o.d1[0],o.d1[1],o.d1[2]);gl.uniform3f(U.uD2,o.d2[0],o.d2[1],o.d2[2]);gl.uniform3f(U.uD3,o.d3[0],o.d3[1],o.d3[2]);gl.drawArrays(gl.TRIANGLES,0,3);}
   return {resize,render};
@@ -288,14 +288,15 @@ const SCENES=[
   pal:[[0.90,0.99,1.00],[0.62,0.95,0.90],[0.82,0.76,0.98]],ca:0.45,ed:0.5,drop:0.85,dot:[1,1,1]},
 ];
 const cols=document.getElementById("cols");const insts=[];
-/* 表格:表头=三种配色;第一行=PC 常驻按钮(48px);第二行=Chat 行内 logo(32px) */
-cols.innerHTML='<div class="gh"></div>'+SCENES.map(sc=>'<div class="gh">'+sc.cap+'</div>').join('')
- +'<div class="gl">PC 常驻按钮<br>48px</div>'+SCENES.map((sc,i)=>'<div class="stage big" style="background:'+sc.css+'"><canvas data-k="b'+i+'"></canvas></div>').join('')
- +'<div class="gl">Chat 行内 logo<br>32px</div>'+SCENES.map((sc,i)=>'<div class="stage sm" style="background:'+sc.css+'"><canvas data-k="s'+i+'"></canvas></div>').join('');
+/* 带边框表格:表头=三种配色;第一行=PC 常驻按钮(48px);第二行=Chat 行内 logo(32px);背景撑满单元格 */
+cols.innerHTML='<tr><th></th>'+SCENES.map(sc=>'<th>'+sc.cap+'</th>').join('')+'</tr>'
+ +'<tr><th class="rl">PC 常驻按钮<br>48px</th>'+SCENES.map((sc,i)=>'<td class="cell" style="background:'+sc.css+'"><canvas class="cv1" data-k="b'+i+'"></canvas></td>').join('')+'</tr>'
+ +'<tr><th class="rl">Chat 行内 logo<br>32px</th>'+SCENES.map((sc,i)=>'<td class="cell" style="background:'+sc.css+'"><canvas class="cv2" data-k="s'+i+'"></canvas></td>').join('')+'</tr>';
 SCENES.forEach((sc,i)=>{
   const bg=hex(sc.bg);
-  const gB=makeGL(cols.querySelector('[data-k="b'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.9,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
-  const gS=makeGL(cols.querySelector('[data-k="s'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.952,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
+  /* 球径 = 画布高 ×0.7×zoom → 100px 高 ×0.714≈48px;72px 高 ×0.635≈32px */
+  const gB=makeGL(cols.querySelector('[data-k="b'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.714,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
+  const gS=makeGL(cols.querySelector('[data-k="s'+i+'"]'),sc.tex,bg,sc.dark,sc.rim,sc.ink,0.635,sc.shadow,sc.pal,sc.ca,sc.ed,sc.drop,sc.dot);
   if(gB)insts.push(gB);if(gS)insts.push(gS);
 });
 function fit(){insts.forEach(i=>i.resize());}fit();window.addEventListener("resize",fit);
