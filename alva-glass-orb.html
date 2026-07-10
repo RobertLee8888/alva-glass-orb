@@ -184,7 +184,7 @@ void main(){
    float ds=mix(1.7,1.0,smoothstep(0.5,0.9,uZoom));
    vec2 uD=vec2(0.7071,0.7071);vec2 vD=vec2(-0.7071,0.7071);
    float cph=cos(uSat),sph=sin(uSat);
-   vec2 ap=(uD*cph*1.25+vD*sph*0.45)*orbR;
+   vec2 ap=(uD*cph*1.48+vD*sph*0.45)*orbR;
    float behind=smoothstep(0.12,-0.12,sph);
    float occ=1.0-behind*(1.0-smoothstep(orbR*0.97,orbR*1.03,r));
    float sc=mix(1.08,0.8,behind);
