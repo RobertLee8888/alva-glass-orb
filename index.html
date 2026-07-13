@@ -383,15 +383,15 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dot
   function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;const h=cv.clientHeight||w;cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);gl.viewport(0,0,cv.width,cv.height);}
   function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);if(bgTex){gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,bgTex);}gl.activeTexture(gl.TEXTURE0);
     gl.uniform1f(U.uPage,bgTex?o.pg:0.0);gl.uniform1f(U.uScroll,o.scr);gl.uniform2f(U.uRes,cv.width,cv.height);
-        let pv=1,pf=0;
+        let pv=0,pf=0;
     if(press.held){
       const de=o.t-press.downT;
-      pv=1-0.12*Math.min(1,de/0.09); /* 90ms 压到 0.88,按住保持贴在背景上 */
+      pv=Math.min(1,de/0.09); /* 90ms 压满,按住时保持贴在背景上(盖玻片) */
       pf=0.5*Math.exp(-de/0.3);
     }else{
       const ue=o.t-press.upT;
       if(ue>=0&&ue<0.9){
-        pv=1-0.12*Math.exp(-ue*7)*Math.cos(ue*18); /* 抬起:弹簧回弹带过冲 */
+        pv=Math.exp(-ue*7)*Math.cos(ue*18); /* 抬起:弹簧回弹带过冲(可短暂为负=轻微反向鼓起) */
         pf=0.6*Math.exp(-ue/0.25);
       }
     }
