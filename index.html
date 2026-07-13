@@ -122,8 +122,9 @@ void main(){
  }
  if(r<orbR*1.06){
    float z=sqrt(max(1.0-(r/orbR)*(r/orbR),0.0001));
-   z=pow(z,mix(1.0,0.35,clamp(uPress,0.0,1.0))); /* 按压:球顶被压平,像两片玻璃间的液滴 */
-   vec3 N=vec3(P.x/orbR,P.y/orbR,z);float fres=1.0-z;
+   float prs=clamp(uPress,0.0,1.0);
+   z=pow(z,mix(1.0,0.30,prs)); /* 按压:球顶被压平,像两片玻璃间的液滴 */
+   vec3 N=normalize(vec3(P.x/orbR,P.y/orbR,z));float fres=1.0-N.z; /* 压平后必须归一化,否则高光爆掉 */
    /* Liquid glass:球后的页面内容被折射扭曲(沿法线弯折,边缘更强)并模糊(mipmap 偏置多次采样) */
    vec3 glassBg=uBg;
    if(uPage>0.01){
@@ -135,7 +136,7 @@ void main(){
              +texture2D(uBgTex,pv-vec2(0.007,0.010),3.5).rgb*0.3;
      glassBg=mix(uBg,acc,uPage);
    }
-   vec3 gbody=clamp(glassBg+vec3(0.13*pow(z,1.5)),0.0,1.0);
+   vec3 gbody=clamp(glassBg+vec3(0.13*pow(z,1.5)*(1.0-0.60*prs)),0.0,1.0); /* 压扁时球体亮度变平,不再有圆顶提亮 */
    vec2 luv=P/orbR*0.44;luv+=N.xy*(0.04+0.16*fres);luv/=uPop;luv/=uLogoS; /* 内容自己的呼吸/眨眼 */
    luv/=(1.0+0.14*clamp(uPress,0.0,1.0)); /* 按压:内容被摊开放大 */
    vec2 fw=vec2(fbm2(vec3(luv*1.5+vec2(uFlowT*0.3,0.0),0.0)),fbm2(vec3(luv*1.5+vec2(0.0,uFlowT*0.24),3.3)));
@@ -190,8 +191,10 @@ void main(){
      float aD=uHead+fi*1.0472;
      vec2 er=vec2(cos(aD),sin(aD));vec2 et=vec2(-er.y,er.x);
      vec2 d=luv-uOrbit*er;
-     float fx=dot(d,et)/max(abs(cos(uTime*2.6+fi*1.1)),0.22);
-     float fy=dot(d,er);
+     float fx0=dot(d,et)/max(abs(cos(uTime*2.6+fi*1.1)),0.22);
+     float fy0=dot(d,er);
+     /* 旋转 45°:方块的角对着球心 */
+     float fx=(fx0-fy0)*0.7071,fy=(fx0+fy0)*0.7071;
      float sdq=rbox(vec2(fx,fy),0.092,0.048);
      spinA=max(spinA,smoothstep(0.014,-0.004,sdq));
    }
@@ -232,7 +235,8 @@ void main(){
    c*=0.965+0.07*clamp(dot(N.xy,vec2(-0.49,0.87)),-0.5,1.0);
    c=mix(c,c*vec3(0.80,0.87,0.87),pow(fres,2.2)*uEdgeDark);
    c+=uRim*pow(fres,3.2)*(0.7+0.45*uFlare);
-   vec3 Hn=normalize(vec3(-0.28,0.5,0.82));c+=pow(max(dot(N,Hn),0.0),55.0)*0.5;
+   vec3 Hn=normalize(vec3(-0.28,0.5,0.82));c+=pow(max(dot(N,Hn),0.0),55.0)*0.5*(1.0-0.85*prs); /* 压平后圆顶高光消失 */
+   c+=uRim*0.30*prs*smoothstep(0.78,0.95,rr2)*(1.0-smoothstep(0.96,1.0,rr2)); /* 按压时贴合边缘出现一圈细亮的接触线 */
    float nnv=fbm2(vec3(N.xy*2.6,uFlowT*0.45));
    float patch=smoothstep(-0.25,0.50,nnv);
    float dirw=0.5+0.5*(N.x*cos(uFlowT*0.25)+N.y*sin(uFlowT*0.25));
