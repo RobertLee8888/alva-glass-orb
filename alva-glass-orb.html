@@ -353,9 +353,13 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dot
     hov.x=sx*(r2.width/r2.height)/zoom;hov.y=sy/zoom;hov.tgt=1;
   });
   cv.addEventListener("mouseleave",()=>{hov.tgt=0;});
-  /* 点击反馈:按压-阻尼回弹 + 色散小闪 */
-  const press={t:-9};
-  cv.addEventListener("pointerdown",()=>{press.t=performance.now()/1000;});
+  /* 按压反馈分两段:按下=压扁贴在背景上并保持;抬起=弹簧回弹带过冲 */
+  const press={downT:-9,upT:-9,held:false};
+  cv.addEventListener("pointerdown",()=>{press.downT=performance.now()/1000;press.held=true;});
+  const rel=()=>{if(press.held){press.upT=performance.now()/1000;press.held=false;}};
+  cv.addEventListener("pointerup",rel);
+  cv.addEventListener("pointerleave",rel);
+  cv.addEventListener("pointercancel",rel);
   gl.uniform3f(U.uBg,bg[0],bg[1],bg[2]);gl.uniform3f(U.uRim,rim[0],rim[1],rim[2]);gl.uniform3f(U.uInk,ink[0],ink[1],ink[2]);gl.uniform1f(U.uDark,dark?1:0);gl.uniform1f(U.uZoom,zoom);gl.uniform1f(U.uShadow,shadow);
   gl.uniform3f(U.uC1,pal[0][0],pal[0][1],pal[0][2]);gl.uniform3f(U.uC2,pal[1][0],pal[1][1],pal[1][2]);gl.uniform3f(U.uC3,pal[2][0],pal[2][1],pal[2][2]);
   let ready=false;const tex=gl.createTexture();const img=new Image();img.onload=()=>{
@@ -371,11 +375,17 @@ function makeGL(cv,uri,bg,dark,rim,ink,zoom,shadow,pal,caScale,edgeDark,drop,dot
   function resize(){const dpr=Math.min(window.devicePixelRatio||1,2);const w=cv.clientWidth||100;const h=cv.clientHeight||w;cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);gl.viewport(0,0,cv.width,cv.height);}
   function render(o){if(!ready)return;gl.useProgram(pr);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(U.uTex,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,pathTex);if(bgTex){gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,bgTex);}gl.activeTexture(gl.TEXTURE0);
     gl.uniform1f(U.uPage,bgTex?o.pg:0.0);gl.uniform1f(U.uScroll,o.scr);gl.uniform2f(U.uRes,cv.width,cv.height);
-        const pe=o.t-press.t;let pv=1,pf=0;
-    if(pe>=0&&pe<0.9){
-      if(pe<0.07){pv=1-0.12*(pe/0.07);}
-      else{pv=1-0.12*Math.exp(-(pe-0.07)*7)*Math.cos((pe-0.07)*18);}
-      pf=0.7*Math.exp(-pe/0.25);
+        let pv=1,pf=0;
+    if(press.held){
+      const de=o.t-press.downT;
+      pv=1-0.12*Math.min(1,de/0.09); /* 90ms 压到 0.88,按住保持贴在背景上 */
+      pf=0.5*Math.exp(-de/0.3);
+    }else{
+      const ue=o.t-press.upT;
+      if(ue>=0&&ue<0.9){
+        pv=1-0.12*Math.exp(-ue*7)*Math.cos(ue*18); /* 抬起:弹簧回弹带过冲 */
+        pf=0.6*Math.exp(-ue/0.25);
+      }
     }
     gl.uniform1f(U.uPress,pv);gl.uniform2f(U.uGaze,o.gz[0],o.gz[1]);gl.uniform1f(U.uLogoS,o.ls);
     gl.uniform1f(U.uTime,o.t);gl.uniform1f(U.uFlowT,o.ft);gl.uniform1f(U.uEnergy,o.en);gl.uniform1f(U.uBreath,o.br);gl.uniform1f(U.uSpin,o.spin);gl.uniform1f(U.uPop,o.pop);gl.uniform1f(U.uHead,o.head);gl.uniform1f(U.uFlare,Math.min(1.2,o.flare+pf));gl.uniform1f(U.uSwirl,o.swirl);gl.uniform1f(U.uStreak,o.streak);gl.uniform1f(U.uCent,o.cent);gl.uniform1f(U.uOrbit,o.orbit);gl.uniform1f(U.uAwait,o.awa);gl.uniform1f(U.uWrite,o.wri);gl.uniform1f(U.uPenT,o.penT);gl.uniform1f(U.uSat,o.sat);gl.uniform1f(U.uSq,o.sq);gl.uniform1f(U.uVar,o.pvar);gl.uniform1f(U.uGrow,o.grow);
