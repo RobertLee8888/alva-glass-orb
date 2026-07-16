@@ -43,132 +43,129 @@ const TEX_DARK="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIH
 const TEX_GREEN="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDUuNTMxMiAzMC4zOTcxQzQxLjg2MjYgMjkuODY3NyAzOC4xMzcyIDI5Ljg2NzcgMzQuNDY4NyAzMC4zOTcxQzM0LjE3NDkgMzAuNDM5NSAzMy44Nzk0IDMwLjQ4NjQgMzMuMjkgMzAuNTgwN0MzMy4wOTM2IDMwLjYxMjEgMzIuOTk1MiAzMC42Mjc1IDMyLjkwNzEgMzAuNjQ3MUMzMS43Nzk1IDMwLjg5ODQgMzAuODk4OCAzMS43NzkzIDMwLjY0NzQgMzIuOTA2OUMzMC42Mjc4IDMyLjk5NDkgMzAuNjEyNCAzMy4wOTQxIDMwLjU4MSAzMy4yOTA2QzMwLjQ4NjcgMzMuODc5OSAzMC40Mzg4IDM0LjE3NDcgMzAuMzk2NCAzNC40Njg0QzI5Ljg2NyAzOC4xMzY4IDI5Ljg2NyA0MS44NjI0IDMwLjM5NjQgNDUuNTMwOUMzMC40Mzg4IDQ1LjgyNDYgMzAuNDg2NyA0Ni4xMjAxIDMwLjU4MSA0Ni43MDk2QzMwLjYxMjQgNDYuOTA1OSAzMC42Mjc4IDQ3LjAwNDQgMzAuNjQ3NCA0Ny4wOTI0QzMwLjg5ODcgNDguMjIwMSAzMS43Nzk1IDQ5LjEwMDkgMzIuOTA3MSA0OS4zNTIyQzMyLjk5NTIgNDkuMzcxOCAzMy4wOTM2IDQ5LjM4NzIgMzMuMjkgNDkuNDE4NkMzMy44Nzk0IDQ5LjUxMjkgMzQuMTc0OSA0OS41NjA3IDM0LjQ2ODcgNDkuNjAzMUMzOC4xMzcxIDUwLjEzMjUgNDEuODYyNyA1MC4xMzI2IDQ1LjUzMTIgNDkuNjAzMUM0NS44MjQ5IDQ5LjU2MDggNDYuMTE5NiA0OS41MTI5IDQ2LjcwODkgNDkuNDE4NkM0Ni45MDUyIDQ5LjM4NzIgNDcuMDAzOCA0OS4zNzE3IDQ3LjA5MTcgNDkuMzUyMkM0OC4yMTk1IDQ5LjEwMDkgNDkuMTAxMiA0OC4yMjAyIDQ5LjM1MjUgNDcuMDkyNEM0OS4zNzIxIDQ3LjAwNDQgNDkuMzg3NCA0Ni45MDYgNDkuNDE4OSA0Ni43MDk2QzQ5LjUxMzIgNDYuMTIwMSA0OS41NjAxIDQ1LjgyNDYgNDkuNjAyNSA0NS41MzA5QzUwLjEzMTkgNDEuODYyNCA1MC4xMzE5IDM4LjEzNjkgNDkuNjAyNSAzNC40Njg0QzQ5LjU2MDEgMzQuMTc0NyA0OS41MTMxIDMzLjg3OTkgNDkuNDE4OSAzMy4yOTA2QzQ5LjM4NzQgMzMuMDk0MSA0OS4zNzIxIDMyLjk5NDkgNDkuMzUyNSAzMi45MDY5QzQ5LjEwMTEgMzEuNzc5MiA0OC4yMTk0IDMwLjg5ODMgNDcuMDkxNyAzMC42NDcxQzQ3LjAwMzggMzAuNjI3NSA0Ni45MDUxIDMwLjYxMjEgNDYuNzA4OSAzMC41ODA3QzQ2LjExOTYgMzAuNDg2NCA0NS44MjQ5IDMwLjQzOTUgNDUuNTMxMiAzMC4zOTcxWk0xNS41MzIyIDAuMzk3MDg2QzExLjg2MzUgLTAuMTMyMzYyIDguMTM3MzEgLTAuMTMyMzYyIDQuNDY4NjcgMC4zOTcwODZDNC4xNzQ5NyAwLjQzOTQ3MyAzLjg4MDIzIDAuNDg2MzkzIDMuMjkwOTQgMC41ODA2NzlDMy4wOTQ2MSAwLjYxMjA5MiAyLjk5NjEgMC42Mjc1MDMgMi45MDgxMyAwLjY0NzA4NkMxLjc4MDQ5IDAuODk4MzEzIDAuODk5NzY5IDEuNzc5MjggMC42NDgzNjEgMi45MDY4NUMwLjYyODc0MiAyLjk5NDkxIDAuNjEyNDM0IDMuMDk0MDUgMC41ODA5NzggMy4yOTA2NEMwLjQ4NjcwNiAzLjg3OTg0IDAuNDM5NzcgNC4xNzQ2NyAwLjM5NzM4NSA0LjQ2ODM3Qy0wLjEzMjAyMyA4LjEzNjg4IC0wLjEzMjAwNCAxMS44NjI0IDAuMzk3Mzg1IDE1LjUzMDlDMC40Mzk3ODEgMTUuODI0NiAwLjQ4NjY2IDE2LjEyMDEgMC41ODA5NzggMTYuNzA5NkMwLjYxMjQgMTYuOTA2IDAuNjI4NzU0IDE3LjAwNDQgMC42NDgzNjEgMTcuMDkyNEMwLjg5OTcwOCAxOC4yMjAxIDEuNzgwNDIgMTkuMTAwOSAyLjkwODEzIDE5LjM1MjJDMi45OTYxMSAxOS4zNzE4IDMuMDk0NTcgMTkuMzg3MiAzLjI5MDk0IDE5LjQxODZDMy44ODAzMiAxOS41MTI5IDQuMTc0OTMgMTkuNTYwNyA0LjQ2ODY3IDE5LjYwMzFDOC4xMzczMSAyMC4xMzI2IDExLjg2MzUgMjAuMTMyNiAxNS41MzIyIDE5LjYwMzFDMTUuODI1OCAxOS41NjA4IDE2LjEyMDcgMTkuNTEyOCAxNi43MDk5IDE5LjQxODZDMTYuOTA2MyAxOS4zODcxIDE3LjAwNDcgMTkuMzcxOCAxNy4wOTI3IDE5LjM1MjJDMTguMjIwNCAxOS4xMDA5IDE5LjEwMTEgMTguMjIwMSAxOS4zNTI1IDE3LjA5MjRDMTkuMzcyMSAxNy4wMDQ0IDE5LjM4NzUgMTYuOTA1OSAxOS40MTg5IDE2LjcwOTZDMTkuNTEzMiAxNi4xMjAxIDE5LjU2MSAxNS44MjQ2IDE5LjYwMzQgMTUuNTMwOUMyMC4xMzI4IDExLjg2MjQgMjAuMTMyOCA4LjEzNjg1IDE5LjYwMzQgNC40NjgzN0MxOS41NjExIDQuMTc0NjYgMTkuNTEzMSAzLjg3OTkgMTkuNDE4OSAzLjI5MDY0QzE5LjM4NzQgMy4wOTQwNSAxOS4zNzIxIDIuOTk0OTEgMTkuMzUyNSAyLjkwNjg1QzE5LjEwMTEgMS43NzkyNCAxOC4yMjA0IDAuODk4MzE4IDE3LjA5MjcgMC42NDcwODZDMTcuMDA0NyAwLjYyNzQ3NCAxNi45MDYzIDAuNjEyMTExIDE2LjcwOTkgMC41ODA2NzlDMTYuMTIwNyAwLjQ4NjQxNSAxNS44MjU4IDAuNDM5NDYzIDE1LjUzMjIgMC4zOTcwODZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K";
 
 /* ============================================================
-   Alva ASCII mark — 扁平字符晶格
-   容器 = 字符场(承载 hover/press/脉冲), 内容 = 中心 crisp logo(承载呼吸/眨眼/注视)
-   字符密度阶梯: 空 → 微点 → 点 → 十字 → 菱形 → 小方 → 圆角块
+   Alva ASCII mark v2 — 整个按钮就是一块字符画
+   · 明确的点击区:圆角瓦片底色,字符满铺到边(像品牌 banner 的半调纹理)
+   · logo 本身用字符点阵渲染(品牌 Symbol Element 的 dot-matrix 阶段)
+   · 表情归内容(点阵 logo 的呼吸/眨眼/注视/消隐),交互归瓦片(hover/press/预备-过冲)
    ============================================================ */
 function hash2(ix,iy){let h=(ix*374761393+iy*668265263)>>>0;h=(h^(h>>13))>>>0;h=(h*1274126177)>>>0;return ((h^(h>>16))>>>0)/4294967296;}
-/* 全局状态机:所有格子共享一套神经系统 */
 const S={
   mode:"idle",
-  w:{idle:1,thinking:0,speaking:0,awaiting:0},   // 状态权重(指数滤波,切换永远是渐变)
-  swirl:0,swirlV:0.25,                            // 思考旋涡:相位与被滤波的角速度
-  typeT:0,                                        // 输出:打字相位(恒速,一气呵成)
-  enterT:0,                                       // 进入当前状态的时刻
-  gz:[0,0],gzT:[0,0],nextGaze:2.5,                // 注视
-  blinkAt:2.0,                                    // 眨眼
-  twinkleSeed:0,nextTw:1.5,                       // 待机微闪烁事件
-  pulseAt:1e9,                                    // 等待:脉冲波起始时刻
+  w:{idle:1,thinking:0,speaking:0,awaiting:0},
+  swirl:0,swirlV:0.25,
+  typeT:0,
+  enterT:0,kickT:-9,                 // kickT:状态切换的预备-过冲-回弹
+  gz:[0,0],gzT:[0,0],nextGaze:2.5,
+  blinkAt:2.0,
+  twinkleSeed:0,nextTw:1.5,
+  waveAt:3.0,                        // 待机微事件:一道斜向的字符浪
+  pulseAt:1e9,
   last:0
 };
 function stepState(t){
-  /* dt 上限 1s:指数滤波对任意 dt 无条件稳定;标签页后台 RAF 暂停后,切回来一帧补齐进度,表情不会卡在半路 */
+  /* dt 上限 1s:指数滤波对任意 dt 无条件稳定;标签页后台 RAF 暂停后一帧补齐进度 */
   const dt=Math.min(1.0,Math.max(0.001,t-S.last||0.016));S.last=t;
   for(const k in S.w){
     const tgt=(S.mode===k)?1:0;
-    const rate=(tgt>S.w[k])?3.0:1.8;              // 起得快落得慢:兴奋快,平静有惯性
+    const rate=(tgt>S.w[k])?3.2:1.8;               // 起得快落得慢
     S.w[k]+=(tgt-S.w[k])*(1-Math.exp(-dt*rate));
   }
-  /* 思考:角速度慢-快-慢地甩,旋涡相位滞后跟随(被卷起来的感觉) */
   const th=S.w.thinking;
   let vTgt=0.25;
   if(th>0.02){
     const ph=(t-S.enterT)%3.2;
-    const whip=Math.pow(Math.sin(Math.PI*ph/3.2),2.0);
+    const whip=Math.pow(Math.sin(Math.PI*ph/3.2),2.0); // 慢-快-慢甩动
     vTgt=0.25+th*(1.2+5.5*whip);
   }
-  S.swirlV+=(vTgt-S.swirlV)*(1-Math.exp(-dt*(vTgt>S.swirlV?1.6:0.9)));
+  S.swirlV+=(vTgt-S.swirlV)*(1-Math.exp(-dt*(vTgt>S.swirlV?1.6:0.9))); // 惯性滞后
   S.swirl+=S.swirlV*dt;
-  /* 输出:打字相位恒速推进(中途不减速);权重低时暂停 */
-  if(S.w.speaking>0.4)S.typeT+=dt;
-  /* 注视:待机随机张望 */
+  if(S.w.speaking>0.4)S.typeT+=dt;                  // 打字恒速,一气呵成
   if(t>S.nextGaze){
-    S.gzT=(Math.random()<0.3)?[0,0]:[(Math.random()-0.5)*0.10,(Math.random()-0.5)*0.07];
+    S.gzT=(Math.random()<0.3)?[0,0]:[(Math.random()-0.5)*0.30,(Math.random()-0.5)*0.22];
     S.nextGaze=t+2.5+Math.random()*4;
   }
   S.gz[0]+=(S.gzT[0]-S.gz[0])*(1-Math.exp(-dt*4));
   S.gz[1]+=(S.gzT[1]-S.gz[1])*(1-Math.exp(-dt*4));
   if(t>S.blinkAt+0.5)S.blinkAt=t+3.5+Math.random()*6;
   if(t>S.nextTw){S.twinkleSeed=Math.floor(Math.random()*1e6);S.nextTw=t+2+Math.random()*4;}
-  /* 等待:每 10s 一次脉冲(进入时先来一次) */
+  if(t>S.waveAt+1.8)S.waveAt=t+4+Math.random()*5;   // 不可预测的浪
   if(S.mode==="awaiting"){
     if(S.pulseAt>1e8)S.pulseAt=t+0.4;
     if(t>S.pulseAt+2.0)S.pulseAt=t+8.0;
   }else S.pulseAt=1e9;
 }
-function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;if(m==="awaiting")S.pulseAt=1e9;}}
-/* ---------- 字符密度场:d(u,v) ∈ [0,1] ---------- */
-/* u,v ∈ [-1,1] 覆盖字符瓦片;rr=超椭圆半径(瓦片是圆角方形的势场) */
-function fieldIdle(u,v,rr,t,ix,iy){
-  let d=0.26+0.14*Math.sin(u*2.3+t*0.31)*Math.sin(v*2.1-t*0.23)
-       +0.10*Math.sin((u+v)*1.7+t*0.19);
-  /* 微闪烁:少数格子在随机时刻升一阶再落下(不可预测的心跳) */
-  const hw=hash2(ix+S.twinkleSeed,iy*7+1);
-  if(hw>0.985){const ph=(t-S.nextTw+6)%6;d+=0.5*Math.exp(-Math.pow((ph-0.3)*4,2));}
-  return d;
+function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;S.kickT=t;if(m==="speaking")S.typeT=0;if(m==="awaiting")S.pulseAt=1e9;}}
+/* 状态切换的瓦片动势:预备(缩)-过冲(涨)-回弹落定 */
+function kickScale(t){
+  const k=t-S.kickT;if(k<0||k>0.9)return 1;
+  if(k<0.10)return 1-0.05*(k/0.10);                       // 预备:先收一口气
+  return 1-0.05*Math.cos((k-0.10)*14)*Math.exp(-(k-0.10)*5); // 过冲+衰减落定
 }
-function fieldThink(u,v,rr,t,ang){
-  /* 旋涡点阵:三臂螺旋,转速被 swirl 相位驱动;转快时密度向外圈甩(离心) */
-  const sp=Math.sin(ang*3-S.swirl*2.0+rr*4.5);
+/* ---------- 背景纹理能量 e ∈ [0,1]:决定底层字符的阶level ---------- */
+function texIdle(u,v,t,ix,iy){
+  let e=0.34+0.20*Math.sin(u*2.3+t*0.31)*Math.sin(v*2.1-t*0.23)
+       +0.12*Math.sin((u+v)*1.7+t*0.19);                  // 无理数比叠加,永不重复
+  const hw=hash2(ix+S.twinkleSeed,iy*7+1);                // 微闪烁:随机格子偶尔亮一下
+  if(hw>0.982){const ph=(t-S.nextTw+6)%6;e+=0.55*Math.exp(-Math.pow((ph-0.3)*4,2));}
+  const wp=t-S.waveAt;                                    // 一道斜浪扫过(间歇微事件)
+  if(wp>0&&wp<1.8){const pr=(u+v)*0.5;e+=0.5*Math.exp(-Math.pow((pr-(wp*1.6-1.3))*3.2,2))*(1-wp/1.8);}
+  return e;
+}
+function texThink(u,v,t,ang,r){
+  const sp=Math.sin(ang*3-S.swirl*2.0+r*4.5);             // 三臂旋涡,被 swirl 卷着走
   const fast=Math.min(1,(S.swirlV-0.25)/4.5);
-  let d=0.30+0.38*sp*(0.55+0.45*rr)+0.22*fast*(rr-0.35);
-  return d;
+  return 0.42+0.42*sp*(0.55+0.45*r)+0.24*fast*(r-0.35);   // 转快时离心甩向外圈
 }
-function fieldSpeak(u,v,rr,t,ix,iy,N){
-  /* 打字机:按行左→右扫描,新字亮旧字淡;整页打完→顿一拍→按打字顺序消散→重来 */
-  const total=N*N;
-  const speed=total/1.6;                       // 1.6s 打满一页,恒速
-  const cycle=total/speed+0.9;                 // 打字 + 消散/停顿
-  const ph=S.typeT%cycle;
-  const idx=iy*N+ix;
-  let d=0;
-  if(ph*speed>=idx){
-    const age=ph-idx/speed;
-    d=0.15+0.75*Math.exp(-age*1.1);            // 新墨深旧墨淡
-    if(ph>total/speed){                        // 抬笔:按打字顺序消散
-      const dis=(ph-total/speed)*speed*2.2;
-      if(dis>idx)d*=Math.max(0,1-(dis-idx)/(total*0.18));
-    }
-  }
-  /* 光标块:当前正在打的格子满亮 */
-  if(Math.floor(ph*speed)===idx&&ph<total/speed)d=1;
-  return d;
+function texAwait(u,v,t,r){
+  let e=0.22+0.10*Math.sin(u*1.9+t*0.26)*Math.sin(v*1.7-t*0.21);
+  const pt=t-S.pulseAt;                                   // 每 10s 荡出一圈脉冲
+  if(pt>0&&pt<1.6){const R=pt*0.95;e+=0.65*Math.exp(-Math.pow((r-R)*7,2))*(1-pt/1.6);}
+  return e;
 }
-function fieldAwait(u,v,rr,t){
-  let d=0.15+0.07*Math.sin(u*1.9+t*0.26)*Math.sin(v*1.7-t*0.21);
-  /* 脉冲环:从中心荡出去的一圈提醒 */
-  const pt=t-S.pulseAt;
-  if(pt>0&&pt<1.6){const R=pt*0.9;d+=0.55*Math.exp(-Math.pow((rr-R)*7,2))*(1-pt/1.6);}
-  return d;
-}
-/* ---------- 字符绘制:七阶阶梯 ---------- */
+/* ---------- 字符七阶 ---------- */
 function drawGlyph(x2,y2,c,lvl,color,ctx){
-  ctx.fillStyle=color;
-  const h=c/2;
   if(lvl<=0)return;
-  if(lvl===1){ctx.beginPath();ctx.arc(x2,y2,c*0.07,0,7);ctx.fill();return;}
-  if(lvl===2){ctx.beginPath();ctx.arc(x2,y2,c*0.13,0,7);ctx.fill();return;}
-  if(lvl===3){const w=c*0.13,l=c*0.62;                        /* 十字 */
+  ctx.fillStyle=color;
+  if(lvl===1){ctx.beginPath();ctx.arc(x2,y2,c*0.09,0,7);ctx.fill();return;}
+  if(lvl===2){ctx.beginPath();ctx.arc(x2,y2,c*0.15,0,7);ctx.fill();return;}
+  if(lvl===3){const w=c*0.14,l=c*0.64;
     ctx.fillRect(x2-l/2,y2-w/2,l,w);ctx.fillRect(x2-w/2,y2-l/2,w,l);return;}
-  if(lvl===4){const s=c*0.42;                                  /* 菱形 */
+  if(lvl===4){const s=c*0.44;
     ctx.beginPath();ctx.moveTo(x2,y2-s);ctx.lineTo(x2+s,y2);ctx.lineTo(x2,y2+s);ctx.lineTo(x2-s,y2);ctx.closePath();ctx.fill();return;}
-  if(lvl===5){const s=c*0.56;rr2(ctx,x2-s/2,y2-s/2,s,s,c*0.14);ctx.fill();return;}   /* 小方 */
-  const s=c*0.82;rr2(ctx,x2-s/2,y2-s/2,s,s,c*0.26);ctx.fill();                        /* 圆角块 */
+  if(lvl===5){const s=c*0.60;rrp(ctx,x2-s/2,y2-s/2,s,s,c*0.15);ctx.fill();return;}
+  const s=c*0.88;rrp(ctx,x2-s/2,y2-s/2,s,s,c*0.28);ctx.fill();
 }
-function rr2(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
-/* ---------- 场景 ---------- */
+function rrp(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+/* ---------- 场景:瓦片底色 = 明确的点击区 ---------- */
 const SCENES=[
- {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,
-  ink:[[73,163,166],[22,24,29]],glyph:(a)=>`rgba(73,163,166,${a})`,glyphHi:(a)=>`rgba(22,24,29,${a})`,cursor:"#16181d"},
- {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,
-  ink:[[73,163,166],[230,232,236]],glyph:(a)=>`rgba(105,190,192,${a})`,glyphHi:(a)=>`rgba(236,240,244,${a})`,cursor:"#eef1f4"},
- {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,
-  ink:[[255,255,255],[0,0,0]],glyph:(a)=>`rgba(244,251,250,${a})`,glyphHi:(a)=>`rgba(10,26,26,${a})`,cursor:"#0a1a1a"}
+ {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,tile:"#e2f4f3",tilePress:"#d3ecea",
+  glyph:(a)=>`rgba(73,163,166,${a})`,glyphHi:(a)=>`rgba(20,42,44,${a})`,cursor:"#14262a",
+  cls:(L)=>L>0.30?"#3d979a":"#16181d"},
+ {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,tile:"#171b21",tilePress:"#121519",
+  glyph:(a)=>`rgba(96,182,184,${a})`,glyphHi:(a)=>`rgba(232,238,242,${a})`,cursor:"#eef1f4",
+  cls:(L)=>L>0.80?"#e8ecef":"#54b0b3"},
+ {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,tile:"#59b0b2",tilePress:"#3f9294",
+  glyph:(a)=>`rgba(240,251,250,${a})`,glyphHi:(a)=>`rgba(8,24,24,${a})`,cursor:"#0a1a1a",
+  cls:(L)=>L>0.50?"#f4fbfa":"#0c1d1d"}
 ];
-/* ---------- 单元格实例 ---------- */
+/* ---------- 单元格 ---------- */
 function makeCell(cv,scene,tilePx){
   const ctx=cv.getContext("2d");
-  const img=new Image();let imgOK=false;img.onload=()=>{imgOK=true;};img.src=scene.tex();
+  const img=new Image();let map=null;const MS=96;
+  img.onload=()=>{const oc=document.createElement("canvas");oc.width=MS;oc.height=MS;
+    const ox=oc.getContext("2d");ox.drawImage(img,4,4,MS-8,MS-8);
+    map=ox.getImageData(0,0,MS,MS).data;};
+  img.src=scene.tex();
+  /* 点阵 logo 采样:u,v ∈ [-1,1],logo 占中央 span;返回该格颜色或 null */
+  function sampleLogo(u,v,span){
+    if(!map)return null;
+    const x=((u/span)*0.5+0.5)*MS,y=((v/span)*0.5+0.5)*MS;
+    if(x<0||y<0||x>=MS||y>=MS)return null;
+    const i=((y|0)*MS+(x|0))*4;
+    if(map[i+3]<90)return null;
+    const L=(map[i]*0.299+map[i+1]*0.587+map[i+2]*0.114)/255;
+    return scene.cls(L);
+  }
   const hov={x:0,y:0,cur:0,tgt:0};
   const press={downT:-9,upT:-9,held:false};
   cv.addEventListener("mousemove",e=>{const r=cv.getBoundingClientRect();
@@ -183,74 +180,99 @@ function makeCell(cv,scene,tilePx){
     if(cv.width!==Math.round(W*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
     ctx.setTransform(dpr,0,0,dpr,0,0);
     ctx.fillStyle=scene.css;ctx.fillRect(0,0,W,H);
-    const tile=Math.min(tilePx,H*0.86);
-    const N=Math.max(11,Math.round(tile/3.8))|1;   // 奇数格,中心对称
-    const c=tile/N;
-    const cx=W/2,cy=H/2;
     hov.cur+=(hov.tgt-hov.cur)*0.14;
-    /* 按压量:压下 90ms 贴平,抬起弹簧回弹(与玻璃球同一套触感语言) */
     let prs=0;
     if(press.held)prs=Math.min(1,(t-press.downT)/0.09);
     else{const ue=t-press.upT;if(ue>=0&&ue<0.9)prs=Math.exp(-ue*7)*Math.cos(ue*18);}
-    const sc=(1+0.03*hov.cur)*(1-0.06*Math.max(0,prs));  // hover 微涨,按压微缩(纸面被按住)
-    /* 字符场 */
+    const pc=Math.max(0,prs);
+    /* 瓦片:圆角底色 = 按钮的身体;交互全由它承载 */
+    const tile0=Math.min(tilePx,H*0.86);
+    const sc=kickScale(t)*(1+0.03*hov.cur)*(1-0.06*pc);
+    const tile=tile0*sc;
+    const cx=W/2,cy=H/2;
+    ctx.fillStyle=(pc>0.3)?scene.tilePress:scene.tile;
+    rrp(ctx,cx-tile/2,cy-tile/2,tile,tile,tile*0.24);ctx.fill();
+    /* 字符网格满铺瓦片 */
+    const N=(Math.max(11,Math.round(tile0/3.4))|1);
+    const inset=0.90;                                  // 字符区内缩一点,呼吸留白
+    const c=tile*inset/N;
     const wI=S.w.idle,wT=S.w.thinking,wS=S.w.speaking,wA=S.w.awaiting;
     const wSum=wI+wT+wS+wA+1e-6;
+    const logoA=Math.max(0,1-(wT+wS)*1.35);            // 思考/输出时点阵 logo 消隐
+    /* 内容层的生命体征 */
+    const breath=1+0.035*Math.sin(t*0.66)+0.018*Math.sin(t*1.13+0.9);
+    let blinkY=1;const be=t-S.blinkAt;
+    if(be>0&&be<0.35)blinkY=1-0.22*Math.sin(be/0.35*Math.PI);
+    let gx2=S.gz[0],gy2=S.gz[1];
+    if(hov.cur>0.01){gx2=gx2*(1-hov.cur)+hov.x*0.35*hov.cur;gy2=gy2*(1-hov.cur)+hov.y*0.28*hov.cur;}
+    const span=0.80*breath*(1+0.10*pc);                // 按压:内容贴面被放大
+    /* 打字参数 */
+    const total=N*N,speed=total/1.6,cycle=total/speed+0.9,ph=S.typeT%cycle;
     for(let iy=0;iy<N;iy++)for(let ix=0;ix<N;ix++){
-      let u=(ix-(N-1)/2)/((N-1)/2),v=(iy-(N-1)/2)/((N-1)/2);
-      const rr=Math.pow(Math.pow(Math.abs(u),4)+Math.pow(Math.abs(v),4),0.25);
-      if(rr>1.02)continue;
+      const u=(ix-(N-1)/2)/((N-1)/2),v=(iy-(N-1)/2)/((N-1)/2);
+      const r=Math.hypot(u,v)*0.7071;
       const ang=Math.atan2(v,u);
-      let d=(wI*fieldIdle(u,v,rr,t,ix,iy)
-            +wT*fieldThink(u,v,rr,t,ang)
-            +wS*fieldSpeak(u,v,rr,t,ix,iy,N)
-            +wA*fieldAwait(u,v,rr,t))/wSum;
-      /* 中心让位给 logo(思考时 logo 消隐,中心交还给旋涡) */
-      const hole=1-Math.min(1,Math.max(0,(rr-0.30)/0.20));
-      d*=1-(0.9-0.75*wT)*hole;
-      /* 包络:边缘渐隐,瓦片没有硬边 */
-      d*=1-Math.min(1,Math.max(0,(rr-0.80)/0.22));
-      /* hover:靠近指针的字符升阶(容器感知到你) */
-      if(hov.cur>0.01){
-        const du=u-hov.x*(W/tile),dv=v-hov.y*(H/tile);
-        d+=0.35*hov.cur*Math.exp(-(du*du+dv*dv)*6);
+      const gxp=cx+u*(tile*inset)/2,gyp=cy+v*(tile*inset)/2;
+      /* 1) 点阵 logo(内容层):呼吸缩放采样、眨眼纵向挤压、注视偏移 */
+      if(logoA>0.03){
+        const colr=sampleLogo((u-gx2*0.14)*1,( (v-gy2*0.14))/blinkY,span);
+        if(colr){
+          const wobble=0.5+0.5*Math.sin(t*0.9+hash2(ix,iy)*6.28);   // 点阵内部轻微明暗游走
+          ctx.globalAlpha=logoA*(0.88+0.12*wobble);
+          drawGlyph(gxp,gyp,c,5+(wobble>0.72?1:0),colr,ctx);
+          ctx.globalAlpha=1;
+          continue;
+        }
       }
-      /* 按压:整场字符被"按平"——密度趋向中间值,对比消失 */
-      const pc=Math.max(0,prs);
-      d=d*(1-0.5*pc)+0.30*pc;
-      if(d<=0.04)continue;
-      const lvl=Math.min(6,Math.floor(d*6.2));
-      const alpha=Math.min(1,0.35+d*0.75);
-      const hi=d>0.72;
-      const gx=cx+u*tile/2*sc,gy=cy+v*tile/2*sc;
-      drawGlyph(gx,gy,c*sc,lvl,hi?scene.glyphHi(alpha):scene.glyph(alpha),ctx);
+      /* 2) 背景纹理(容器层):状态混合的能量场 */
+      let e=(wI*texIdle(u,v,t,ix,iy)
+            +wT*texThink(u,v,t,ang,r)
+            +wA*texAwait(u,v,t,r))/wSum;
+      /* 输出中:打字机图层压过纹理 */
+      let typeC=null;
+      if(wS>0.05){
+        const idx=iy*N+ix;
+        let d=0;
+        if(ph*speed>=idx){
+          const age=ph-idx/speed;
+          d=0.25+0.75*Math.exp(-age*1.1);
+          if(ph>total/speed){
+            const dis=(ph-total/speed)*speed*2.2;
+            if(dis>idx)d*=Math.max(0,1-(dis-idx)/(total*0.18));  // 按打字顺序消散
+          }
+        }
+        if(Math.floor(ph*speed)===idx&&ph<total/speed){d=1.15;typeC=scene.cursor;}
+        e=e*(1-wS)+d*wS;
+        if(!typeC&&d>0.62)typeC="hi";
+      }
+      /* hover:指针周围字符升阶(容器感知到你) */
+      if(hov.cur>0.01){
+        const du=u-hov.x*(W/(tile*inset)),dv=v-hov.y*(H/(tile*inset));
+        e+=0.4*hov.cur*Math.exp(-(du*du+dv*dv)*6);
+      }
+      e=e*(1-0.45*pc)+0.28*pc;                          // 按压:纹理被按平,对比消失
+      if(e<=0.06)continue;
+      const lvl=Math.min(6,Math.floor(e*4.6));
+      if(lvl<=0)continue;
+      const alpha=Math.min(1,0.30+e*0.85);
+      let color;
+      if(typeC==="hi")color=scene.glyphHi(alpha);
+      else if(typeC)color=typeC;
+      else color=(e>0.86)?scene.glyphHi(Math.min(1,alpha)):scene.glyph(alpha);
+      drawGlyph(gxp,gyp,c,lvl,color,ctx);
     }
-    /* 等待回应:右上角终端光标块,530ms 节律闪烁(该你输入了) */
+    /* 等待回应:瓦片右上角终端光标块,530ms 节律(该你了) */
     if(wA>0.02){
-      const on=(Math.floor(t/0.53)%2)===0?1:0.15;
-      const s=c*1.35;
-      const bx=cx+tile/2*0.82,by=cy-tile/2*0.82;
-      ctx.globalAlpha=wA*on;rr2(ctx,bx-s/2,by-s/2,s,s,s*0.22);ctx.fillStyle=scene.cursor;ctx.fill();ctx.globalAlpha=1;
-    }
-    /* 内容层:crisp logo(呼吸/眨眼/注视);思考时消隐让位给旋涡 */
-    const logoA=1-Math.min(1,wT*1.4);
-    if(imgOK&&logoA>0.02){
-      const breath=1+0.030*Math.sin(t*0.66)+0.016*Math.sin(t*1.13+0.9);
-      let blinkY=1;const be=t-S.blinkAt;
-      if(be>0&&be<0.4)blinkY=1-0.10*Math.sin(be/0.4*Math.PI);
-      let gx2=S.gz[0],gy2=S.gz[1];
-      if(hov.cur>0.01){gx2=gx2*(1-hov.cur)+hov.x*0.06*hov.cur;gy2=gy2*(1-hov.cur)+hov.y*0.045*hov.cur;}
-      const ls=tile*0.42*breath*sc*(1+0.10*Math.max(0,prs));   // 按压:内容贴纸面被放大一点
-      ctx.save();ctx.globalAlpha=logoA;
-      ctx.translate(cx+gx2*tile,cy+gy2*tile);
-      ctx.rotate(gx2*0.5);ctx.scale(1,blinkY);
-      ctx.drawImage(img,-ls/2,-ls/2,ls,ls);
-      ctx.restore();
+      const on=(Math.floor(t/0.53)%2)===0?1:0.12;
+      const s=c*1.5;
+      const bx=cx+tile/2-s*1.1,by=cy-tile/2+s*1.1;
+      ctx.globalAlpha=wA*on;ctx.fillStyle=scene.cursor;
+      rrp(ctx,bx-s/2,by-s/2,s,s,s*0.2);ctx.fill();ctx.globalAlpha=1;
     }
   }
   return {draw};
 }
-/* ---------- 页面组装(与玻璃球 demo 同一套表格) ---------- */
+/* ---------- 页面 ---------- */
 const cols=document.getElementById("cols");const insts=[];
 const MOBILE=window.matchMedia&&window.matchMedia("(max-width:640px)").matches;
 if(!MOBILE){
@@ -262,16 +284,14 @@ if(!MOBILE){
    +SCENES.map((sc,i)=>'<tr><th class="rl">'+sc.cap+'</th><td class="cell" style="background:'+sc.css+'"><canvas class="cv1" data-k="b'+i+'"></canvas></td><td class="cell" style="background:'+sc.css+'"><canvas class="cv2" data-k="s'+i+'"></canvas></td></tr>').join('');
 }
 SCENES.forEach((sc,i)=>{
-  const cb=document.querySelector('canvas[data-k="b'+i+'"]');
-  const cs2=document.querySelector('canvas[data-k="s'+i+'"]');
-  insts.push(makeCell(cb,sc,48));
-  insts.push(makeCell(cs2,sc,32));
+  insts.push(makeCell(document.querySelector('canvas[data-k="b'+i+'"]'),sc,48));
+  insts.push(makeCell(document.querySelector('canvas[data-k="s'+i+'"]'),sc,32));
 });
 const HINTS={
- idle:"待机 — 字符场安静地起伏(两组无理数比正弦叠加,永不重复),偶发的字符微闪烁像不定时的心跳;中心 logo 承载表情:呼吸、每 3~9 秒眨眼、随机张望。",
- thinking:"思考 — logo 消隐,中心交还给字符旋涡:三臂螺旋点阵慢-快-慢地甩动,转快时字符被离心力甩向外圈;转速带惯性滞后,退出时慢慢滑落回平静。",
- speaking:"输出中 — 打字机:字符按行左→右恒速敲出(一气呵成,1.6s 一页),光标块满亮,新字深旧字淡;打完顿一拍,再按打字顺序逐段消散,重新开始。",
- awaiting:"等待回应 — 右上角一枚终端光标块以 530ms 节律闪烁(该你了);字符场几乎静止,每 10 秒从中心荡出一圈脉冲提醒;首次进入即刻脉冲一次。"
+ idle:"待机 — 圆角字符瓦片是按钮本体:底层细字符按无理数比节奏起伏,偶发单格闪烁和一道斜浪扫过(不可预测的心跳);点阵 logo 承载表情——呼吸缩放、每 3~9 秒眨眼(纵向一挤)、随机注视偏移。",
+ thinking:"思考 — 点阵 logo 散解,让位给三臂字符旋涡:慢-快-慢地甩动,转速带惯性滞后,转快时字符被离心力甩向外圈;切换瞬间瓦片先收一口气再过冲落定。",
+ speaking:"输出中 — 打字机:字符按行左→右恒速敲满整块瓦片(一气呵成,1.6s 一页),光标块深色满亮,新字深旧字淡;打完顿一拍,按打字顺序逐段消散,换气重来。",
+ awaiting:"等待回应 — 瓦片右上角一枚终端光标块以 530ms 节律闪烁(该你了);点阵 logo 安静呼吸,纹理几乎静止,每 10 秒从中心荡出一圈字符脉冲提醒;首次进入即刻脉冲。"
 };
 const hint=document.getElementById("hint");
 function setHint(){hint.textContent=HINTS[S.mode];}
