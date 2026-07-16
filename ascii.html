@@ -34,7 +34,10 @@
 </head>
 <body>
   <h1>Alva AI · ASCII 标识 — 扁平<a href="./" title="液态玻璃球版本">玻璃球版 ↗</a></h1>
-  <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出中</button><button data-s="awaiting">等待回应</button></div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <div class="seg" id="seg"><button data-s="idle" class="on">待机</button><button data-s="thinking">思考</button><button data-s="speaking">输出中</button><button data-s="awaiting">等待回应</button></div>
+    <div class="seg" id="vseg"><button data-v="plain" class="on">纯色背景</button><button data-v="page">页面内容</button></div>
+  </div>
   <table id="cols"></table>
   <div class="hint" id="hint"></div>
 <script>
@@ -97,16 +100,38 @@ function stepState(t){
 function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;if(m==="awaiting")S.pulseAt=1e9;}}
 /* ---------- 场景 ---------- */
 const SCENES=[
- {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,base:0.22,
+ {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,base:0.22,Lbg:1.0,
+  pink:["#ffffff","#16181d","#6d7480"],
   glyph:(a)=>`rgba(73,163,166,${a})`,glyphHi:(a)=>`rgba(20,42,44,${a})`,cursor:"#14262a",
   cls:(L)=>L>0.30?"#3d979a":"#16181d"},
- {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,base:0.20,
+ {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,base:0.20,Lbg:0.06,
+  pink:["#0e0f13","#e6e8ec","#6f737c"],
   glyph:(a)=>`rgba(96,182,184,${a})`,glyphHi:(a)=>`rgba(232,238,242,${a})`,cursor:"#eef1f4",
   cls:(L)=>L>0.80?"#e8ecef":"#54b0b3"},
- {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,base:0.26,
+ {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,base:0.26,Lbg:0.55,
+  pink:["#49a3a6","#f4fbfa","#bfe3e2"],
   glyph:(a)=>`rgba(240,251,250,${a})`,glyphHi:(a)=>`rgba(8,24,24,${a})`,cursor:"#0a1a1a",
   cls:(L)=>L>0.50?"#f4fbfa":"#0c1d1d"}
 ];
+/* 页面文字纹理:正常字号段落,向上匀速滚动;点阵贴片会把经过的文字半调化 */
+const VIEW={cur:0,tgt:0};
+function pageOf(scene){
+  if(scene._pg)return scene._pg;
+  const pc=document.createElement("canvas");pc.width=512;pc.height=1024;
+  const x=pc.getContext("2d");
+  x.fillStyle=scene.pink[0];x.fillRect(0,0,512,1024);
+  const H2=["设计原则","动效语言","状态与反馈","ASCII 点阵"];
+  const L=["Alva 常驻在页面右下角,一小块自包含的点阵。","它在待机时安静呼吸,思考时点色旋成三臂涡,","回答问题时像打字机一样逐行点亮。","The dot lattice halftones whatever scrolls","beneath it, like a tiny pixel screen.","滚动页面时,身后的文字被点阵接管重现,","风格来自品牌 imagery 的半调语言。","Color carries content; size answers hover;","a click ripples out from the very dot you hit.","每一次状态切换都只是颜色在网格上流动,","格点本身永不移位。"];
+  let y=64,li=0,hi=0;
+  while(y<1000){
+    if(li%6===0){x.font="600 54px -apple-system,PingFang SC,sans-serif";x.fillStyle=scene.pink[1];x.fillText(H2[hi%4],40,y);hi++;y+=78;}
+    x.font="42px -apple-system,PingFang SC,sans-serif";x.fillStyle=(li%5===4)?scene.pink[2]:scene.pink[1];
+    x.fillText(L[li%L.length],40,y);li++;y+=62;
+  }
+  scene._pg={cv:pc,data:x.getImageData(0,0,512,1024).data};
+  return scene._pg;
+}
+function rrp(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
 /* ---------- 单元格 ---------- */
 function makeCell(cv,scene,markPx){
   const ctx=cv.getContext("2d");
@@ -140,6 +165,17 @@ function makeCell(cv,scene,markPx){
     ctx.setTransform(dpr,0,0,dpr,0,0);
     ctx.fillStyle=scene.css;ctx.fillRect(0,0,W,H);
     hov.cur+=(hov.tgt-hov.cur)*0.14;
+    /* 页面内容模式:文字在整个画布上滚动 */
+    let pg=null,pgScale=0,pgTexH=0,pgSy=0;
+    if(VIEW.cur>0.01){
+      pg=pageOf(scene);
+      pgScale=W/512;pgTexH=1024*pgScale;
+      pgSy=(t*16)%pgTexH;
+      ctx.globalAlpha=VIEW.cur;
+      ctx.drawImage(pg.cv,0,-pgSy,W,pgTexH);
+      ctx.drawImage(pg.cv,0,-pgSy+pgTexH,W,pgTexH);
+      ctx.globalAlpha=1;
+    }
     /* 自包含点阵按钮:N×N 格点组成按钮本体(markPx 见方),
        圆角轮廓由角部格点裁切形成;画布其余部分是页面,留空 */
     const N=13;
@@ -147,6 +183,13 @@ function makeCell(cv,scene,markPx){
     const cols=N,rows=N;
     const x0=(W-N*c)/2,y0=(H-N*c)/2;
     const cx=W/2,cy=H/2;
+    /* 贴片底下的原文字挖掉(用页面底色),由点阵以半调方式接管重现 */
+    if(pg){
+      ctx.globalAlpha=VIEW.cur;
+      ctx.fillStyle=scene.pink[0];
+      rrp(ctx,x0-c*0.4,y0-c*0.4,N*c+c*0.8,N*c+c*0.8,markPx*0.18);ctx.fill();
+      ctx.globalAlpha=1;
+    }
     const wI=S.w.idle,wT=S.w.thinking,wS=S.w.speaking,wA=S.w.awaiting;
     const logoA=Math.max(0,1-(wT+wS)*1.35);
     /* 内容层生命体征(全部走颜色/图形通道,不动点的大小) */
@@ -235,6 +278,14 @@ function makeCell(cv,scene,markPx){
       /* ---- 绘制 ---- */
       if(!color){
         let a=scene.base;
+        /* 半调:基线点的深浅重现背后经过的文字(液态玻璃的扁平等价物) */
+        if(pg){
+          const tx=Math.min(511,Math.max(0,Math.round(px/pgScale)));
+          const ty=((Math.round((py+pgSy)/pgScale))%1024+1024)%1024;
+          const i2=(ty*512+tx)*4;
+          const Lp=(pg.data[i2]*0.299+pg.data[i2+1]*0.587+pg.data[i2+2]*0.114)/255;
+          a=Math.min(1,a+0.60*Math.min(1,Math.abs(Lp-scene.Lbg)*2.4)*VIEW.cur);
+        }
         if(ripA>0.05)a=Math.min(1,a+0.5*ripA);
         color=scene.glyph(a);
       }
@@ -272,10 +323,16 @@ document.getElementById("seg").addEventListener("click",e=>{
   document.querySelectorAll("#seg button").forEach(x=>x.classList.toggle("on",x===b));
   setMode(b.dataset.s,performance.now()/1000);setHint();
 });
+document.getElementById("vseg").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  document.querySelectorAll("#vseg button").forEach(x=>x.classList.toggle("on",x===b));
+  VIEW.tgt=(b.dataset.v==="page")?1:0;
+});
 setHint();
 (function loop(){
   const t=performance.now()/1000;
   stepState(t);
+  VIEW.cur+=(VIEW.tgt-VIEW.cur)*0.1;
   insts.forEach(o=>o.draw(t));
   requestAnimationFrame(loop);
 })();
