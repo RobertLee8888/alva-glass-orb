@@ -62,7 +62,8 @@ const S={
   last:0
 };
 function stepState(t){
-  const dt=Math.min(0.05,t-S.last||0.016);S.last=t;
+  /* dt 上限 1s:指数滤波对任意 dt 无条件稳定;标签页后台 RAF 暂停后,切回来一帧补齐进度,表情不会卡在半路 */
+  const dt=Math.min(1.0,Math.max(0.001,t-S.last||0.016));S.last=t;
   for(const k in S.w){
     const tgt=(S.mode===k)?1:0;
     const rate=(tgt>S.w[k])?3.0:1.8;              // 起得快落得慢:兴奋快,平静有惯性
