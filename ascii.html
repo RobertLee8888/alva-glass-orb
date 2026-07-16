@@ -46,7 +46,7 @@ const TEX_DARK="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIH
 const TEX_GREEN="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDUuNTMxMiAzMC4zOTcxQzQxLjg2MjYgMjkuODY3NyAzOC4xMzcyIDI5Ljg2NzcgMzQuNDY4NyAzMC4zOTcxQzM0LjE3NDkgMzAuNDM5NSAzMy44Nzk0IDMwLjQ4NjQgMzMuMjkgMzAuNTgwN0MzMy4wOTM2IDMwLjYxMjEgMzIuOTk1MiAzMC42Mjc1IDMyLjkwNzEgMzAuNjQ3MUMzMS43Nzk1IDMwLjg5ODQgMzAuODk4OCAzMS43NzkzIDMwLjY0NzQgMzIuOTA2OUMzMC42Mjc4IDMyLjk5NDkgMzAuNjEyNCAzMy4wOTQxIDMwLjU4MSAzMy4yOTA2QzMwLjQ4NjcgMzMuODc5OSAzMC40Mzg4IDM0LjE3NDcgMzAuMzk2NCAzNC40Njg0QzI5Ljg2NyAzOC4xMzY4IDI5Ljg2NyA0MS44NjI0IDMwLjM5NjQgNDUuNTMwOUMzMC40Mzg4IDQ1LjgyNDYgMzAuNDg2NyA0Ni4xMjAxIDMwLjU4MSA0Ni43MDk2QzMwLjYxMjQgNDYuOTA1OSAzMC42Mjc4IDQ3LjAwNDQgMzAuNjQ3NCA0Ny4wOTI0QzMwLjg5ODcgNDguMjIwMSAzMS43Nzk1IDQ5LjEwMDkgMzIuOTA3MSA0OS4zNTIyQzMyLjk5NTIgNDkuMzcxOCAzMy4wOTM2IDQ5LjM4NzIgMzMuMjkgNDkuNDE4NkMzMy44Nzk0IDQ5LjUxMjkgMzQuMTc0OSA0OS41NjA3IDM0LjQ2ODcgNDkuNjAzMUMzOC4xMzcxIDUwLjEzMjUgNDEuODYyNyA1MC4xMzI2IDQ1LjUzMTIgNDkuNjAzMUM0NS44MjQ5IDQ5LjU2MDggNDYuMTE5NiA0OS41MTI5IDQ2LjcwODkgNDkuNDE4NkM0Ni45MDUyIDQ5LjM4NzIgNDcuMDAzOCA0OS4zNzE3IDQ3LjA5MTcgNDkuMzUyMkM0OC4yMTk1IDQ5LjEwMDkgNDkuMTAxMiA0OC4yMjAyIDQ5LjM1MjUgNDcuMDkyNEM0OS4zNzIxIDQ3LjAwNDQgNDkuMzg3NCA0Ni45MDYgNDkuNDE4OSA0Ni43MDk2QzQ5LjUxMzIgNDYuMTIwMSA0OS41NjAxIDQ1LjgyNDYgNDkuNjAyNSA0NS41MzA5QzUwLjEzMTkgNDEuODYyNCA1MC4xMzE5IDM4LjEzNjkgNDkuNjAyNSAzNC40Njg0QzQ5LjU2MDEgMzQuMTc0NyA0OS41MTMxIDMzLjg3OTkgNDkuNDE4OSAzMy4yOTA2QzQ5LjM4NzQgMzMuMDk0MSA0OS4zNzIxIDMyLjk5NDkgNDkuMzUyNSAzMi45MDY5QzQ5LjEwMTEgMzEuNzc5MiA0OC4yMTk0IDMwLjg5ODMgNDcuMDkxNyAzMC42NDcxQzQ3LjAwMzggMzAuNjI3NSA0Ni45MDUxIDMwLjYxMjEgNDYuNzA4OSAzMC41ODA3QzQ2LjExOTYgMzAuNDg2NCA0NS44MjQ5IDMwLjQzOTUgNDUuNTMxMiAzMC4zOTcxWk0xNS41MzIyIDAuMzk3MDg2QzExLjg2MzUgLTAuMTMyMzYyIDguMTM3MzEgLTAuMTMyMzYyIDQuNDY4NjcgMC4zOTcwODZDNC4xNzQ5NyAwLjQzOTQ3MyAzLjg4MDIzIDAuNDg2MzkzIDMuMjkwOTQgMC41ODA2NzlDMy4wOTQ2MSAwLjYxMjA5MiAyLjk5NjEgMC42Mjc1MDMgMi45MDgxMyAwLjY0NzA4NkMxLjc4MDQ5IDAuODk4MzEzIDAuODk5NzY5IDEuNzc5MjggMC42NDgzNjEgMi45MDY4NUMwLjYyODc0MiAyLjk5NDkxIDAuNjEyNDM0IDMuMDk0MDUgMC41ODA5NzggMy4yOTA2NEMwLjQ4NjcwNiAzLjg3OTg0IDAuNDM5NzcgNC4xNzQ2NyAwLjM5NzM4NSA0LjQ2ODM3Qy0wLjEzMjAyMyA4LjEzNjg4IC0wLjEzMjAwNCAxMS44NjI0IDAuMzk3Mzg1IDE1LjUzMDlDMC40Mzk3ODEgMTUuODI0NiAwLjQ4NjY2IDE2LjEyMDEgMC41ODA5NzggMTYuNzA5NkMwLjYxMjQgMTYuOTA2IDAuNjI4NzU0IDE3LjAwNDQgMC42NDgzNjEgMTcuMDkyNEMwLjg5OTcwOCAxOC4yMjAxIDEuNzgwNDIgMTkuMTAwOSAyLjkwODEzIDE5LjM1MjJDMi45OTYxMSAxOS4zNzE4IDMuMDk0NTcgMTkuMzg3MiAzLjI5MDk0IDE5LjQxODZDMy44ODAzMiAxOS41MTI5IDQuMTc0OTMgMTkuNTYwNyA0LjQ2ODY3IDE5LjYwMzFDOC4xMzczMSAyMC4xMzI2IDExLjg2MzUgMjAuMTMyNiAxNS41MzIyIDE5LjYwMzFDMTUuODI1OCAxOS41NjA4IDE2LjEyMDcgMTkuNTEyOCAxNi43MDk5IDE5LjQxODZDMTYuOTA2MyAxOS4zODcxIDE3LjAwNDcgMTkuMzcxOCAxNy4wOTI3IDE5LjM1MjJDMTguMjIwNCAxOS4xMDA5IDE5LjEwMTEgMTguMjIwMSAxOS4zNTI1IDE3LjA5MjRDMTkuMzcyMSAxNy4wMDQ0IDE5LjM4NzUgMTYuOTA1OSAxOS40MTg5IDE2LjcwOTZDMTkuNTEzMiAxNi4xMjAxIDE5LjU2MSAxNS44MjQ2IDE5LjYwMzQgMTUuNTMwOUMyMC4xMzI4IDExLjg2MjQgMjAuMTMyOCA4LjEzNjg1IDE5LjYwMzQgNC40NjgzN0MxOS41NjExIDQuMTc0NjYgMTkuNTEzMSAzLjg3OTkgMTkuNDE4OSAzLjI5MDY0QzE5LjM4NzQgMy4wOTQwNSAxOS4zNzIxIDIuOTk0OTEgMTkuMzUyNSAyLjkwNjg1QzE5LjEwMTEgMS43NzkyNCAxOC4yMjA0IDAuODk4MzE4IDE3LjA5MjcgMC42NDcwODZDMTcuMDA0NyAwLjYyNzQ3NCAxNi45MDYzIDAuNjEyMTExIDE2LjcwOTkgMC41ODA2NzlDMTYuMTIwNyAwLjQ4NjQxNSAxNS44MjU4IDAuNDM5NDYzIDE1LjUzMjIgMC4zOTcwODZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K";
 
 /* ============================================================
-   Alva ASCII mark v6 — 自包含点阵按钮 + 通道分工
+   Alva ASCII mark v7 — 品牌字符阶梯 + 自包含点阵按钮
    · 按钮 = 一小块点阵贴片:按钮的"背景"就是这张稳定基线点阵,
      圆角轮廓由角部格点裁切形成,放在页面任何角落都自成一体,格点永不移位
    · 颜色通道 = 内容与状态:一部分点变色,组成 logo / 旋涡 / 打字 / 脉冲等图形
@@ -100,15 +100,15 @@ function stepState(t){
 function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;if(m==="awaiting")S.pulseAt=1e9;}}
 /* ---------- 场景 ---------- */
 const SCENES=[
- {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,base:0.22,Lbg:1.0,
+ {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,base:0.36,Lbg:1.0,
   pink:["#ffffff","#16181d","#6d7480"],
   glyph:(a)=>`rgba(73,163,166,${a})`,glyphHi:(a)=>`rgba(20,42,44,${a})`,cursor:"#14262a",
   cls:(L)=>L>0.30?"#3d979a":"#16181d"},
- {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,base:0.20,Lbg:0.06,
+ {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,base:0.33,Lbg:0.06,
   pink:["#0e0f13","#e6e8ec","#6f737c"],
   glyph:(a)=>`rgba(96,182,184,${a})`,glyphHi:(a)=>`rgba(232,238,242,${a})`,cursor:"#eef1f4",
   cls:(L)=>L>0.80?"#e8ecef":"#54b0b3"},
- {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,base:0.26,Lbg:0.55,
+ {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,base:0.44,Lbg:0.55,
   pink:["#49a3a6","#f4fbfa","#bfe3e2"],
   glyph:(a)=>`rgba(240,251,250,${a})`,glyphHi:(a)=>`rgba(8,24,24,${a})`,cursor:"#0a1a1a",
   cls:(L)=>L>0.50?"#f4fbfa":"#0c1d1d"}
@@ -132,6 +132,18 @@ function pageOf(scene){
   return scene._pg;
 }
 function rrp(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+/* 品牌 imagery 的字符阶梯:点 → 十字 → 菱形 → 小方 → 圆角块 */
+function drawGlyph(x2,y2,c,lvl,color,ctx){
+  ctx.fillStyle=color;
+  if(lvl<=1){ctx.beginPath();ctx.arc(x2,y2,c*0.10,0,7);ctx.fill();return;}
+  if(lvl===2){ctx.beginPath();ctx.arc(x2,y2,c*0.16,0,7);ctx.fill();return;}
+  if(lvl===3){const w=c*0.15,l=c*0.58;                              /* 十字 + */
+    ctx.fillRect(x2-l/2,y2-w/2,l,w);ctx.fillRect(x2-w/2,y2-l/2,w,l);return;}
+  if(lvl===4){const s=c*0.40;                                       /* 菱形 ◇ */
+    ctx.beginPath();ctx.moveTo(x2,y2-s);ctx.lineTo(x2+s,y2);ctx.lineTo(x2,y2+s);ctx.lineTo(x2-s,y2);ctx.closePath();ctx.fill();return;}
+  if(lvl===5){const s=c*0.58;rrp(ctx,x2-s/2,y2-s/2,s,s,c*0.13);ctx.fill();return;}  /* 小方 ▪ */
+  const s=c*0.84;rrp(ctx,x2-s/2,y2-s/2,s,s,c*0.26);ctx.fill();                      /* 圆角块 ▦ */
+}
 /* ---------- 单元格 ---------- */
 function makeCell(cv,scene,markPx){
   const ctx=cv.getContext("2d");
@@ -206,7 +218,7 @@ function makeCell(cv,scene,markPx){
     const M=13,speed=M*M/1.6,cycle=M*M/speed+0.9,ph=S.typeT%cycle;
     const on=(Math.floor(t/0.53)%2)===0?1:0.12;                      // 终端光标节律
     const pt=t-S.pulseAt;                                            // 等待脉冲相位
-    const sHov=markPx*0.55;                                          // hover 影响半径(px)
+    const sHov=markPx*0.24;                                          // hover 影响半径:局部小范围,不整片变大
     for(let iy=0;iy<rows;iy++)for(let ix=0;ix<cols;ix++){
       const px=x0+ix*c+c/2,py=y0+iy*c+c/2;
       const u=(px-cx)/(markPx/2),v=(py-cy)/(markPx/2);
@@ -261,11 +273,11 @@ function makeCell(cv,scene,markPx){
         if(hw>0.996){const p2=(t-S.nextTw+6)%6;const e=0.5*Math.exp(-Math.pow((p2-0.3)*3.2,2))*wI;
           if(e>0.1){str=e;color=scene.glyph(Math.min(1,0.3+e));}}
       }
-      /* ---- 大小通道:hover 距离反馈 + 点击涟漪 ---- */
-      let rad=(str>0.25)?c*0.30:c*0.17;                              // 内容点略大一档(系统性,非随机)
+      /* ---- 大小通道:hover 邻近反馈(局部小范围、轻增益) + 点击涟漪 ---- */
+      let sMul=1;
       if(hov.cur>0.01){
         const dxp=px-hov.x,dyp=py-hov.y;
-        rad*=1+1.4*hov.cur*Math.exp(-(dxp*dxp+dyp*dyp)/(2*sHov*sHov)); // 离鼠标越近点越大
+        sMul+=0.85*hov.cur*Math.exp(-(dxp*dxp+dyp*dyp)/(2*sHov*sHov)); // 只有紧挨鼠标的几颗点变大
       }
       let ripA=0;
       for(let k=0;k<ripples.length;k++){
@@ -273,24 +285,28 @@ function makeCell(cv,scene,markPx){
         if(rt<0||rt>1.1)continue;
         const dist=Math.hypot(px-rp.x,py-rp.y);
         const g=Math.exp(-Math.pow((dist-rt*markPx*2.4)/(markPx*0.16),2))*Math.exp(-rt*2.2);
-        rad*=1+1.5*g;ripA=Math.max(ripA,g);                          // 涟漪:尺寸+颜色一圈荡开
+        sMul+=1.1*g;ripA=Math.max(ripA,g);                           // 涟漪:一圈荡开
       }
-      /* ---- 绘制 ---- */
-      if(!color){
-        let a=scene.base;
-        /* 半调:基线点的深浅重现背后经过的文字(液态玻璃的扁平等价物) */
+      sMul=Math.min(sMul,1.8);
+      /* ---- 绘制:brand book 的字符阶梯 ---- */
+      if(color){
+        /* 内容点:强度决定字形——菱形→小方→圆角块(logo/光标恒为块) */
+        const lvl=(str>0.8)?6:(str>0.5?5:4);
+        drawGlyph(px,py,c*sMul,lvl,color,ctx);
+      }else{
+        /* 基线/半调:十字打底;背后文字越深,字形越实(十字→菱形→小方) */
+        let e2=scene.base;
         if(pg){
           const tx=Math.min(511,Math.max(0,Math.round(px/pgScale)));
           const ty=((Math.round((py+pgSy)/pgScale))%1024+1024)%1024;
           const i2=(ty*512+tx)*4;
           const Lp=(pg.data[i2]*0.299+pg.data[i2+1]*0.587+pg.data[i2+2]*0.114)/255;
-          a=Math.min(1,a+0.60*Math.min(1,Math.abs(Lp-scene.Lbg)*2.4)*VIEW.cur);
+          e2=Math.min(1,e2+0.75*Math.min(1,Math.abs(Lp-scene.Lbg)*2.4)*VIEW.cur);
         }
-        if(ripA>0.05)a=Math.min(1,a+0.5*ripA);
-        color=scene.glyph(a);
+        if(ripA>0.05)e2=Math.min(1,e2+0.45*ripA);
+        const lvl=(e2>0.80)?5:(e2>0.55?4:3);
+        drawGlyph(px,py,c*sMul,lvl,scene.glyph(Math.min(1,Math.max(scene.base,e2))),ctx);
       }
-      ctx.fillStyle=color;
-      ctx.beginPath();ctx.arc(px,py,Math.min(rad,c*0.48),0,7);ctx.fill();
     }
   }
   return {draw};
