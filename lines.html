@@ -139,23 +139,15 @@ function makeCell(cv,scene,markPx){
     hov.cur+=(hov.tgt-hov.cur)*0.14;
     const cx=W/2,cy=H/2,R=markPx/2;
     const wI=S.w.idle,wT=S.w.thinking,wS=S.w.speaking,wA=S.w.awaiting;
-    /* 形态:呼吸极轻;眨眼=整球纵向一挤 */
-    const breath=1+0.020*Math.sin(t*0.66)+0.010*Math.sin(t*1.13+0.9);
-    let blinkY=1;const be=t-S.blinkAt;
-    if(be>0&&be<0.35)blinkY=1-0.18*Math.sin(be/0.35*Math.PI)*wI;
+    /* 球体轮廓恒定:不呼吸不眨眼不压扁,生命感全部交给线 */
+    const breath=1,blinkY=1;
     /* 光线:待机偶发一条横向亮带自上而下扫过 */
     const swp=t-S.sweepAt;
     const sweepPos=(swp>0&&swp<1.4)?(swp/1.4)*2.4-1.2:9;
-    /* 书写(输出中):一支负形的笔在球内逐行走笔,恒速,行间有缓动换行 */
-    const M=15;                                     // 线数
-    const rowN=4,cyc=4.4;
-    const ws=(S.typeT%cyc)/cyc;
-    const rowF=ws*rowN;
-    const rowI=Math.floor(rowF),rf=rowF-rowI;
-    const penX=-0.52+1.04*rf;                       // 行内恒速
-    const penY=-0.40+rowI*0.27+0.025*Math.sin(rf*11);  // 手写微起伏
-    const tipY=penY+0.15;                           // 笔尖位置
-    ctx.lineWidth=Math.max(1,R*0.045);
+    /* 输出中:输入框隐喻——线纹图形不断从右侧生成、把之前的图形向左推 */
+    const M=21;                                     // 线数(更密)
+    const fl=S.typeT*1.6;                           // 内容流相位,恒速左移
+    ctx.lineWidth=0.5;                              // 默认线宽恒为 0.5
     ctx.lineCap="round";
     const SEG=44;
     const spn=0.62;                                  // 负形跨度(±0.62R)
@@ -163,15 +155,13 @@ function makeCell(cv,scene,markPx){
       const y0=((li+0.5)/M)*2-1;                    // -1..1
       const hc=Math.sqrt(Math.max(0,1-y0*y0));      // 半弦长
       if(hc<0.12)continue;
-      /* 亮度:基础 + 待机光带 + 笔行经的行更亮 + 等待安静 */
-      let a=0.62;
-      if(Math.abs(y0-sweepPos)<0.5)a+=0.38*Math.exp(-Math.pow((y0-sweepPos)*3.2,2))*wI;
-      if(wT>0.05)a=a*(1-wT)+(0.60+0.18*wT)*wT;
-      if(wS>0.05)a=a*(1-wS)+(0.40+0.50*Math.exp(-Math.pow((y0-penY)*2.4,2)))*wS;
+      /* 亮度:基础 + 待机光带 + 等待安静(颜色不随 hover 变) */
+      let a=0.66;
+      if(Math.abs(y0-sweepPos)<0.5)a+=0.34*Math.exp(-Math.pow((y0-sweepPos)*3.2,2))*wI;
+      if(wT>0.05)a=a*(1-wT)+0.78*wT;
+      if(wS>0.05)a=a*(1-wS)+0.74*wS;
       if(wA>0.05)a-=0.18*wA;                         // 等待:整体收静
-      /* hover:靠近指针的线除了弯,颜色也提亮换相 */
-      const hl=hov.cur*Math.exp(-Math.pow((y0-hov.y)*2.0,2));
-      ctx.strokeStyle=(hl>0.45)?scene.hi(Math.min(1,a+0.25)):lineColor(scene,li,Math.min(1,a));
+      ctx.strokeStyle=lineColor(scene,li,Math.min(1,a));
       ctx.beginPath();
       let pen=false;
       for(let s2=0;s2<=SEG;s2++){
@@ -183,13 +173,12 @@ function makeCell(cv,scene,markPx){
           const amp=0.095*wT*(0.45+0.55*Math.min(1,(S.swirlV-0.3)/5));
           dy+=amp*Math.sin(x*4.2+li*0.8-S.swirl*2.9)+0.045*wT*Math.sin(x*2.1-S.swirl*1.5+li*0.5);
         }
-        if(wS>0.05){                                   // 笔尖把经过的线抻开
-          const dd=Math.hypot(x-penX,y0-tipY)+1e-4;
-          dy+=0.13*wS*Math.exp(-dd*dd/0.045)*((y0-tipY)/dd);
+        if(wS>0.05){                                   // 输出:图形从右侧不断生成,向左推移(相位恒速左移)
+          dy+=wS*(0.050*Math.sin(x*3.6+fl*2.2+li*1.3)+0.028*Math.sin(x*6.1+fl*3.1+li*0.7));
         }
-        if(hov.cur>0.01){                              // hover:紧邻鼠标的线段弯向鼠标
+        if(hov.cur>0.01){                              // hover:鼠标附近的线段让开(避让,不变色)
           const d2=(x-hov.x)*(x-hov.x)+(y0-hov.y)*(y0-hov.y);
-          dy+=0.06*hov.cur*Math.exp(-d2/0.10)*(hov.y-y0);
+          dy+=0.07*hov.cur*Math.exp(-d2/0.08)*(y0-hov.y>0?1:-1)*Math.exp(-Math.abs(y0-hov.y)*2);
         }
         for(let k2=0;k2<ripples.length;k2++){          // 点击涟漪:从命中点径向荡开
           const rp=ripples[k2];const rt=t-rp.t0;
@@ -198,9 +187,8 @@ function makeCell(cv,scene,markPx){
           const g=Math.exp(-Math.pow((dd-rt*2.6)*4.5,2))*Math.exp(-rt*2.5);
           dy+=0.06*g*((y0-rp.y)/dd);
         }
-        /* 中心负形:待机/等待=Alva logo(不变形);思考=无(logo 消隐成波浪);输出=一支笔 */
-        let am=(wI+wA)*maskA(MASKS.logo,x/spn,y0/spn);
-        if(wS>0.01)am+=wS*maskA(MASKS.pen,(x-penX)/0.19,(y0-penY)/0.19);
+        /* 中心负形:待机/等待=Alva logo(不变形);思考/输出=无(logo 消隐) */
+        const am=(wI+wA)*maskA(MASKS.logo,x/spn,y0/spn);
         if(am/(wI+wT+wS+wA+1e-6)>0.45){pen=false;continue;}
         const yy=y0+dy;
         const px=cx+x*R*breath;
@@ -209,23 +197,21 @@ function makeCell(cv,scene,markPx){
       }
       ctx.stroke();
     }
-    /* 思考:一条亮带沿线纹旋扫(光线变量),速度=旋涡速度 */
-    if(wT>0.05){
-      ctx.save();
-      ctx.beginPath();ctx.arc(cx,cy,R*breath*0.98,0,7);ctx.clip();
-      const bandA=Math.atan2(Math.sin(S.swirl*1.0),Math.cos(S.swirl*1.0));
-      const bx=Math.cos(bandA),by=Math.sin(bandA);
-      const grd=ctx.createLinearGradient(cx-bx*R,cy-by*R,cx+bx*R,cy+by*R);
-      grd.addColorStop(0.35,"rgba(0,0,0,0)");
-      grd.addColorStop(0.5,scene.hi(0.55*wT));
-      grd.addColorStop(0.65,"rgba(0,0,0,0)");
-      ctx.fillStyle=grd;ctx.fillRect(cx-R,cy-R,R*2,R*2);
-      ctx.restore();
+    /* 输出中:右侧一根竖线按输入光标节律闪烁(输入框分隔符) */
+    if(wS>0.05){
+      const on=(Math.floor(t/0.53)%2)===0?1:0.1;
+      ctx.strokeStyle=lineColor(scene,0,wS*on);
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(cx+R*0.62,cy-R*0.24);
+      ctx.lineTo(cx+R*0.62,cy+R*0.24);
+      ctx.stroke();
+      ctx.lineWidth=0.5;
     }
-    /* 等待回应:右上角一枚米字,不停地缓慢转圈(速度带轻微起伏,不是匀速齿轮) */
+    /* 等待回应:右上角一枚蓝色米字,不停地缓慢转圈(速度带轻微呼吸,不是匀速齿轮) */
     if(wA>0.05){
       const mr=R*0.22,mx=cx+R*0.96,my=cy-R*0.96;
-      ctx.strokeStyle=scene.hi(0.9*wA);
+      ctx.strokeStyle=`rgba(71,153,255,${0.95*wA})`;
       ctx.lineWidth=Math.max(1,R*0.05);
       for(let k=0;k<4;k++){
         const aa=S.miA+k*Math.PI/4;
@@ -234,7 +220,7 @@ function makeCell(cv,scene,markPx){
         ctx.lineTo(mx+Math.cos(aa)*mr,my+Math.sin(aa)*mr);
         ctx.stroke();
       }
-      ctx.lineWidth=Math.max(1,R*0.045);
+      ctx.lineWidth=0.5;
     }
   }
   return {draw};
@@ -255,10 +241,10 @@ SCENES.forEach((sc,i)=>{
   insts.push(makeCell(document.querySelector('canvas[data-k="s'+i+'"]'),sc,32));
 });
 const HINTS={
- idle:"待机 — 细线织成的圆(品牌绿为主,穿插两根蓝紫彩线),中心以正负形镂空出 Alva logo(形状不变);线纹起伏比之前更快,每 3.5~8 秒一条亮带扫过,每 4~9 秒眨一次眼。hover:靠近指针的线弯曲且提亮变相;点击:从命中点荡开径向涟漪。",
- thinking:"思考 — logo 消隐,整球直接变成波浪线:振幅明显加大,慢-快-慢的节奏带惯性滞后,一条亮带沿线纹旋扫。",
- speaking:"输出中 — logo 不展示,负形变成一支笔在球内逐行书写(行内恒速,换行有缓动);笔尖把经过的线抻开,笔行经的那几行更亮。",
- awaiting:"等待回应 — 中心仍是 logo 负形,线条收静;右上角一枚米字不停地缓慢转圈(转速带轻微呼吸,不是匀速齿轮,也不是高速甩圈)。"
+ idle:"待机 — 21 根 0.5px 细线织成的圆(品牌绿为主,穿插蓝紫彩线),中心以正负形镂空出 Alva logo;球体轮廓恒定不变形,生命感全在线纹起伏和偶发的亮带扫过。hover:鼠标附近的线段轻轻让开;点击:从命中点荡开径向涟漪。",
+ thinking:"思考 — logo 消隐,整球直接变成波浪线:振幅明显加大,慢-快-慢的节奏带惯性滞后;没有任何附加元素。",
+ speaking:"输出中 — 像输入框:线纹图形不断从右侧生成、把之前的图形匀速向左推;右侧一根竖线按输入光标节律(530ms)闪烁,模拟一直在输入的感觉。",
+ awaiting:"等待回应 — 中心仍是 logo 负形,线条收静;右上角一枚蓝色米字不停地缓慢转圈(转速带轻微呼吸,不是匀速齿轮,也不是高速甩圈)。"
 };
 const hint=document.getElementById("hint");
 function setHint(){hint.textContent=HINTS[S.mode];}
