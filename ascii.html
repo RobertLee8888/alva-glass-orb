@@ -43,10 +43,11 @@ const TEX_DARK="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIH
 const TEX_GREEN="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDUuNTMxMiAzMC4zOTcxQzQxLjg2MjYgMjkuODY3NyAzOC4xMzcyIDI5Ljg2NzcgMzQuNDY4NyAzMC4zOTcxQzM0LjE3NDkgMzAuNDM5NSAzMy44Nzk0IDMwLjQ4NjQgMzMuMjkgMzAuNTgwN0MzMy4wOTM2IDMwLjYxMjEgMzIuOTk1MiAzMC42Mjc1IDMyLjkwNzEgMzAuNjQ3MUMzMS43Nzk1IDMwLjg5ODQgMzAuODk4OCAzMS43NzkzIDMwLjY0NzQgMzIuOTA2OUMzMC42Mjc4IDMyLjk5NDkgMzAuNjEyNCAzMy4wOTQxIDMwLjU4MSAzMy4yOTA2QzMwLjQ4NjcgMzMuODc5OSAzMC40Mzg4IDM0LjE3NDcgMzAuMzk2NCAzNC40Njg0QzI5Ljg2NyAzOC4xMzY4IDI5Ljg2NyA0MS44NjI0IDMwLjM5NjQgNDUuNTMwOUMzMC40Mzg4IDQ1LjgyNDYgMzAuNDg2NyA0Ni4xMjAxIDMwLjU4MSA0Ni43MDk2QzMwLjYxMjQgNDYuOTA1OSAzMC42Mjc4IDQ3LjAwNDQgMzAuNjQ3NCA0Ny4wOTI0QzMwLjg5ODcgNDguMjIwMSAzMS43Nzk1IDQ5LjEwMDkgMzIuOTA3MSA0OS4zNTIyQzMyLjk5NTIgNDkuMzcxOCAzMy4wOTM2IDQ5LjM4NzIgMzMuMjkgNDkuNDE4NkMzMy44Nzk0IDQ5LjUxMjkgMzQuMTc0OSA0OS41NjA3IDM0LjQ2ODcgNDkuNjAzMUMzOC4xMzcxIDUwLjEzMjUgNDEuODYyNyA1MC4xMzI2IDQ1LjUzMTIgNDkuNjAzMUM0NS44MjQ5IDQ5LjU2MDggNDYuMTE5NiA0OS41MTI5IDQ2LjcwODkgNDkuNDE4NkM0Ni45MDUyIDQ5LjM4NzIgNDcuMDAzOCA0OS4zNzE3IDQ3LjA5MTcgNDkuMzUyMkM0OC4yMTk1IDQ5LjEwMDkgNDkuMTAxMiA0OC4yMjAyIDQ5LjM1MjUgNDcuMDkyNEM0OS4zNzIxIDQ3LjAwNDQgNDkuMzg3NCA0Ni45MDYgNDkuNDE4OSA0Ni43MDk2QzQ5LjUxMzIgNDYuMTIwMSA0OS41NjAxIDQ1LjgyNDYgNDkuNjAyNSA0NS41MzA5QzUwLjEzMTkgNDEuODYyNCA1MC4xMzE5IDM4LjEzNjkgNDkuNjAyNSAzNC40Njg0QzQ5LjU2MDEgMzQuMTc0NyA0OS41MTMxIDMzLjg3OTkgNDkuNDE4OSAzMy4yOTA2QzQ5LjM4NzQgMzMuMDk0MSA0OS4zNzIxIDMyLjk5NDkgNDkuMzUyNSAzMi45MDY5QzQ5LjEwMTEgMzEuNzc5MiA0OC4yMTk0IDMwLjg5ODMgNDcuMDkxNyAzMC42NDcxQzQ3LjAwMzggMzAuNjI3NSA0Ni45MDUxIDMwLjYxMjEgNDYuNzA4OSAzMC41ODA3QzQ2LjExOTYgMzAuNDg2NCA0NS44MjQ5IDMwLjQzOTUgNDUuNTMxMiAzMC4zOTcxWk0xNS41MzIyIDAuMzk3MDg2QzExLjg2MzUgLTAuMTMyMzYyIDguMTM3MzEgLTAuMTMyMzYyIDQuNDY4NjcgMC4zOTcwODZDNC4xNzQ5NyAwLjQzOTQ3MyAzLjg4MDIzIDAuNDg2MzkzIDMuMjkwOTQgMC41ODA2NzlDMy4wOTQ2MSAwLjYxMjA5MiAyLjk5NjEgMC42Mjc1MDMgMi45MDgxMyAwLjY0NzA4NkMxLjc4MDQ5IDAuODk4MzEzIDAuODk5NzY5IDEuNzc5MjggMC42NDgzNjEgMi45MDY4NUMwLjYyODc0MiAyLjk5NDkxIDAuNjEyNDM0IDMuMDk0MDUgMC41ODA5NzggMy4yOTA2NEMwLjQ4NjcwNiAzLjg3OTg0IDAuNDM5NzcgNC4xNzQ2NyAwLjM5NzM4NSA0LjQ2ODM3Qy0wLjEzMjAyMyA4LjEzNjg4IC0wLjEzMjAwNCAxMS44NjI0IDAuMzk3Mzg1IDE1LjUzMDlDMC40Mzk3ODEgMTUuODI0NiAwLjQ4NjY2IDE2LjEyMDEgMC41ODA5NzggMTYuNzA5NkMwLjYxMjQgMTYuOTA2IDAuNjI4NzU0IDE3LjAwNDQgMC42NDgzNjEgMTcuMDkyNEMwLjg5OTcwOCAxOC4yMjAxIDEuNzgwNDIgMTkuMTAwOSAyLjkwODEzIDE5LjM1MjJDMi45OTYxMSAxOS4zNzE4IDMuMDk0NTcgMTkuMzg3MiAzLjI5MDk0IDE5LjQxODZDMy44ODAzMiAxOS41MTI5IDQuMTc0OTMgMTkuNTYwNyA0LjQ2ODY3IDE5LjYwMzFDOC4xMzczMSAyMC4xMzI2IDExLjg2MzUgMjAuMTMyNiAxNS41MzIyIDE5LjYwMzFDMTUuODI1OCAxOS41NjA4IDE2LjEyMDcgMTkuNTEyOCAxNi43MDk5IDE5LjQxODZDMTYuOTA2MyAxOS4zODcxIDE3LjAwNDcgMTkuMzcxOCAxNy4wOTI3IDE5LjM1MjJDMTguMjIwNCAxOS4xMDA5IDE5LjEwMTEgMTguMjIwMSAxOS4zNTI1IDE3LjA5MjRDMTkuMzcyMSAxNy4wMDQ0IDE5LjM4NzUgMTYuOTA1OSAxOS40MTg5IDE2LjcwOTZDMTkuNTEzMiAxNi4xMjAxIDE5LjU2MSAxNS44MjQ2IDE5LjYwMzQgMTUuNTMwOUMyMC4xMzI4IDExLjg2MjQgMjAuMTMyOCA4LjEzNjg1IDE5LjYwMzQgNC40NjgzN0MxOS41NjExIDQuMTc0NjYgMTkuNTEzMSAzLjg3OTkgMTkuNDE4OSAzLjI5MDY0QzE5LjM4NzQgMy4wOTQwNSAxOS4zNzIxIDIuOTk0OTEgMTkuMzUyNSAyLjkwNjg1QzE5LjEwMTEgMS43NzkyNCAxOC4yMjA0IDAuODk4MzE4IDE3LjA5MjcgMC42NDcwODZDMTcuMDA0NyAwLjYyNzQ3NCAxNi45MDYzIDAuNjEyMTExIDE2LjcwOTkgMC41ODA2NzlDMTYuMTIwNyAwLjQ4NjQxNSAxNS44MjU4IDAuNDM5NDYzIDE1LjUzMjIgMC4zOTcwODZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K";
 
 /* ============================================================
-   Alva ASCII mark v2 — 整个按钮就是一块字符画
-   · 明确的点击区:圆角瓦片底色,字符满铺到边(像品牌 banner 的半调纹理)
+   Alva ASCII mark v3 — 统一网格系统
+   · 按钮本体 = 一张永远在场的格点阵:每个格点常驻基线微点,圆角轮廓由格点自己圈出
+   · 所有状态只是在同一张阵上升降字符等级(空→点→十字→菱形→方块),格点永不移位
    · logo 本身用字符点阵渲染(品牌 Symbol Element 的 dot-matrix 阶段)
-   · 表情归内容(点阵 logo 的呼吸/眨眼/注视/消隐),交互归瓦片(hover/press/预备-过冲)
+   · 表情归内容(点阵 logo 的呼吸/眨眼/注视/消隐),交互归格阵(hover/press/预备-过冲)
    ============================================================ */
 function hash2(ix,iy){let h=(ix*374761393+iy*668265263)>>>0;h=(h^(h>>13))>>>0;h=(h*1274126177)>>>0;return ((h^(h>>16))>>>0)/4294967296;}
 const S={
@@ -136,15 +137,15 @@ function drawGlyph(x2,y2,c,lvl,color,ctx){
   const s=c*0.88;rrp(ctx,x2-s/2,y2-s/2,s,s,c*0.28);ctx.fill();
 }
 function rrp(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
-/* ---------- 场景:瓦片底色 = 明确的点击区 ---------- */
+/* ---------- 场景:背景不是另一种材质——按钮区域由格点阵本身圈出 ---------- */
 const SCENES=[
- {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,tile:"#e2f4f3",tilePress:"#d3ecea",
+ {css:"#ffffff",cap:"白底 · 黑绿",tex:()=>TEX_LIGHT,base:0.34,
   glyph:(a)=>`rgba(73,163,166,${a})`,glyphHi:(a)=>`rgba(20,42,44,${a})`,cursor:"#14262a",
   cls:(L)=>L>0.30?"#3d979a":"#16181d"},
- {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,tile:"#171b21",tilePress:"#121519",
+ {css:"#0e0f13",cap:"深底 · 白绿",tex:()=>TEX_DARK,base:0.30,
   glyph:(a)=>`rgba(96,182,184,${a})`,glyphHi:(a)=>`rgba(232,238,242,${a})`,cursor:"#eef1f4",
   cls:(L)=>L>0.80?"#e8ecef":"#54b0b3"},
- {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,tile:"#59b0b2",tilePress:"#3f9294",
+ {css:"#49a3a6",cap:"品牌绿 · 黑白",tex:()=>TEX_GREEN,base:0.38,
   glyph:(a)=>`rgba(240,251,250,${a})`,glyphHi:(a)=>`rgba(8,24,24,${a})`,cursor:"#0a1a1a",
   cls:(L)=>L>0.50?"#f4fbfa":"#0c1d1d"}
 ];
@@ -185,16 +186,14 @@ function makeCell(cv,scene,tilePx){
     if(press.held)prs=Math.min(1,(t-press.downT)/0.09);
     else{const ue=t-press.upT;if(ue>=0&&ue<0.9)prs=Math.exp(-ue*7)*Math.cos(ue*18);}
     const pc=Math.max(0,prs);
-    /* 瓦片:圆角底色 = 按钮的身体;交互全由它承载 */
+    /* 统一网格系统:按钮的身体就是这张格点阵——每个格点常驻一枚基线微点,
+       任何状态都只是在同一张阵上升降字符等级,网格永远可见、永不移位 */
     const tile0=Math.min(tilePx,H*0.86);
     const sc=kickScale(t)*(1+0.03*hov.cur)*(1-0.06*pc);
     const tile=tile0*sc;
     const cx=W/2,cy=H/2;
-    ctx.fillStyle=(pc>0.3)?scene.tilePress:scene.tile;
-    rrp(ctx,cx-tile/2,cy-tile/2,tile,tile,tile*0.24);ctx.fill();
-    /* 字符网格满铺瓦片 */
     const N=(Math.max(11,Math.round(tile0/3.4))|1);
-    const inset=0.90;                                  // 字符区内缩一点,呼吸留白
+    const inset=1.0;
     const c=tile*inset/N;
     const wI=S.w.idle,wT=S.w.thinking,wS=S.w.speaking,wA=S.w.awaiting;
     const wSum=wI+wT+wS+wA+1e-6;
@@ -210,6 +209,9 @@ function makeCell(cv,scene,tilePx){
     const total=N*N,speed=total/1.6,cycle=total/speed+0.9,ph=S.typeT%cycle;
     for(let iy=0;iy<N;iy++)for(let ix=0;ix<N;ix++){
       const u=(ix-(N-1)/2)/((N-1)/2),v=(iy-(N-1)/2)/((N-1)/2);
+      /* 圆角方形轮廓由格点阵自己圈出:角部格点裁掉 */
+      const mS=Math.pow(Math.pow(Math.abs(u),6)+Math.pow(Math.abs(v),6),1/6);
+      if(mS>1.02)continue;
       const r=Math.hypot(u,v)*0.7071;
       const ang=Math.atan2(v,u);
       const gxp=cx+u*(tile*inset)/2,gyp=cy+v*(tile*inset)/2;
@@ -251,9 +253,11 @@ function makeCell(cv,scene,tilePx){
         e+=0.4*hov.cur*Math.exp(-(du*du+dv*dv)*6);
       }
       e=e*(1-0.45*pc)+0.28*pc;                          // 按压:纹理被按平,对比消失
-      if(e<=0.06)continue;
       const lvl=Math.min(6,Math.floor(e*4.6));
-      if(lvl<=0)continue;
+      if(lvl<=0){                                       // 基线格点:能量再低,网格也永远在场
+        drawGlyph(gxp,gyp,c,1,scene.glyph(scene.base*(1-0.35*pc)),ctx);
+        continue;
+      }
       const alpha=Math.min(1,0.30+e*0.85);
       let color;
       if(typeC==="hi")color=scene.glyphHi(alpha);
@@ -261,13 +265,15 @@ function makeCell(cv,scene,tilePx){
       else color=(e>0.86)?scene.glyphHi(Math.min(1,alpha)):scene.glyph(alpha);
       drawGlyph(gxp,gyp,c,lvl,color,ctx);
     }
-    /* 等待回应:瓦片右上角终端光标块,530ms 节律(该你了) */
+    /* 等待回应:右上角终端光标块,530ms 节律(该你了);对齐到格点阵,不脱离网格系统 */
     if(wA>0.02){
       const on=(Math.floor(t/0.53)%2)===0?1:0.12;
-      const s=c*1.5;
-      const bx=cx+tile/2-s*1.1,by=cy-tile/2+s*1.1;
+      const ixC=N-2,iyC=1;
+      const bx=cx+((ixC-(N-1)/2)/((N-1)/2))*(tile*inset)/2;
+      const by=cy+((iyC-(N-1)/2)/((N-1)/2))*(tile*inset)/2;
+      const s=c*1.6;
       ctx.globalAlpha=wA*on;ctx.fillStyle=scene.cursor;
-      rrp(ctx,bx-s/2,by-s/2,s,s,s*0.2);ctx.fill();ctx.globalAlpha=1;
+      rrp(ctx,bx-s/2,by-s/2,s,s,s*0.22);ctx.fill();ctx.globalAlpha=1;
     }
   }
   return {draw};
@@ -288,7 +294,7 @@ SCENES.forEach((sc,i)=>{
   insts.push(makeCell(document.querySelector('canvas[data-k="s'+i+'"]'),sc,32));
 });
 const HINTS={
- idle:"待机 — 圆角字符瓦片是按钮本体:底层细字符按无理数比节奏起伏,偶发单格闪烁和一道斜浪扫过(不可预测的心跳);点阵 logo 承载表情——呼吸缩放、每 3~9 秒眨眼(纵向一挤)、随机注视偏移。",
+ idle:"待机 — 按钮本体是一张永远在场的格点阵(圆角轮廓由格点自己圈出),所有状态都在同一张阵上升降字符等级、格点永不移位;底层按无理数比节奏起伏,偶发单格闪烁和一道斜浪;点阵 logo 承载表情——呼吸、眨眼、随机注视。",
  thinking:"思考 — 点阵 logo 散解,让位给三臂字符旋涡:慢-快-慢地甩动,转速带惯性滞后,转快时字符被离心力甩向外圈;切换瞬间瓦片先收一口气再过冲落定。",
  speaking:"输出中 — 打字机:字符按行左→右恒速敲满整块瓦片(一气呵成,1.6s 一页),光标块深色满亮,新字深旧字淡;打完顿一拍,按打字顺序逐段消散,换气重来。",
  awaiting:"等待回应 — 瓦片右上角一枚终端光标块以 530ms 节律闪烁(该你了);点阵 logo 安静呼吸,纹理几乎静止,每 10 秒从中心荡出一圈字符脉冲提醒;首次进入即刻脉冲。"
