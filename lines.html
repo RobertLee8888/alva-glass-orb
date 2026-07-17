@@ -76,13 +76,16 @@ function stepState(t){
 function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;}}
 const logoImg=new Image();logoImg.src=TEX_LIGHT;   // 只用 alpha 做镂空
 /* ---------- 场景:圆盘纯色为主,迷幻色做低调点缀 ---------- */
+/* Siri 式迷幻:粉/蓝/紫/青四团色绕盘环流;
+   不同底盘明度下用不同实际色值,保证视觉感知一致——
+   中明度青盘(白底/深底)用高饱和+中透明,深墨盘(绿底)本身衬色更跳,改用略深色+略低透明 */
 const SCENES=[
  {css:"#ffffff",cap:"白底 · 黑绿",disc:"#49a3a6",
-  acc:[[96,158,226,0.30],[168,132,224,0.22],[64,196,186,0.25]]},
+  acc:[[255,84,168,0.42],[64,140,255,0.46],[122,96,240,0.36],[88,222,255,0.38]]},
  {css:"#0e0f13",cap:"深底 · 白绿",disc:"#3e9497",
-  acc:[[92,150,235,0.32],[178,138,235,0.24],[70,210,200,0.26]]},
+  acc:[[255,90,172,0.44],[70,146,255,0.48],[128,102,242,0.38],[92,226,255,0.40]]},
  {css:"#49a3a6",cap:"品牌绿 · 黑白",disc:"#123f42",
-  acc:[[60,120,210,0.30],[140,110,215,0.22],[36,150,150,0.28]]}
+  acc:[[226,64,144,0.36],[52,116,235,0.40],[100,78,215,0.32],[64,190,235,0.34]]}
 ];
 /* ---------- 单元格 ---------- */
 function makeCell(cv,scene,markPx){
@@ -115,11 +118,17 @@ function makeCell(cv,scene,markPx){
     octx.beginPath();octx.arc(cx,cy,R,0,7);
     octx.fillStyle=scene.disc;octx.fill();
     octx.save();octx.beginPath();octx.arc(cx,cy,R,0,7);octx.clip();
+    /* 色团绕盘环流(Siri 式):各自不同速度和方向,半径带呼吸;思考时流得更快 */
+    const flowV=(1+0.9*wT);
+    const spd=[0.42,-0.31,0.55,-0.24];
     for(let i=0;i<scene.acc.length;i++){
       const a3=scene.acc[i];
-      const gx=cx+R*0.55*Math.sin(t*0.13+i*2.1),gy=cy+R*0.55*Math.cos(t*0.11+i*1.7);
-      const g=octx.createRadialGradient(gx,gy,0,gx,gy,R*0.95);
+      const ang2=t*spd[i]*flowV+i*1.71;
+      const rad2=R*(0.46+0.17*Math.sin(t*0.37+i*1.9));
+      const gx=cx+rad2*Math.cos(ang2),gy=cy+rad2*Math.sin(ang2);
+      const g=octx.createRadialGradient(gx,gy,0,gx,gy,R*0.88);
       g.addColorStop(0,`rgba(${a3[0]},${a3[1]},${a3[2]},${a3[3]})`);
+      g.addColorStop(0.55,`rgba(${a3[0]},${a3[1]},${a3[2]},${a3[3]*0.45})`);
       g.addColorStop(1,"rgba(0,0,0,0)");
       octx.fillStyle=g;octx.fillRect(cx-R,cy-R,2*R,2*R);
     }
