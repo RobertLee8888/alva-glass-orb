@@ -151,14 +151,14 @@ function makeCell(cv,scene,markPx){
         if(rr2>1.10){d4[o+3]=0;continue;}
         const rr=Math.sqrt(rr2);
         let r8=base[0],g8=base[1],b8=base[2];
-        const m=Math.max(0,Math.min(1,(rr-0.66)/0.12));
+        const m=Math.max(0,Math.min(1,(rr-0.78)/0.09));
         if(m>0){
           const th2=Math.atan2(ny,nx);
           let w=0.5
             +0.30*Math.sin(2*th2-tf*0.9)
             +0.18*Math.sin(3*th2-tf*1.35+1.7)
             +0.10*Math.sin(5*th2-tf*0.6+3.0)
-            +0.35*(rr-0.83);
+            +0.35*(rr-0.89);
           w=Math.max(0,Math.min(1,w));
           const li2=(w*63)|0;
           r8+=(lut[li2*3]-r8)*m;g8+=(lut[li2*3+1]-g8)*m;b8+=(lut[li2*3+2]-b8)*m;
