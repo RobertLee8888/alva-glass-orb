@@ -128,7 +128,7 @@ function makeCell(cv,scene,markPx){
     octx.globalCompositeOperation="destination-out";
     octx.lineWidth=0.5;                          // 默认线宽恒为 0.5
     octx.lineCap="round";
-    const M=21;
+    const M=15;
     const fl=S.typeT*1.6;                        // 输出:内容流,恒速左移
     const swp=t-S.sweepAt;
     const sweepPos=(swp>0&&swp<1.4)?(swp/1.4)*2.4-1.2:9;
@@ -145,7 +145,7 @@ function makeCell(cv,scene,markPx){
       octx.beginPath();
       for(let s2=0;s2<=SEG;s2++){
         const x=-hc+2*hc*s2/SEG;
-        let dy=0.016*Math.sin(x*3.1+t*1.15+li*0.9)+0.009*Math.sin(x*5.3-t*0.8+li*1.7);
+        let dy=0.026*Math.sin(x*3.1+t*1.15+li*0.9)+0.014*Math.sin(x*5.3-t*0.8+li*1.7);
         dy*=(0.4+0.6*wI);
         if(wT>0.02){                             // 思考:波浪线,振幅加大,慢-快-慢带惯性
           const amp=0.095*wT*(0.45+0.55*Math.min(1,(S.swirlV-0.3)/5));
@@ -174,7 +174,7 @@ function makeCell(cv,scene,markPx){
     const lw2=Math.min(1,wI+wA);
     if(lw2>0.01&&logoImg.complete&&logoImg.naturalWidth>0){
       octx.globalAlpha=lw2;
-      const sz=1.26*R;
+      const sz=1.02*R;
       octx.drawImage(logoImg,cx-sz/2,cy-sz/2,sz,sz);
       octx.globalAlpha=1;
     }
