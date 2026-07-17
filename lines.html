@@ -40,88 +40,56 @@
 <script>
 const TEX_LIGHT="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zNC40Njg0IDAuMzk3MDU4QzM4LjEzNjkgLTAuMTMyMzQxIDQxLjg2MjQgLTAuMTMyMzY0IDQ1LjUzMDkgMC4zOTcwNThDNDUuODI0NiAwLjQzOTQ0NiA0Ni4xMTk0IDAuNDg2MzczIDQ2LjcwODYgMC41ODA2NTJDNDYuOTA0OSAwLjYxMjA2MyA0Ny4wMDM1IDAuNjI4NDUzIDQ3LjA5MTQgMC42NDgwMzVDNDguMjE5MiAwLjg5OTI5OCA0OS4xMDA5IDEuNzc5OTkgNDkuMzUyMiAyLjkwNzhDNDkuMzcxNyAyLjk5NTc2IDQ5LjM4NzIgMy4wOTQzMiA0OS40MTg2IDMuMjkwNjFDNDkuNTEyOSAzLjg3OTkgNDkuNTU5OCA0LjE3NDY0IDQ5LjYwMjIgNC40NjgzNUM1MC4xMzE2IDguMTM3MDEgNTAuMTMxNiAxMS44NjMyIDQ5LjYwMjIgMTUuNTMxOEM0OS41NTk4IDE1LjgyNTUgNDkuNTEyOCAxNi4xMjA0IDQ5LjQxODYgMTYuNzA5NkM0OS4zODcxIDE2LjkwNiA0OS4zNzE4IDE3LjAwNDQgNDkuMzUyMiAxNy4wOTI0QzQ5LjEwMDkgMTguMjIwMiA0OC4yMTkyIDE5LjEwMDkgNDcuMDkxNCAxOS4zNTIxQzQ3LjAwMzUgMTkuMzcxNyA0Ni45MDQ5IDE5LjM4NzEgNDYuNzA4NiAxOS40MTg1QzQ2LjExOTMgMTkuNTEyOCA0NS44MjQ2IDE5LjU2MDcgNDUuNTMwOSAxOS42MDMxQzQzLjY5NjYgMTkuODY3OCA0MS44NDgxIDE5Ljk5OTYgMzkuOTk5NiAxOS45OTk2QzI4Ljk1NDggMjAuMDAwMSAyMC4wMDEzIDI4Ljk1MzggMjAuMDAwNiAzOS45OTg2SDE5Ljk5OTZDMTkuOTk5NyA0MS44NDc2IDE5Ljg2NzkgNDMuNjk3MSAxOS42MDMxIDQ1LjUzMThDMTkuNTYwOCA0NS44MjU1IDE5LjUxMjggNDYuMTIwMyAxOS40MTg2IDQ2LjcwOTZDMTkuMzg3MSA0Ni45MDYgMTkuMzcxOCA0Ny4wMDQzIDE5LjM1MjIgNDcuMDkyNEMxOS4xMDA5IDQ4LjIyMDIgMTguMjIwMiA0OS4xMDA5IDE3LjA5MjQgNDkuMzUyMUMxNy4wMDQ0IDQ5LjM3MTcgMTYuOTA2IDQ5LjM4NzEgMTYuNzA5NiA0OS40MTg1QzE2LjEyMDMgNDkuNTEyOCAxNS44MjU1IDQ5LjU2MDcgMTUuNTMxOCA0OS42MDMxQzExLjg2MzIgNTAuMTMyNiA4LjEzNzAxIDUwLjEzMjYgNC40NjgzNyA0OS42MDMxQzQuMTc0NjQgNDkuNTYwNyAzLjg4MDAyIDQ5LjUxMjggMy4yOTA2NCA0OS40MTg1QzMuMDk0MiA0OS4zODcxIDIuOTk1ODMgNDkuMzcxNyAyLjkwNzgzIDQ5LjM1MjFDMS43ODAwNSA0OS4xMDA5IDAuODk5MzQyIDQ4LjIyMDEgMC42NDgwNTkgNDcuMDkyNEMwLjYyODQ0NCA0Ny4wMDQzIDAuNjEyMTIxIDQ2LjkwNjEgMC41ODA2NzcgNDYuNzA5NkMwLjQ4NjQwMiA0Ni4xMjAzIDAuNDM5NDY0IDQ1LjgyNTUgMC4zOTcwODMgNDUuNTMxOEMtMC4xMzIzNjEgNDEuODYzMiAtMC4xMzIzNjEgMzguMTM3IDAuMzk3MDgzIDM0LjQ2ODNDMC40Mzk0NzEgMzQuMTc0NiAwLjQ4NjM5MiAzMy44Nzk5IDAuNTgwNjc3IDMzLjI5MDZDMC42MTIxMDIgMzMuMDk0MiAwLjYyODQ2NiAzMi45OTU4IDAuNjQ4MDU5IDMyLjkwNzhDMC44OTkzMjEgMzEuNzggMS43ODAwMiAzMC44OTkzIDIuOTA3ODMgMzAuNjQ4QzIuOTk1ODUgMzAuNjI4NCAzLjA5NDE1IDMwLjYxMjEgMy4yOTA2NCAzMC41ODA3QzMuODc5OTIgMzAuNDg2NCA0LjE3NDY4IDMwLjQzOTQgNC40NjgzNyAzMC4zOTcxQzYuMzAyNTcgMzAuMTMyNCA4LjE1MTE3IDI5Ljk5OTYgOS45OTk2MiAyOS45OTk2VjI5Ljk5NzZDMjAuODcyNCAyOS45OTc0IDI5LjcxODggMjEuMzIyIDI5Ljk5MjggMTAuNTE1MkwyOS45OTk2IDkuOTk4NjJDMjkuOTk5NyA4LjE1MDQ3IDMwLjEzMTQgNi4zMDIyNSAzMC4zOTYxIDQuNDY4MzVDMzAuNDM4NSA0LjE3NDYgMzAuNDg2NCAzLjg3OTk5IDMwLjU4MDcgMy4yOTA2MUMzMC42MTIxIDMuMDk0MjkgMzAuNjI3NSAyLjk5NTc3IDMwLjY0NzEgMi45MDc4QzMwLjg5ODMgMS43ODAxIDMxLjc3OTIgMC44OTkzOTcgMzIuOTA2OCAwLjY0ODAzNUMzMi45OTQ5IDAuNjI4NDI4IDMzLjA5MzMgMC42MTIwNjkgMzMuMjg5NyAwLjU4MDY1MkMzMy44NzkxIDAuNDg2MzM1IDM0LjE3NDYgMC40Mzk0NTQgMzQuNDY4NCAwLjM5NzA1OFoiIGZpbGw9IiM0OUEzQTYiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS41MzEyIDMwLjM5NzFDNDEuODYyNiAyOS44Njc3IDM4LjEzNzIgMjkuODY3NyAzNC40Njg3IDMwLjM5NzFDMzQuMTc0OSAzMC40Mzk1IDMzLjg3OTQgMzAuNDg2NCAzMy4yOSAzMC41ODA3QzMzLjA5MzYgMzAuNjEyMSAzMi45OTUyIDMwLjYyNzUgMzIuOTA3MSAzMC42NDcxQzMxLjc3OTUgMzAuODk4NCAzMC44OTg4IDMxLjc3OTMgMzAuNjQ3NCAzMi45MDY5QzMwLjYyNzggMzIuOTk0OSAzMC42MTI0IDMzLjA5NDEgMzAuNTgxIDMzLjI5MDZDMzAuNDg2NyAzMy44Nzk5IDMwLjQzODggMzQuMTc0NyAzMC4zOTY0IDM0LjQ2ODRDMjkuODY3IDM4LjEzNjggMjkuODY3IDQxLjg2MjQgMzAuMzk2NCA0NS41MzA5QzMwLjQzODggNDUuODI0NiAzMC40ODY3IDQ2LjEyMDEgMzAuNTgxIDQ2LjcwOTZDMzAuNjEyNCA0Ni45MDU5IDMwLjYyNzggNDcuMDA0NCAzMC42NDc0IDQ3LjA5MjRDMzAuODk4NyA0OC4yMjAxIDMxLjc3OTUgNDkuMTAwOSAzMi45MDcxIDQ5LjM1MjJDMzIuOTk1MiA0OS4zNzE4IDMzLjA5MzYgNDkuMzg3MiAzMy4yOSA0OS40MTg2QzMzLjg3OTQgNDkuNTEyOSAzNC4xNzQ5IDQ5LjU2MDcgMzQuNDY4NyA0OS42MDMxQzM4LjEzNzEgNTAuMTMyNSA0MS44NjI3IDUwLjEzMjYgNDUuNTMxMiA0OS42MDMxQzQ1LjgyNDkgNDkuNTYwOCA0Ni4xMTk2IDQ5LjUxMjkgNDYuNzA4OSA0OS40MTg2QzQ2LjkwNTIgNDkuMzg3MiA0Ny4wMDM4IDQ5LjM3MTcgNDcuMDkxNyA0OS4zNTIyQzQ4LjIxOTUgNDkuMTAwOSA0OS4xMDEyIDQ4LjIyMDIgNDkuMzUyNSA0Ny4wOTI0QzQ5LjM3MjEgNDcuMDA0NCA0OS4zODc0IDQ2LjkwNiA0OS40MTg5IDQ2LjcwOTZDNDkuNTEzMiA0Ni4xMjAxIDQ5LjU2MDEgNDUuODI0NiA0OS42MDI1IDQ1LjUzMDlDNTAuMTMxOSA0MS44NjI0IDUwLjEzMTkgMzguMTM2OSA0OS42MDI1IDM0LjQ2ODRDNDkuNTYwMSAzNC4xNzQ3IDQ5LjUxMzEgMzMuODc5OSA0OS40MTg5IDMzLjI5MDZDNDkuMzg3NCAzMy4wOTQxIDQ5LjM3MjEgMzIuOTk0OSA0OS4zNTI1IDMyLjkwNjlDNDkuMTAxMSAzMS43NzkyIDQ4LjIxOTQgMzAuODk4MyA0Ny4wOTE3IDMwLjY0NzFDNDcuMDAzOCAzMC42Mjc1IDQ2LjkwNTEgMzAuNjEyMSA0Ni43MDg5IDMwLjU4MDdDNDYuMTE5NiAzMC40ODY0IDQ1LjgyNDkgMzAuNDM5NSA0NS41MzEyIDMwLjM5NzFaTTE1LjUzMjIgMC4zOTcwODZDMTEuODYzNSAtMC4xMzIzNjIgOC4xMzczMSAtMC4xMzIzNjIgNC40Njg2NyAwLjM5NzA4NkM0LjE3NDk3IDAuNDM5NDczIDMuODgwMjMgMC40ODYzOTMgMy4yOTA5NCAwLjU4MDY3OUMzLjA5NDYxIDAuNjEyMDkyIDIuOTk2MSAwLjYyNzUwMyAyLjkwODEzIDAuNjQ3MDg2QzEuNzgwNDkgMC44OTgzMTMgMC44OTk3NjkgMS43NzkyOCAwLjY0ODM2MSAyLjkwNjg1QzAuNjI4NzQyIDIuOTk0OTEgMC42MTI0MzQgMy4wOTQwNSAwLjU4MDk3OCAzLjI5MDY0QzAuNDg2NzA2IDMuODc5ODQgMC40Mzk3NyA0LjE3NDY3IDAuMzk3Mzg1IDQuNDY4MzdDLTAuMTMyMDIzIDguMTM2ODggLTAuMTMyMDA0IDExLjg2MjQgMC4zOTczODUgMTUuNTMwOUMwLjQzOTc4MSAxNS44MjQ2IDAuNDg2NjYgMTYuMTIwMSAwLjU4MDk3OCAxNi43MDk2QzAuNjEyNCAxNi45MDYgMC42Mjg3NTQgMTcuMDA0NCAwLjY0ODM2MSAxNy4wOTI0QzAuODk5NzA4IDE4LjIyMDEgMS43ODA0MiAxOS4xMDA5IDIuOTA4MTMgMTkuMzUyMkMyLjk5NjExIDE5LjM3MTggMy4wOTQ1NyAxOS4zODcyIDMuMjkwOTQgMTkuNDE4NkMzLjg4MDMyIDE5LjUxMjkgNC4xNzQ5MyAxOS41NjA3IDQuNDY4NjcgMTkuNjAzMUM4LjEzNzMxIDIwLjEzMjYgMTEuODYzNSAyMC4xMzI2IDE1LjUzMjIgMTkuNjAzMUMxNS44MjU4IDE5LjU2MDggMTYuMTIwNyAxOS41MTI4IDE2LjcwOTkgMTkuNDE4NkMxNi45MDYzIDE5LjM4NzEgMTcuMDA0NyAxOS4zNzE4IDE3LjA5MjcgMTkuMzUyMkMxOC4yMjA0IDE5LjEwMDkgMTkuMTAxMSAxOC4yMjAxIDE5LjM1MjUgMTcuMDkyNEMxOS4zNzIxIDE3LjAwNDQgMTkuMzg3NSAxNi45MDU5IDE5LjQxODkgMTYuNzA5NkMxOS41MTMyIDE2LjEyMDEgMTkuNTYxIDE1LjgyNDYgMTkuNjAzNCAxNS41MzA5QzIwLjEzMjggMTEuODYyNCAyMC4xMzI4IDguMTM2ODUgMTkuNjAzNCA0LjQ2ODM3QzE5LjU2MTEgNC4xNzQ2NiAxOS41MTMxIDMuODc5OSAxOS40MTg5IDMuMjkwNjRDMTkuMzg3NCAzLjA5NDA1IDE5LjM3MjEgMi45OTQ5MSAxOS4zNTI1IDIuOTA2ODVDMTkuMTAxMSAxLjc3OTI0IDE4LjIyMDQgMC44OTgzMTggMTcuMDkyNyAwLjY0NzA4NkMxNy4wMDQ3IDAuNjI3NDc0IDE2LjkwNjMgMC42MTIxMTEgMTYuNzA5OSAwLjU4MDY3OUMxNi4xMjA3IDAuNDg2NDE1IDE1LjgyNTggMC40Mzk0NjMgMTUuNTMyMiAwLjM5NzA4NloiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=";
 /* ============================================================
-   Alva line mark — 一个圆 + 一种细线纹理 + 中心负形
-   线条在中心形状处断开:logo 以正负形的方式被"隔"出来;
-   负形随状态变形——待机=Alva logo,思考=旋转十字,输出=文字光标,等待=圆点;
-   状态权重平滑过渡,形状之间自然交叉渐变。
-   参考 agent-thinking 案例的克制:单色、单形、连续整体;
-   所有表达只用三个变量——光线(亮带)、节奏(速度)、形态(线的位移)。
-   hover = 线条向鼠标轻轻弯过去;点击 = 从命中点荡开一圈径向涟漪。
+   Alva line mark — 正负形反转版
+   · 正形:实心圆盘,纯色为主 + 缓慢漂移的迷幻色渐变
+   · 负形:细线(0.5px)与 Alva logo 都从圆盘上镂掉,露出背景色
+   · 球体轮廓恒定;思考=波浪线加大振幅;输出=输入框(内容左推+光标闪);
+     等待=蓝色米字缓慢转圈;hover=线段让开;点击=径向涟漪
    ============================================================ */
 const S={
   mode:"idle",
   w:{idle:1,thinking:0,speaking:0,awaiting:0},
   swirl:0,swirlV:0.3,
   typeT:0,enterT:0,
-  blinkAt:2.0,
-  sweepAt:2.5,          // 待机:偶发的光带扫过(微事件)
-  pulseAt:1e9,
+  sweepAt:2.5,
+  miA:0,
   last:0
 };
 function stepState(t){
-  const dt=Math.min(1.0,Math.max(0.001,t-S.last||0.016));S.last=t;   // 后台恢复一帧补齐
+  const dt=Math.min(1.0,Math.max(0.001,t-S.last||0.016));S.last=t;
   for(const k in S.w){
     const tgt=(S.mode===k)?1:0;
-    S.w[k]+=(tgt-S.w[k])*(1-Math.exp(-dt*((tgt>S.w[k])?3.2:1.8)));   // 起得快落得慢
+    S.w[k]+=(tgt-S.w[k])*(1-Math.exp(-dt*((tgt>S.w[k])?3.2:1.8)));
   }
   const th=S.w.thinking;
   let vTgt=0.3;
   if(th>0.02){
     const ph=(t-S.enterT)%3.2;
-    vTgt=0.3+th*(1.5+6.0*Math.pow(Math.sin(Math.PI*ph/3.2),2.0));    // 慢-快-慢甩动
+    vTgt=0.3+th*(1.5+6.0*Math.pow(Math.sin(Math.PI*ph/3.2),2.0));   // 慢-快-慢
   }
-  S.swirlV+=(vTgt-S.swirlV)*(1-Math.exp(-dt*(vTgt>S.swirlV?1.6:0.9))); // 惯性滞后
+  S.swirlV+=(vTgt-S.swirlV)*(1-Math.exp(-dt*(vTgt>S.swirlV?1.6:0.9)));
   S.swirl+=S.swirlV*dt;
-  if(S.w.speaking>0.4)S.typeT+=dt;                                   // 书写恒速
-  if(t>S.blinkAt+0.5)S.blinkAt=t+3.5+Math.random()*6;
-  if(t>S.sweepAt+1.4)S.sweepAt=t+3.5+Math.random()*4.5;              // 不可预测的光带
-  S.miA=(S.miA||0)+dt*(0.55+0.22*Math.sin(t*0.7));                   // 米字:缓慢连续转,速度有呼吸
-  if(S.mode==="awaiting"){
-    if(S.pulseAt>1e8)S.pulseAt=t+0.4;
-    if(t>S.pulseAt+2.0)S.pulseAt=t+8.0;
-  }else S.pulseAt=1e9;
+  if(S.w.speaking>0.4)S.typeT+=dt;
+  if(t>S.sweepAt+1.4)S.sweepAt=t+3.5+Math.random()*4.5;
+  S.miA+=dt*(0.55+0.22*Math.sin(t*0.7));                            // 米字缓慢转,速度有呼吸
 }
-function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;if(m==="awaiting")S.pulseAt=1e9;}}
-/* ---------- 中心负形:四个状态各一张 96×96 alpha 蒙版 ---------- */
-function rr2(x,px,py,w,h,r){x.beginPath();x.moveTo(px+r,py);x.arcTo(px+w,py,px+w,py+h,r);x.arcTo(px+w,py+h,px,py+h,r);x.arcTo(px,py+h,px,py,r);x.arcTo(px,py,px+w,py,r);x.closePath();}
-const MASKS=(function(){
-  const mk=()=>{const c=document.createElement("canvas");c.width=96;c.height=96;return c;};
-  const out={logo:null,pen:null};
-  /* 笔(输出中):竖直笔身+笔尖,负形在球内书写 */
-  let c=mk(),x=c.getContext("2d");x.fillStyle="#000";
-  rr2(x,38,10,20,50,9);x.fill();
-  x.beginPath();x.moveTo(38,58);x.lineTo(58,58);x.lineTo(48,84);x.closePath();x.fill();
-  out.pen=x.getImageData(0,0,96,96).data;
-  const img=new Image();
-  img.onload=()=>{const c2=mk(),x2=c2.getContext("2d");x2.drawImage(img,8,8,80,80);out.logo=x2.getImageData(0,0,96,96).data;};
-  img.src=TEX_LIGHT;                                                            // Alva logo(待机/等待),只取 alpha
-  return out;
-})();
-function maskA(d,u,v){
-  if(!d)return 0;
-  const xx=(u*0.5+0.5)*96,yy=(v*0.5+0.5)*96;
-  if(xx<0||yy<0||xx>=96||yy>=96)return 0;
-  return d[(((yy|0)*96+(xx|0))<<2)+3]/255;
-}
-/* ---------- 场景:品牌绿为主,少量彩线点缀 ---------- */
+function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;}}
+const logoImg=new Image();logoImg.src=TEX_LIGHT;   // 只用 alpha 做镂空
+/* ---------- 场景:圆盘纯色为主,迷幻色做低调点缀 ---------- */
 const SCENES=[
- {css:"#ffffff",cap:"白底 · 黑绿",hi:(a)=>`rgba(23,53,55,${a})`,
-  cols:[[61,151,154],[43,120,123],[23,53,55],[92,144,214],[158,128,214]]},
- {css:"#0e0f13",cap:"深底 · 白绿",hi:(a)=>`rgba(240,246,248,${a})`,
-  cols:[[96,182,184],[140,210,212],[232,238,242],[122,162,236],[192,152,236]]},
- {css:"#49a3a6",cap:"品牌绿 · 黑白",hi:(a)=>`rgba(244,251,250,${a})`,
-  cols:[[10,26,26],[6,44,44],[244,251,250],[18,56,110],[255,255,255]]}
+ {css:"#ffffff",cap:"白底 · 黑绿",disc:"#49a3a6",
+  acc:[[96,158,226,0.30],[168,132,224,0.22],[64,196,186,0.25]]},
+ {css:"#0e0f13",cap:"深底 · 白绿",disc:"#3e9497",
+  acc:[[92,150,235,0.32],[178,138,235,0.24],[70,210,200,0.26]]},
+ {css:"#49a3a6",cap:"品牌绿 · 黑白",disc:"#123f42",
+  acc:[[60,120,210,0.30],[140,110,215,0.22],[36,150,150,0.28]]}
 ];
-/* 每根线固定一个色相:主体品牌绿,穿插深绿/墨色,第 4、10 根是蓝紫彩线 */
-function lineColor(scene,li,a){
-  const idx=(li===4)?3:(li===10)?4:(li%5===2?1:(li%7===6?2:0));
-  const c=scene.cols[idx];
-  return `rgba(${c[0]},${c[1]},${c[2]},${a})`;
-}
 /* ---------- 单元格 ---------- */
 function makeCell(cv,scene,markPx){
   const ctx=cv.getContext("2d");
-  const hov={x:0,y:0,cur:0,tgt:0};       // 鼠标位置(球坐标,单位=R)
+  const oc=document.createElement("canvas");
+  const octx=oc.getContext("2d");
+  const hov={x:0,y:0,cur:0,tgt:0};
   const ripples=[];
   function toBall(e){const r=cv.getBoundingClientRect();
     return [((e.clientX-r.left)-r.width/2)/(markPx/2),((e.clientY-r.top)-r.height/2)/(markPx/2)];}
@@ -134,85 +102,101 @@ function makeCell(cv,scene,markPx){
     const dpr=Math.min(window.devicePixelRatio||1,2);
     const W=cv.clientWidth||180,H=cv.clientHeight||100;
     if(cv.width!==Math.round(W*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
+    if(oc.width!==cv.width){oc.width=cv.width;oc.height=cv.height;}
     ctx.setTransform(dpr,0,0,dpr,0,0);
     ctx.fillStyle=scene.css;ctx.fillRect(0,0,W,H);
     hov.cur+=(hov.tgt-hov.cur)*0.14;
     const cx=W/2,cy=H/2,R=markPx/2;
     const wI=S.w.idle,wT=S.w.thinking,wS=S.w.speaking,wA=S.w.awaiting;
-    /* 球体轮廓恒定:不呼吸不眨眼不压扁,生命感全部交给线 */
-    const breath=1,blinkY=1;
-    /* 光线:待机偶发一条横向亮带自上而下扫过 */
+    /* ---- 正形:实心圆盘(离屏),纯色 + 缓慢漂移的迷幻色 ---- */
+    octx.setTransform(dpr,0,0,dpr,0,0);
+    octx.clearRect(0,0,W,H);
+    octx.globalCompositeOperation="source-over";
+    octx.beginPath();octx.arc(cx,cy,R,0,7);
+    octx.fillStyle=scene.disc;octx.fill();
+    octx.save();octx.beginPath();octx.arc(cx,cy,R,0,7);octx.clip();
+    for(let i=0;i<scene.acc.length;i++){
+      const a3=scene.acc[i];
+      const gx=cx+R*0.55*Math.sin(t*0.13+i*2.1),gy=cy+R*0.55*Math.cos(t*0.11+i*1.7);
+      const g=octx.createRadialGradient(gx,gy,0,gx,gy,R*0.95);
+      g.addColorStop(0,`rgba(${a3[0]},${a3[1]},${a3[2]},${a3[3]})`);
+      g.addColorStop(1,"rgba(0,0,0,0)");
+      octx.fillStyle=g;octx.fillRect(cx-R,cy-R,2*R,2*R);
+    }
+    octx.restore();
+    /* ---- 负形:线 + logo,从圆盘上镂掉 ---- */
+    octx.globalCompositeOperation="destination-out";
+    octx.lineWidth=0.5;                          // 默认线宽恒为 0.5
+    octx.lineCap="round";
+    const M=21;
+    const fl=S.typeT*1.6;                        // 输出:内容流,恒速左移
     const swp=t-S.sweepAt;
     const sweepPos=(swp>0&&swp<1.4)?(swp/1.4)*2.4-1.2:9;
-    /* 输出中:输入框隐喻——线纹图形不断从右侧生成、把之前的图形向左推 */
-    const M=21;                                     // 线数(更密)
-    const fl=S.typeT*1.6;                           // 内容流相位,恒速左移
-    ctx.lineWidth=0.5;                              // 默认线宽恒为 0.5
-    ctx.lineCap="round";
     const SEG=44;
-    const spn=0.62;                                  // 负形跨度(±0.62R)
     for(let li=0;li<M;li++){
-      const y0=((li+0.5)/M)*2-1;                    // -1..1
-      const hc=Math.sqrt(Math.max(0,1-y0*y0));      // 半弦长
-      if(hc<0.12)continue;
-      /* 亮度:基础 + 待机光带 + 等待安静(颜色不随 hover 变) */
-      let a=0.66;
-      if(Math.abs(y0-sweepPos)<0.5)a+=0.34*Math.exp(-Math.pow((y0-sweepPos)*3.2,2))*wI;
-      if(wT>0.05)a=a*(1-wT)+0.78*wT;
-      if(wS>0.05)a=a*(1-wS)+0.74*wS;
-      if(wA>0.05)a-=0.18*wA;                         // 等待:整体收静
-      ctx.strokeStyle=lineColor(scene,li,Math.min(1,a));
-      ctx.beginPath();
-      let pen=false;
+      const y0=((li+0.5)/M)*2-1;
+      const hc=Math.sqrt(Math.max(0,1-y0*y0));
+      if(hc<0.10)continue;
+      /* 镂空深度:基础 + 待机光带 + 等待收静 */
+      let a=0.80;
+      if(Math.abs(y0-sweepPos)<0.5)a=Math.min(1,a+0.20*Math.exp(-Math.pow((y0-sweepPos)*3.2,2))*wI);
+      if(wA>0.05)a-=0.22*wA;
+      octx.strokeStyle=`rgba(0,0,0,${Math.max(0,Math.min(1,a))})`;
+      octx.beginPath();
       for(let s2=0;s2<=SEG;s2++){
         const x=-hc+2*hc*s2/SEG;
-        /* 形态位移场(整体节奏比上一版快) */
         let dy=0.016*Math.sin(x*3.1+t*1.15+li*0.9)+0.009*Math.sin(x*5.3-t*0.8+li*1.7);
         dy*=(0.4+0.6*wI);
-        if(wT>0.02){                                   // 思考:纯波浪线,振幅加大,慢-快-慢带惯性
+        if(wT>0.02){                             // 思考:波浪线,振幅加大,慢-快-慢带惯性
           const amp=0.095*wT*(0.45+0.55*Math.min(1,(S.swirlV-0.3)/5));
           dy+=amp*Math.sin(x*4.2+li*0.8-S.swirl*2.9)+0.045*wT*Math.sin(x*2.1-S.swirl*1.5+li*0.5);
         }
-        if(wS>0.05){                                   // 输出:图形从右侧不断生成,向左推移(相位恒速左移)
+        if(wS>0.05){                             // 输出:图形从右侧生成,向左推
           dy+=wS*(0.050*Math.sin(x*3.6+fl*2.2+li*1.3)+0.028*Math.sin(x*6.1+fl*3.1+li*0.7));
         }
-        if(hov.cur>0.01){                              // hover:鼠标附近的线段让开(避让,不变色)
+        if(hov.cur>0.01){                        // hover:鼠标附近的线段让开
           const d2=(x-hov.x)*(x-hov.x)+(y0-hov.y)*(y0-hov.y);
           dy+=0.07*hov.cur*Math.exp(-d2/0.08)*(y0-hov.y>0?1:-1)*Math.exp(-Math.abs(y0-hov.y)*2);
         }
-        for(let k2=0;k2<ripples.length;k2++){          // 点击涟漪:从命中点径向荡开
+        for(let k2=0;k2<ripples.length;k2++){    // 点击:径向涟漪
           const rp=ripples[k2];const rt=t-rp.t0;
           if(rt<0||rt>1.0)continue;
           const dd=Math.hypot(x-rp.x,y0-rp.y)+1e-4;
           const g=Math.exp(-Math.pow((dd-rt*2.6)*4.5,2))*Math.exp(-rt*2.5);
           dy+=0.06*g*((y0-rp.y)/dd);
         }
-        /* 中心负形:待机/等待=Alva logo(不变形);思考/输出=无(logo 消隐) */
-        const am=(wI+wA)*maskA(MASKS.logo,x/spn,y0/spn);
-        if(am/(wI+wT+wS+wA+1e-6)>0.45){pen=false;continue;}
-        const yy=y0+dy;
-        const px=cx+x*R*breath;
-        const py=cy+yy*R*breath*blinkY;
-        if(!pen){ctx.moveTo(px,py);pen=true;}else ctx.lineTo(px,py);
+        const px=cx+x*R,py=cy+(y0+dy)*R;
+        if(s2===0)octx.moveTo(px,py);else octx.lineTo(px,py);
       }
-      ctx.stroke();
+      octx.stroke();
     }
-    /* 输出中:右侧一根竖线按输入光标节律闪烁(输入框分隔符) */
+    /* logo 负形:待机/等待镂出 mark;思考/输出消隐 */
+    const lw2=Math.min(1,wI+wA);
+    if(lw2>0.01&&logoImg.complete&&logoImg.naturalWidth>0){
+      octx.globalAlpha=lw2;
+      const sz=1.26*R;
+      octx.drawImage(logoImg,cx-sz/2,cy-sz/2,sz,sz);
+      octx.globalAlpha=1;
+    }
+    /* 输出:右侧竖线光标(负形),530ms 输入节律 */
     if(wS>0.05){
       const on=(Math.floor(t/0.53)%2)===0?1:0.1;
-      ctx.strokeStyle=lineColor(scene,0,wS*on);
-      ctx.lineWidth=1;
-      ctx.beginPath();
-      ctx.moveTo(cx+R*0.62,cy-R*0.24);
-      ctx.lineTo(cx+R*0.62,cy+R*0.24);
-      ctx.stroke();
-      ctx.lineWidth=0.5;
+      octx.strokeStyle=`rgba(0,0,0,${wS*on})`;
+      octx.lineWidth=1;
+      octx.beginPath();
+      octx.moveTo(cx+R*0.62,cy-R*0.24);
+      octx.lineTo(cx+R*0.62,cy+R*0.24);
+      octx.stroke();
+      octx.lineWidth=0.5;
     }
-    /* 等待回应:右上角一枚蓝色米字,不停地缓慢转圈(速度带轻微呼吸,不是匀速齿轮) */
+    octx.globalCompositeOperation="source-over";
+    ctx.drawImage(oc,0,0,W,H);
+    /* 等待回应:右上角蓝色米字,缓慢连续转圈 */
     if(wA>0.05){
       const mr=R*0.22,mx=cx+R*0.96,my=cy-R*0.96;
       ctx.strokeStyle=`rgba(71,153,255,${0.95*wA})`;
       ctx.lineWidth=Math.max(1,R*0.05);
+      ctx.lineCap="round";
       for(let k=0;k<4;k++){
         const aa=S.miA+k*Math.PI/4;
         ctx.beginPath();
@@ -220,7 +204,6 @@ function makeCell(cv,scene,markPx){
         ctx.lineTo(mx+Math.cos(aa)*mr,my+Math.sin(aa)*mr);
         ctx.stroke();
       }
-      ctx.lineWidth=0.5;
     }
   }
   return {draw};
@@ -241,9 +224,9 @@ SCENES.forEach((sc,i)=>{
   insts.push(makeCell(document.querySelector('canvas[data-k="s'+i+'"]'),sc,32));
 });
 const HINTS={
- idle:"待机 — 21 根 0.5px 细线织成的圆(品牌绿为主,穿插蓝紫彩线),中心以正负形镂空出 Alva logo;球体轮廓恒定不变形,生命感全在线纹起伏和偶发的亮带扫过。hover:鼠标附近的线段轻轻让开;点击:从命中点荡开径向涟漪。",
- thinking:"思考 — logo 消隐,整球直接变成波浪线:振幅明显加大,慢-快-慢的节奏带惯性滞后;没有任何附加元素。",
- speaking:"输出中 — 像输入框:线纹图形不断从右侧生成、把之前的图形匀速向左推;右侧一根竖线按输入光标节律(530ms)闪烁,模拟一直在输入的感觉。",
+ idle:"待机 — 实心圆盘是正形(纯色为主,几团迷幻色缓慢漂移),细线与 Alva logo 都是负形镂空,露出背景色;球体轮廓恒定,生命感全在线纹起伏与偶发的亮带扫过。hover:鼠标附近的线段让开;点击:从命中点荡开径向涟漪。",
+ thinking:"思考 — logo 负形消隐,镂空的线直接变成波浪线:振幅明显加大,慢-快-慢的节奏带惯性滞后;没有任何附加元素。",
+ speaking:"输出中 — 像输入框:镂空线纹的图形不断从右侧生成、把之前的图形匀速向左推;右侧一根镂空竖线按输入光标节律(530ms)闪烁,模拟一直在输入。",
  awaiting:"等待回应 — 中心仍是 logo 负形,线条收静;右上角一枚蓝色米字不停地缓慢转圈(转速带轻微呼吸,不是匀速齿轮,也不是高速甩圈)。"
 };
 const hint=document.getElementById("hint");
