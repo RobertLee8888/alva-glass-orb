@@ -52,6 +52,7 @@ const S={
   swirl:0,swirlV:0.3,
   typeT:0,enterT:0,
   sweepAt:2.5,
+  waveAt:3.0,
   miA:0,
   last:0
 };
@@ -71,6 +72,7 @@ function stepState(t){
   S.swirl+=S.swirlV*dt;
   if(S.w.speaking>0.4)S.typeT+=dt;
   if(t>S.sweepAt+1.4)S.sweepAt=t+3.5+Math.random()*4.5;
+  if(t>S.waveAt+1.6)S.waveAt=t+4+Math.random()*4.5;                 // 待机:偶尔涌一阵波动
   S.miA+=dt*(0.55+0.22*Math.sin(t*0.7));                            // 米字缓慢转,速度有呼吸
 }
 function setMode(m,t){if(S.mode!==m){S.mode=m;S.enterT=t;if(m==="speaking")S.typeT=0;}}
@@ -112,6 +114,8 @@ function makeCell(cv,scene,markPx){
   const fctx=fb.getContext("2d");
   const fimg=fctx.createImageData(FBS,FBS);
   const hov={x:0,y:0,cur:0,tgt:0};
+  const lag={x:0,y:0};                             // logo 负形的延迟跟随
+  const press={downT:-9,upT:-9,held:false};
   const ripples=[];
   function toBall(e){const r=cv.getBoundingClientRect();
     return [((e.clientX-r.left)-r.width/2)/(markPx/2),((e.clientY-r.top)-r.height/2)/(markPx/2)];}
@@ -119,7 +123,10 @@ function makeCell(cv,scene,markPx){
   cv.addEventListener("mouseleave",()=>{hov.tgt=0;});
   cv.addEventListener("pointerdown",e=>{const p=toBall(e);
     ripples.push({x:Math.max(-1,Math.min(1,p[0])),y:Math.max(-1,Math.min(1,p[1])),t0:performance.now()/1000});
-    if(ripples.length>4)ripples.shift();});
+    if(ripples.length>4)ripples.shift();
+    press.downT=performance.now()/1000;press.held=true;});
+  const rel=()=>{if(press.held){press.upT=performance.now()/1000;press.held=false;}};
+  cv.addEventListener("pointerup",rel);cv.addEventListener("pointerleave",rel);cv.addEventListener("pointercancel",rel);
   function draw(t){
     const dpr=Math.min(window.devicePixelRatio||1,2);
     const W=cv.clientWidth||180,H=cv.clientHeight||100;
@@ -130,6 +137,18 @@ function makeCell(cv,scene,markPx){
     hov.cur+=(hov.tgt-hov.cur)*0.14;
     const cx=W/2,cy=H/2,R=markPx/2;
     const wI=S.w.idle,wT=S.w.thinking,wS=S.w.speaking,wA=S.w.awaiting;
+    /* 按压:整圆缩小,迷幻色被压到边缘一两个像素;抬起弹簧回弹 */
+    let pv=0;
+    if(press.held)pv=Math.min(1,(t-press.downT)/0.10);
+    else{const ue=t-press.upT;if(ue>=0&&ue<0.8)pv=Math.exp(-ue*8)*Math.cos(ue*16);}
+    const pvc=Math.max(0,Math.min(1,pv));
+    const RS=R*(1-0.10*pvc);
+    const ringIn=0.78+0.16*pvc;                   // 压紧到 ~0.94R(≈1-2px)
+    const ringW=Math.max(0.035,0.09-0.055*pvc);
+    /* logo 负形的延迟跟随:目标=鼠标方向,慢速滤波=拖一拍 */
+    const lgx=hov.cur*Math.max(-1,Math.min(1,hov.x))*0.14;
+    const lgy=hov.cur*Math.max(-1,Math.min(1,hov.y))*0.14;
+    lag.x+=(lgx-lag.x)*0.05;lag.y+=(lgy-lag.y)*0.05;
     /* ---- 正形:流动的迷幻色圆盘 ----
        色带分界线由多组不同速度/频率的正弦波驱动,横向流过盘面(真·流动,不是色块平移);
        在 40×40 缓冲上逐像素查调色带 LUT,放大绘制,边缘天然柔和 */
@@ -151,17 +170,18 @@ function makeCell(cv,scene,markPx){
         if(rr2>1.10){d4[o+3]=0;continue;}
         const rr=Math.sqrt(rr2);
         let r8=base[0],g8=base[1],b8=base[2];
-        const m=Math.max(0,Math.min(1,(rr-0.78)/0.09));
+        const m=Math.max(0,Math.min(1,(rr-ringIn)/ringW));
         if(m>0){
           const th2=Math.atan2(ny,nx);
           let w=0.5
             +0.30*Math.sin(2*th2-tf*0.9)
             +0.18*Math.sin(3*th2-tf*1.35+1.7)
             +0.10*Math.sin(5*th2-tf*0.6+3.0)
-            +0.35*(rr-0.89);
+            +0.35*(rr-ringIn-0.11);
           w=Math.max(0,Math.min(1,w));
           const li2=(w*63)|0;
-          r8+=(lut[li2*3]-r8)*m;g8+=(lut[li2*3+1]-g8)*m;b8+=(lut[li2*3+2]-b8)*m;
+          const mixf=m*m*0.80;                    // 越往中间越虚越淡,整体降一档艳度
+          r8+=(lut[li2*3]-r8)*mixf;g8+=(lut[li2*3+1]-g8)*mixf;b8+=(lut[li2*3+2]-b8)*mixf;
         }
         d4[o]=r8;d4[o+1]=g8;d4[o+2]=b8;
         const edge=(1-rr)*FBS*0.5+0.5;
@@ -170,7 +190,7 @@ function makeCell(cv,scene,markPx){
     }
     fctx.putImageData(fimg,0,0);
     octx.imageSmoothingEnabled=true;
-    octx.drawImage(fb,cx-R,cy-R,2*R,2*R);
+    octx.drawImage(fb,cx-RS,cy-RS,2*RS,2*RS);
     /* ---- 负形:线 + logo,从圆盘上镂掉 ---- */
     octx.globalCompositeOperation="destination-out";
     octx.lineWidth=0.5;                          // 默认线宽恒为 0.5
@@ -193,7 +213,9 @@ function makeCell(cv,scene,markPx){
       for(let s2=0;s2<=SEG;s2++){
         const x=-hc+2*hc*s2/SEG;
         let dy=0.026*Math.sin(x*3.1+t*1.15+li*0.9)+0.014*Math.sin(x*5.3-t*0.8+li*1.7);
-        dy*=(0.4+0.6*wI);
+        const wvp=t-S.waveAt;
+        const wenv=(wvp>0&&wvp<1.6)?Math.sin(Math.PI*wvp/1.6):0;   // 偶发波动包络
+        dy*=(0.4+0.6*wI)*((1-wI)+wI*(0.45+1.8*wenv));
         if(wT>0.02){                             // 思考:波浪线,振幅加大,慢-快-慢带惯性
           const amp=0.095*wT*(0.45+0.55*Math.min(1,(S.swirlV-0.3)/5));
           dy+=amp*Math.sin(x*4.2+li*0.8-S.swirl*2.9)+0.045*wT*Math.sin(x*2.1-S.swirl*1.5+li*0.5);
@@ -212,7 +234,7 @@ function makeCell(cv,scene,markPx){
           const g=Math.exp(-Math.pow((dd-rt*2.6)*4.5,2))*Math.exp(-rt*2.5);
           dy+=0.06*g*((y0-rp.y)/dd);
         }
-        const px=cx+x*R,py=cy+(y0+dy)*R;
+        const px=cx+x*RS,py=cy+(y0+dy)*RS;
         if(s2===0)octx.moveTo(px,py);else octx.lineTo(px,py);
       }
       octx.stroke();
@@ -221,8 +243,8 @@ function makeCell(cv,scene,markPx){
     const lw2=Math.min(1,wI+wA);
     if(lw2>0.01&&logoImg.complete&&logoImg.naturalWidth>0){
       octx.globalAlpha=lw2;
-      const sz=1.02*R;
-      octx.drawImage(logoImg,cx-sz/2,cy-sz/2,sz,sz);
+      const sz=1.02*RS;
+      octx.drawImage(logoImg,cx+lag.x*RS-sz/2,cy+lag.y*RS-sz/2,sz,sz);
       octx.globalAlpha=1;
     }
     /* 输出:右侧竖线光标(负形),530ms 输入节律 */
@@ -231,8 +253,8 @@ function makeCell(cv,scene,markPx){
       octx.strokeStyle=`rgba(0,0,0,${wS*on})`;
       octx.lineWidth=1;
       octx.beginPath();
-      octx.moveTo(cx+R*0.62,cy-R*0.24);
-      octx.lineTo(cx+R*0.62,cy+R*0.24);
+      octx.moveTo(cx+RS*0.62,cy-RS*0.24);
+      octx.lineTo(cx+RS*0.62,cy+RS*0.24);
       octx.stroke();
       octx.lineWidth=0.5;
     }
